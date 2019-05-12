@@ -3,7 +3,7 @@
     <div class>
       <Card
         v-for="card in this.cards"
-        v-bind:key="card"
+        v-bind:key="card.id"
         v-bind:id="card.id"
         v-bind:author="card.author"
         v-bind:title="card.title"

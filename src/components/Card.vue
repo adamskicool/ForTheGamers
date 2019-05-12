@@ -16,7 +16,7 @@
     </div>
     <div class="collapse" v-bind:id="'idis' + this.id">
       <div class="comments">
-        <div class="comment" v-for="comment in this.comments" v-bind:key="comment">
+        <div class="comment" v-for="comment in this.comments" v-bind:key="comment.timestamp">
           <p class="author-comment">{{comment.author}}</p>
           <p class="timestamp-comment">{{comment.timestamp}}</p>
           <p class="message-comment">{{comment.message}}</p>

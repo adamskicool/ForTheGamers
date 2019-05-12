@@ -82,8 +82,13 @@ Style the main options of the header... the buttons in the middle of the header.
   outline: none;
   font-family: "Nunito", sans-serif;
   font-size: 15px;
+  color: white;
+}
+.option > button:hover {
+  color: black;
 }
 .option:hover {
   background-color: rgb(233, 235, 238);
+  color: black;
 }
 </style>

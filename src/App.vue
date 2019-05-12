@@ -30,6 +30,13 @@ export default {
   display: flex;
   flex-direction: row-reverse;
 }
+.box {
+  background-color: white;
+  border: rgb(221, 223, 226) solid 1px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
 </style>
 
 
