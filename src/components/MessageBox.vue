@@ -2,7 +2,7 @@
   <div class="message-box">
     <div class="message-notification">
       <img src="./../assets/notification-dot.png">
-      <p>{{this.unreadMessages}}</p>
+      <p>{{1}}</p>
     </div>
     <div class="message-top">
       <a
@@ -10,16 +10,16 @@
         href="#message-body-wrapper"
         style="position: fixed; height: 25px; width: 100%;"
       ></a>
-      <p>Messages</p>
+      <p>Meddelanden</p>
     </div>
     <div class="collapse" id="message-body-wrapper">
       <div class="message-body">
-        <div v-for="message in this.messages" class="message-grid">
-          <p class="from">{{message.fromUsername}}</p>
-          <p class="message">{{message.message}}</p>
+        <div v-for="group in this.groups" class="message-grid">
+          <p class="from">{{group.groupID}}</p>
+          <p class="message">{{group.messages[0].message}}</p>
           <div class="timestamp">
-            <p>{{message.timestamp.substring(0, 10)}}</p>
-            <p>{{message.timestamp.substring(11, 16)}}</p>
+            <p>{{group.messages[0].timestamp.substring(0, 10)}}</p>
+            <p>{{group.messages[0].timestamp.substring(11, 16)}}</p>
           </div>
         </div>
       </div>
@@ -33,12 +33,12 @@ export default {
     return {
       show_messages: false,
       unreadMessages: 9,
-      messages: []
+      groups: []
     };
   },
   created() {
     //get the messages related to the user that is logged in.
-    let userid = 1;
+    let userid = 2;
     fetch(env_var.BASE_URL + "/messages", {
       method: "GET",
       headers: {
@@ -48,8 +48,7 @@ export default {
     })
       .then(res => res.json())
       .then(res => {
-        this.messages = res;
-        console.log(this.messages);
+        this.groups = res;
       });
   },
   methods: {
@@ -126,6 +125,7 @@ p {
 }
 .message-grid:hover {
   background-color: whitesmoke;
+  cursor: pointer;
 }
 .message-grid > .from {
   grid-area: a;

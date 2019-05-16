@@ -2,15 +2,13 @@
   <div class="home">
     <div class>
       <Card
-        v-for="card in this.cards"
-        v-bind:key="card.id"
-        v-bind:id="card.id"
-        v-bind:author="card.author"
-        v-bind:title="card.title"
-        v-bind:image="card.image"
-        v-bind:message="card.message"
-        v-bind:timestamp="card.timestamp"
-        v-bind:comments="card.comments"
+        v-for="post in this.posts"
+        v-bind:key="post.postID"
+        v-bind:id="post.postID"
+        v-bind:author="post.userID"
+        v-bind:image="post.imageURL"
+        v-bind:message="post.message"
+        v-bind:timestamp="post.time"
       />
     </div>
   </div>
@@ -22,71 +20,23 @@ export default {
   components: { Card },
   data() {
     return {
-      cards: []
+      posts: []
     };
   },
   created() {
-    //for testing-purposes
-    document.cookie = "userid = 2";
-    let card = {
-      id: "1",
-      author: "Sara Langefors",
-      title: "Bajs",
-      message: "Det är ju inte så nice... ;)",
-      timestamp: "2019/04/19 14:32",
-      comments: [
-        {
-          author: "Adam Torkkeli-Johansson",
-          timestamp: "2019/04/19 14:56",
-          message: "Håller helt med finis! <3"
-        },
-        {
-          author: "Adam Torkkeli-Johansson",
-          timestamp: "2019/04/19 14:58",
-          message: "Får jag chans på dig?"
-        }
-      ]
-    };
-    let card3 = {
-      id: "3",
-      author: "Sara Langefors",
-      title: "Bajs",
-      message: "Spela med mig imorgon? Gärna nya BFV ;)",
-      image:
-        "https://tieroneesports.com/wp-content/uploads/2018/09/Open-Beta-BFV-Poster-1024x576.png",
-      timestamp: "2019/04/19 14:32",
-      comments: [
-        {
-          author: "Adam Torkkeli-Johansson",
-          timestamp: "2019/04/19 14:56",
-          message: "Sure! Vilken tid?"
-        },
-        {
-          author: "Sara Langefors",
-          timestamp: "2019/04/19 14:58",
-          message: "Kl 20? :)"
-        }
-      ]
-    };
-    let card2 = {
-      id: "2",
-      author: "Sara Langefors",
-      title: "Bajs",
-      message: "Någon som vet om man borde köpa nya borderlands 3?",
-      image:
-        "https://www.nordichardware.se/wp-content/uploads/Borderlands-3.jpg",
-      timestamp: "2019/04/19 14:32",
-      comments: [
-        {
-          author: "Adam Torkkeli-Johansson",
-          timestamp: "2019/04/19 14:56",
-          message: "Mjää, köp tvåan på rea istället!"
-        }
-      ]
-    };
-    this.cards.push(card);
-    this.cards.push(card3);
-    this.cards.push(card2);
+    //fetch the posts of user with userid = 2
+    fetch("http://localhost:8989/api/posts", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        userid: 2
+      }
+    })
+      .then(res => res.json())
+      .then(posts => {
+        console.log(posts);
+        this.posts = posts;
+      });
   }
 };
 </script>

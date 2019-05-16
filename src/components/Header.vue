@@ -2,10 +2,13 @@
   <div class="header-grid">
     <!-- Placeholder for the logo ForTheGamers -->
     <div class="logo">
-      <img src="../assets/logo.svg">
+      <!-- <img src="../assets/logo.svg"> -->
     </div>
     <!-- Main options for navigating the different part of the application -->
     <div class="main-options">
+      <div class="option">
+        <button>Give Away Tävlingar</button>
+      </div>
       <div class="option">
         <button>Profil</button>
       </div>
