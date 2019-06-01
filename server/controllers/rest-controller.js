@@ -63,12 +63,24 @@ app.get('/posts', (req, res) => {
         .catch(err => error(err, "Failed to get posts for user", res))
 })
 
-app.post('/post', (req, res) => {
+app.post('/comment', (req, res) => {
+    console.log('POST /comment')
     //TODO: lägg till en ny post!
+    let postid = req.body.postid
+    let userid = req.body.userid
+    let message = req.body.message
+    let commentedComment = req.body.commentedComment
+    console.log("Post ID: " + postid);
+    console.log("message: " + message);
+    console.log("commentedComment: " + commentedComment);
+
+    data_model.addComment(postid, userid, message, commentedComment);
+
+    res.json({ test: "test" })
 })
 
 /**
- * Get the comments to a certain post.
+ * Get all comments and subcomments to a certain post.
  */
 app.get('/comments', (req, res) => {
     let postid = req.headers.postid;
@@ -79,6 +91,20 @@ app.get('/comments', (req, res) => {
         .catch(err => console.log(err))//error(err, "Failed to get comments for post", res))
 })
 
+/**
+ * Get all comments to a certain comment and post, if no comment id is null 
+ * then it get the base comments for the post.
+ */
+app.get('/commentsOnComment', (req, res) => {
+    let postid = req.headers.postid;
+    let commentid = req.headers.commentid;
+    console.log('GET /commentsOnComment    postID: ' + postid + ", commentID: " + commentid);
+    //get the comments
+    data_model.getCommentsForComment(postid, commentid)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => console.log(err))
+})
 
 
 module.exports = app;

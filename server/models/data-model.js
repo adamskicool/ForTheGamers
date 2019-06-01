@@ -53,11 +53,45 @@ exports.addPost = (userid, message, image) => {
  * Get all posts for a specific user
  */
 exports.getPosts = (userid) => {
-    let query = "SELECT * FROM posts WHERE userID = '" + userid + "';"
+    let query = "SELECT * FROM postWithUserDetails WHERE userID = '" + userid + "';"
     return connection.promise().query(query);
 }
 
+
+/**
+ * Get all comments for a specific post
+ */
 exports.getComments = (postid) => {
     let query = "SELECT * FROM postComments WHERE postID = '" + postid + "' ORDER BY time ASC;";
     return connection.promise().query(query);
+}
+
+/**
+ * Get all comments for a specific comment, if the commentid == -1, get the base comments.
+ */
+exports.getCommentsForComment = (postid, commentid) => {
+    let query = ""
+    if (commentid == -1) {
+        console.log("Base comments");
+        query = "SELECT * FROM commentwithuserdetails WHERE postID = '" + postid +
+            "' AND commentedComment IS NULL ORDER BY time ASC;"
+    } else {
+        console.log("Commented comments");
+        query = "SELECT * FROM commentwithuserdetails WHERE postID = '" + postid +
+            "' AND commentedComment = '" + commentid + "' ORDER BY time ASC;"
+    }
+
+    return connection.promise().query(query);
+}
+
+exports.addComment = (postid, userid, message, commentedComment) => {
+    let query = "INSERT INTO postComments (userID, postID, message, commentedComment) VALUES "
+    if (commentedComment == -1) {
+        query += "(" + userid + ", " + postid + ", '" + message + "', null);"
+    } else {
+        query += "(" + userid + ", " + postid + ", '" + message + "', " + commentedComment + ");"
+    }
+    console.log(query);
+    return connection.promise().query(query);
+
 }

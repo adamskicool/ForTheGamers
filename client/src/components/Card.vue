@@ -11,7 +11,6 @@
         data-toggle="collapse"
         v-bind:href="'#idis' + this.id"
         title="Press to show comments"
-        v-on:click="loadComments()"
       >
         <img src="../assets/expand.png">
       </div>
@@ -25,17 +24,18 @@
         </div>
         <!-- Skriv kommentar -->
         <div class="comment-input">
-          <input type="text" placeholder="Write a comment...">
-          <input type="button" value="Send">
+          <input type="text" placeholder="Write a comment..." v-model="newComment">
+          <input type="button" value="Send" v-on:click="comment()">
         </div>
         <!-- Visa alla kommentarer-->
         <CardComment
           v-for="comment in this.comments"
           v-bind:key="comment.timestamp"
-          v-bind:author="comment.userID"
+          v-bind:postID="id"
+          v-bind:commentID="comment.postCommentID"
+          v-bind:author="comment.username"
           v-bind:message="comment.message"
           v-bind:time="comment.time.substring(0, 10)"
-          v-bind:comments="comment.comments"
         />
       </div>
     </div>
@@ -48,8 +48,26 @@ export default {
   components: { CardComment },
   data() {
     return {
+      newComment: "",
       comments: {}
     };
+  },
+  created() {
+    //fetch the comments to this post.
+    let postID = this.id;
+    fetch("http://localhost:8989/api/commentsOnComment", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        postid: postID,
+        commentid: -1
+      }
+    })
+      .then(res => res.json())
+      .then(comments => {
+        console.log(comments);
+        this.comments = comments;
+      });
   },
   methods: {
     /**
@@ -58,22 +76,37 @@ export default {
     checkImage() {
       return this.image.length != 0;
     },
-    //load the comments specific to this post with postID = this.id.
-    loadComments() {
-      let postID = this.id;
-      //fetch the comments to this post.
-      fetch("http://localhost:8989/api/comments", {
-        method: "GET",
+    comment() {
+      alert(this.id);
+      let comment = this.newComment;
+      this.newComment = "";
+      fetch("http://localhost:8989/api/comment", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          postid: postID
-        }
-      })
-        .then(res => res.json())
-        .then(comments => {
-          console.log(comments);
-          this.comments = comments;
-        });
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userid: 1,
+          postid: this.id,
+          message: comment,
+          commentedComment: -1
+        })
+      }).then(_ => {
+        let postID = this.id;
+        fetch("http://localhost:8989/api/commentsOnComment", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            postid: postID,
+            commentid: -1
+          }
+        })
+          .then(res => res.json())
+          .then(comments => {
+            console.log(comments);
+            this.comments = comments;
+          });
+      });
     }
   }
 };

@@ -5,7 +5,7 @@
         v-for="post in this.posts"
         v-bind:key="post.postID"
         v-bind:id="post.postID"
-        v-bind:author="post.userID"
+        v-bind:author="post.username"
         v-bind:image="post.imageURL"
         v-bind:message="post.message"
         v-bind:timestamp="post.time"
@@ -34,9 +34,19 @@ export default {
     })
       .then(res => res.json())
       .then(posts => {
-        console.log(posts);
+        //console.log(posts);
         this.posts = posts;
       });
+
+    // fetch("http://localhost:8989/api/post", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     userid: 2
+    //   }
+    // }).then(res => {
+    //   console.log(res);
+    // });
   }
 };
 </script>
@@ -49,5 +59,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 20px;
 }
 </style>
