@@ -1,8 +1,11 @@
 <template>
   <div class="comment">
     <div class="comment-grid">
+      <div class="comment-profile-picture">
+        <img v-bind:src="this.profilePicture">
+      </div>
       <div class="comment-author-time">
-        <p id="author">{{this.author}}</p>
+        <a href="profile" id="author">{{this.author}}</a>
         <p id="timestamp">{{this.time}}</p>
       </div>
       <div class="comment-message">
@@ -10,7 +13,13 @@
       </div>
       <div class="comment-buttons">
         <input type="button" value="Reply" id="comment-comment">
-        <input type="button" value="Comments" id="comments-comment" v-on:click="loadComments()">
+        <input
+          v-show="this.numberOfComments != null"
+          type="button"
+          v-bind:value="this.numberOfComments + ' Replies'"
+          id="comments-comment"
+          v-on:click="loadComments()"
+        >
       </div>
     </div>
     <div class="subcomments">
@@ -19,7 +28,9 @@
         v-bind:key="comment.timestamp"
         v-bind:postID="postID"
         v-bind:commentID="comment.postCommentID"
+        v-bind:numberOfComments="comment.numberOfComments"
         v-bind:author="comment.username"
+        v-bind:profilePicture="comment.profilePicture"
         v-bind:message="comment.message"
         v-bind:time="comment.time.substring(0, 10)"
         v-bind:comments="comment.comments"
@@ -30,7 +41,15 @@
 <script>
 import CardComment from "./CardComment";
 export default {
-  props: ["postID", "commentID", "author", "message", "time"],
+  props: [
+    "postID",
+    "commentID",
+    "numberOfComments",
+    "author",
+    "profilePicture",
+    "message",
+    "time"
+  ],
   components: { CardComment },
   name: "CardComment",
   data() {
@@ -67,12 +86,24 @@ export default {
 .comment-grid {
   display: grid;
   grid-template-areas:
-    "a"
-    "b"
-    "c"
-    "d";
-  grid-template-columns: 100%;
-  grid-template-rows: 20px auto 20px auto;
+    "p a"
+    "p b"
+    ". b"
+    ". c"
+    ". d";
+  grid-template-columns: 10% 90%;
+  grid-template-rows: 20px 30px auto 20px auto;
+}
+.comment-profile-picture {
+  grid-area: p;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.comment-profile-picture > img {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
 }
 
 .comment-author-time {

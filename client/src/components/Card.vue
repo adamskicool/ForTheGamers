@@ -2,7 +2,7 @@
   <div class="card-wrapper">
     <!-- själva kortet -->
     <div class="card">
-      <p class="author-post">{{this.author}}</p>
+      <a href="profile" class="author-post">{{this.author}}</a>
       <p class="timestamp-post">{{this.timestamp.substring(0, 10)}}</p>
       <p class="message">{{this.message}}</p>
       <img v-if="checkImage()" class="image" v-bind:src="this.image">
@@ -33,7 +33,9 @@
           v-bind:key="comment.timestamp"
           v-bind:postID="id"
           v-bind:commentID="comment.postCommentID"
+          v-bind:numberOfComments="comment.numberOfComments"
           v-bind:author="comment.username"
+          v-bind:profilePicture="comment.profilePicture"
           v-bind:message="comment.message"
           v-bind:time="comment.time.substring(0, 10)"
         />
@@ -86,7 +88,7 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          userid: 1,
+          userid: 7,
           postid: this.id,
           message: comment,
           commentedComment: -1
@@ -165,7 +167,7 @@ export default {
 }
 .image {
   width: 100%;
-  border: solid grey 2px;
+  border-radius: 4px;
 }
 .timestamp-comment {
   padding: 0px;

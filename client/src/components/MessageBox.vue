@@ -64,7 +64,7 @@ export default {
   position: fixed;
   bottom: 0px;
   right: 50px;
-  width: 250px;
+  width: 200px;
   height: auto;
   margin-right: 20px;
 }
