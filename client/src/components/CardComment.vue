@@ -89,13 +89,16 @@ export default {
   name: "CardComment",
   data() {
     return {
-      newComment: "",
-      somebody_is_commenting: false,
-      comments: [],
-      currentTimeout: null
+      newComment: "", //text for the new comment
+      somebody_is_commenting: false, //if the kermit-gif is shown or not.
+      comments: [], //the comments.
+      currentTimeout: null //for typing gif.
     };
   },
   methods: {
+    /*
+      Load all comments that belong to this comment
+    */
     loadComments() {
       fetch("http://localhost:8989/api/commentsOnComment", {
         method: "GET",
@@ -111,33 +114,24 @@ export default {
           this.comments = comments;
         });
     },
+    /*
+    Function for adding a comment to a comment to this comment.
+    */
     comment() {
       let comment = this.newComment;
       this.newComment = "";
-      // fetch("http://localhost:8989/api/comment", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({
-      //     userid: 7,
-      //     postid: this.postID,
-      //     message: comment,
-      //     commentedComment: this.commentID
-      //   })
-      // }).then(_ => {
-      //   //send a notification to the upper commenting layer to update its comments.
-      // });
-
       let socket_content = JSON.stringify({
         userid: 3,
         postid: this.postID,
         message: comment,
         commentedComment: this.commentID
       });
-
       this.$socket.emit("COMMENT_INCOMMING", socket_content);
     },
+    /*
+    function for sending a focus request for a comment, this is so that all clients
+    that can see this comment can also see that someone is replying on it!
+    */
     sendFocusUpdate() {
       let socket_content = JSON.stringify({
         commentedComment: this.commentID
@@ -145,7 +139,14 @@ export default {
       this.$socket.emit("COMMENT_FOCUS_REQUEST", socket_content);
     }
   },
+
+  /*
+  When this component is created it subscribes to the COMMENT_UPDATE and COMMENT_FOCUS
+  events in order to be able to refresh new comments and to show the "someone is typing"-indicator
+  (a.k.a. Kermit the frog).
+  */
   created() {
+    //When a new comments has been sent.
     this.sockets.subscribe("COMMENT_UPDATE", data => {
       let parsed_data = JSON.parse(data);
       if (this.commentID == parsed_data.commentedComment) {
@@ -166,7 +167,7 @@ export default {
           });
       }
     });
-
+    //when focus is given to a specific comment.
     this.sockets.subscribe("COMMENT_FOCUS", data => {
       let parsed_data = JSON.parse(data);
       if (this.commentID == parsed_data.commentedComment) {
@@ -178,7 +179,14 @@ export default {
       }
     });
   },
+  /*
+  Watch functions, works lite onchange events but Vue.js does not support then very well.
+  */
   watch: {
+    /*
+    When typing a new comment, send a focus request indicating to other clients that 
+    you are typing.
+    */
     newComment: function(oldVal, newVal) {
       let socket_content = JSON.stringify({
         commentedComment: this.commentID
