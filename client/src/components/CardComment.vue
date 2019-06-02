@@ -1,27 +1,55 @@
 <template>
   <div class="comment">
+    <!-- The comment grid -->
     <div class="comment-grid">
+      <!-- Profile picture -->
       <div class="comment-profile-picture">
         <img v-bind:src="this.profilePicture">
       </div>
+      <!-- Author and time -->
       <div class="comment-author-time">
         <a href="profile" id="author">{{this.author}}</a>
         <p id="timestamp">{{this.time}}</p>
       </div>
+      <!-- Actuals comment message -->
       <div class="comment-message">
         <p id="message">{{this.message}}</p>
       </div>
+      <!-- Buttons for viewing replies, add a new reply -->
       <div class="comment-buttons">
-        <input type="button" value="Reply" id="comment-comment">
+        <input
+          type="button"
+          value="Reply"
+          id="comment-comment"
+          data-toggle="collapse"
+          :data-target="'#commentid' + this.commentID"
+        >
         <input
           v-show="this.numberOfComments != null"
           type="button"
-          v-bind:value="this.numberOfComments + ' Replies'"
+          value="View comments"
           id="comments-comment"
           v-on:click="loadComments()"
         >
+        <img
+          v-show="this.somebody_is_commenting"
+          src="../assets/kermit_typing.gif"
+          id="someone-is-typing-gif"
+        >
+      </div>
+      <!-- Input fields for replying to a comment -->
+      <div class="comment-comment-input collapse" :id="'commentid' + this.commentID">
+        <input
+          type="text"
+          placeholder="Write a response"
+          id="comment-comment-input"
+          v-model="newComment"
+        >
+        <input type="button" value="send" v-on:click="comment()">
       </div>
     </div>
+    <!-- Section showing all the subcomments/replies to the comments, is loaded
+    by other buttons above!-->
     <div class="subcomments">
       <CardComment
         v-for="comment in this.comments"
@@ -38,6 +66,13 @@
     </div>
   </div>
 </template>
+
+
+
+
+
+
+
 <script>
 import CardComment from "./CardComment";
 export default {
@@ -54,7 +89,10 @@ export default {
   name: "CardComment",
   data() {
     return {
-      comments: []
+      newComment: "",
+      somebody_is_commenting: false,
+      comments: [],
+      currentTimeout: null
     };
   },
   methods: {
@@ -72,10 +110,93 @@ export default {
           console.log(comments);
           this.comments = comments;
         });
+    },
+    comment() {
+      let comment = this.newComment;
+      this.newComment = "";
+      // fetch("http://localhost:8989/api/comment", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     userid: 7,
+      //     postid: this.postID,
+      //     message: comment,
+      //     commentedComment: this.commentID
+      //   })
+      // }).then(_ => {
+      //   //send a notification to the upper commenting layer to update its comments.
+      // });
+
+      let socket_content = JSON.stringify({
+        userid: 3,
+        postid: this.postID,
+        message: comment,
+        commentedComment: this.commentID
+      });
+
+      this.$socket.emit("COMMENT_INCOMMING", socket_content);
+    },
+    sendFocusUpdate() {
+      let socket_content = JSON.stringify({
+        commentedComment: this.commentID
+      });
+      this.$socket.emit("COMMENT_FOCUS_REQUEST", socket_content);
+    }
+  },
+  created() {
+    this.sockets.subscribe("COMMENT_UPDATE", data => {
+      let parsed_data = JSON.parse(data);
+      if (this.commentID == parsed_data.commentedComment) {
+        this.somebody_is_commenting = true;
+        console.log("COMMENT_UPDATE");
+        fetch("http://localhost:8989/api/commentsOnComment", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            postid: this.postID,
+            commentid: this.commentID
+          }
+        })
+          .then(res => res.json())
+          .then(comments => {
+            console.log(comments);
+            this.comments = comments;
+          });
+      }
+    });
+
+    this.sockets.subscribe("COMMENT_FOCUS", data => {
+      let parsed_data = JSON.parse(data);
+      if (this.commentID == parsed_data.commentedComment) {
+        this.somebody_is_commenting = true;
+        clearTimeout(this.currentTimeout);
+        this.currentTimeout = setTimeout(() => {
+          this.somebody_is_commenting = false;
+        }, 2000);
+      }
+    });
+  },
+  watch: {
+    newComment: function(oldVal, newVal) {
+      let socket_content = JSON.stringify({
+        commentedComment: this.commentID
+      });
+      this.$socket.emit("COMMENT_FOCUS_REQUEST", socket_content);
     }
   }
 };
 </script>
+
+
+
+
+
+
+
+
+
 <style scoped>
 .comment {
   width: 100%;
@@ -90,9 +211,10 @@ export default {
     "p b"
     ". b"
     ". c"
-    ". d";
+    ". d"
+    ". e";
   grid-template-columns: 10% 90%;
-  grid-template-rows: 20px 30px auto 20px auto;
+  grid-template-rows: 20px 30px auto 20px auto auto;
 }
 .comment-profile-picture {
   grid-area: p;
@@ -123,6 +245,10 @@ export default {
   flex-direction: row;
 }
 
+.comment-comment-input {
+  grid-area: d;
+}
+
 #author {
   font-size: 12px;
   font-weight: bolder;
@@ -135,15 +261,19 @@ export default {
   font-size: 8px;
   margin-left: 10px;
 }
-#message {
+#message,
+#comment-comment-input {
   font-size: 12px;
   background-color: whitesmoke;
   border-radius: 10px;
   padding: 4px;
 }
+#someone-is-typing-gif {
+  width: 20px;
+}
 
 .subcomments {
-  grid-area: d;
+  grid-area: e;
   width: auto;
   margin-left: 30px;
 }

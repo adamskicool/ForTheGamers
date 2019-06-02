@@ -26,21 +26,6 @@ let error = (err, message, res) => {
     }
 }
 
-app.get('/test', (req, res) => {
-    //hämta parametrar från request-body.
-
-    //kolla att lösenorden är samma.
-
-    //kolla att användaren inputtat en valid mailadress.
-
-    //ifall lösenorden är samma, hasha lösenordet och kalla på data_model.addUser
-
-
-    data_model.getGroupMessages(2)
-        .then(rows => res.json(rows[0]))
-        .catch(err => error(err, "failed to create new user", res))
-})
-
 const { processMessages, processComments } = require('../models/middleware/processing.js');
 
 app.get('/messages', (req, res) => {
@@ -75,7 +60,6 @@ app.post('/comment', (req, res) => {
     console.log("commentedComment: " + commentedComment);
 
     data_model.addComment(postid, userid, message, commentedComment);
-
     res.json({ test: "test" })
 })
 

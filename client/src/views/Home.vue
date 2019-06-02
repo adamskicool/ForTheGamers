@@ -14,6 +14,10 @@
   </div>
 </template>
 
+
+
+
+
 <script>
 import Card from "../components/Card.vue";
 export default {
@@ -37,19 +41,14 @@ export default {
         //console.log(posts);
         this.posts = posts;
       });
-
-    // fetch("http://localhost:8989/api/post", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     userid: 2
-    //   }
-    // }).then(res => {
-    //   console.log(res);
-    // });
   }
 };
 </script>
+
+
+
+
+
 
 <style scoped>
 .home {

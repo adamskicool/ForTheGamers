@@ -3,6 +3,7 @@ const cors = require('cors')
 const http = require('http')
 const app = express()
 const server = http.Server(app)
+const io = require('socket.io')(server);
 app.use(cors());
 
 // //Serve the static files from the dist-folder, a.k.a. our vue-projects client files.
@@ -14,11 +15,11 @@ const rest = require('./controllers/rest-controller.js');
 app.use('/api', rest);
 
 //setup use of the socket.io controller
-// const socket_controller = require('./controllers/socket-controller.js');
-// io.on('connect', (socket) => {
-//     console.log("New socket connected");
-//     socket_controller(socket, io);
-// })
+const socket_controller = require('./controllers/socket-controller.js');
+io.on('connect', (socket) => {
+    console.log("New socket connected");
+    socket_controller(socket, io);
+})
 
 //Start listening on port 8989 (if running locally) otherwhise the process.env.PORT.
 const PORT = 8989

@@ -43,6 +43,13 @@
     </div>
   </div>
 </template>
+
+
+
+
+
+
+
 <script>
 import CardComment from "./CardComment";
 export default {
@@ -79,7 +86,6 @@ export default {
       return this.image.length != 0;
     },
     comment() {
-      alert(this.id);
       let comment = this.newComment;
       this.newComment = "";
       fetch("http://localhost:8989/api/comment", {
@@ -113,6 +119,14 @@ export default {
   }
 };
 </script>
+
+
+
+
+
+
+
+
 <style>
 .card-wrapper {
   display: flex;

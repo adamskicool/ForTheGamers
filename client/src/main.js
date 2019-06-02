@@ -10,6 +10,19 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false
 
+//anslut socket.io
+import VueSocketIO from 'vue-socket.io'
+Vue.use(new VueSocketIO({
+  debug: false,
+  connection: 'http://localhost:8989',
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  },
+  options: {} //Optional options
+}))
+
 new Vue({
   router,
   store,

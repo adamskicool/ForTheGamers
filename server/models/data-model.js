@@ -73,11 +73,11 @@ exports.getCommentsForComment = (postid, commentid) => {
     let query = ""
     if (commentid == -1) {
         console.log("Base comments");
-        query = "SELECT * FROM commentsalldata WHERE postID = '" + postid +
+        query = "SELECT * FROM commentsMoreInfo WHERE postID = '" + postid +
             "' AND commentedComment IS NULL ORDER BY time DESC;"
     } else {
         console.log("Commented comments");
-        query = "SELECT * FROM commentsalldata WHERE postID = '" + postid +
+        query = "SELECT * FROM commentsMoreInfo WHERE postID = '" + postid +
             "' AND commentedComment = '" + commentid + "' ORDER BY time DESC;"
     }
 
