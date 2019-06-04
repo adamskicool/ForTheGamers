@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class>
-      <Card
+      <PostCard
         v-for="post in this.posts"
         v-bind:key="post.postID"
         v-bind:id="post.postID"
@@ -19,9 +19,9 @@
 
 
 <script>
-import Card from "../components/Card.vue";
+import PostCard from "../components/PostCard.vue";
 export default {
-  components: { Card },
+  components: { PostCard },
   data() {
     return {
       posts: []

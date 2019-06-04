@@ -28,7 +28,7 @@
           <input type="button" value="Send" v-on:click="comment()">
         </div>
         <!-- Visa alla kommentarer-->
-        <CardComment
+        <PostCardComment
           v-for="comment in this.comments"
           v-bind:key="comment.timestamp"
           v-bind:postID="id"
@@ -51,10 +51,10 @@
 
 
 <script>
-import CardComment from "./CardComment";
+import PostCardComment from "./PostCardComment";
 export default {
   props: ["id", "author", "title", "message", "image", "timestamp", "likes"],
-  components: { CardComment },
+  components: { PostCardComment },
   data() {
     return {
       newComment: "",

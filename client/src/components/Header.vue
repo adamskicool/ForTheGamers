@@ -7,7 +7,7 @@
     <!-- Main options for navigating the different part of the application -->
     <div class="main-options">
       <div class="option">
-        <button>Give Away Tävlingar</button>
+        <button v-on:click="redirect('/giveaway')">Give Away Tävlingar</button>
       </div>
       <div class="option">
         <button>Profil</button>
@@ -47,7 +47,7 @@ Setup the grid of the header.
   grid-template-columns: 5vw 10vw 70vw 10vw 5vw;
   grid-template-rows: 10px 50px;
   background-color: rgb(30, 144, 255);
-  z-index: 1;
+  z-index: 2;
 }
 /*
 Style the main options of the header... the buttons in the middle of the header.

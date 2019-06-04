@@ -51,7 +51,7 @@
     <!-- Section showing all the subcomments/replies to the comments, is loaded
     by other buttons above!-->
     <div class="subcomments">
-      <CardComment
+      <PostCardComment
         v-for="comment in this.comments"
         v-bind:key="comment.timestamp"
         v-bind:postID="postID"
@@ -74,7 +74,7 @@
 
 
 <script>
-import CardComment from "./CardComment";
+import PostCardComment from "./PostCardComment";
 export default {
   props: [
     "postID",
@@ -85,8 +85,8 @@ export default {
     "message",
     "time"
   ],
-  components: { CardComment },
-  name: "CardComment",
+  components: { PostCardComment },
+  name: "PostCardComment",
   data() {
     return {
       newComment: "", //text for the new comment
