@@ -9,6 +9,8 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.19",
+    "emoji-mart-vue": "^2.6.6",
+    "emoji-vue": "^0.2.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",

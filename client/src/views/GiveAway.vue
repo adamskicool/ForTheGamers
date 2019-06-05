@@ -8,6 +8,8 @@
         v-bind:title="giveaway.title"
         v-bind:company="giveaway.companyName"
         v-bind:description="giveaway.smallDescription"
+        v-bind:numberOfContestants="giveaway.numberOfContestants"
+        v-bind:endDate="giveaway.endDate"
       />
     </div>
     <div class="give-away-search-bar">
