@@ -91,4 +91,24 @@ app.get('/commentsOnComment', (req, res) => {
 })
 
 
+/**
+ * GET the currently running giveaways available.
+ */
+app.get('/giveAways', (req, res) => {
+    console.log('GET /giveAways');
+    data_model.getGiveAways()
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => console.log(err))
+})
+
+app.get('/giveAwayImages', (req, res) => {
+    let giveAwayID = req.headers.giveawayid;
+    console.log(giveAwayID);
+    data_model.getImagesForGiveAway(giveAwayID)
+        .then(row => row[0])
+        .then(results => res.json(results))
+        .catch(err => console.log(err))
+})
+
 module.exports = app;

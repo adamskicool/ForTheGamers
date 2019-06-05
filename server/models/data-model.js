@@ -16,7 +16,7 @@ exports.addUser = (username, email, password) => {
         + email + "', '"
         + password + "');"
     //console.log("Query = " + query)
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 
@@ -27,7 +27,7 @@ exports.addUser = (username, email, password) => {
 exports.getGroupMessages = (userid) => {
     let query = "SELECT * FROM inGroup LEFT JOIN messagessenttogroup ON inGroup.groupID = messagessenttogroup.toGroupID WHERE userID = '" + userid +
         "' ORDER BY timestamp DESC";
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 /**
@@ -45,7 +45,7 @@ exports.addPost = (userid, message, image) => {
             + userid + "', '"
             + message + "', '');";
     }
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 
@@ -54,7 +54,7 @@ exports.addPost = (userid, message, image) => {
  */
 exports.getPosts = (userid) => {
     let query = "SELECT * FROM postWithUserDetails WHERE userID = '" + userid + "';"
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 
@@ -63,7 +63,7 @@ exports.getPosts = (userid) => {
  */
 exports.getComments = (postid) => {
     let query = "SELECT * FROM postComments WHERE postID = '" + postid + "' ORDER BY time ASC;";
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 /**
@@ -81,7 +81,7 @@ exports.getCommentsForComment = (postid, commentid) => {
             "' AND commentedComment = '" + commentid + "' ORDER BY time DESC;"
     }
 
-    return connection.promise().query(query);
+    return connection.promise().query(query)
 }
 
 exports.addComment = (postid, userid, message, commentedComment) => {
@@ -92,6 +92,15 @@ exports.addComment = (postid, userid, message, commentedComment) => {
         query += "(" + userid + ", " + postid + ", '" + message + "', " + commentedComment + ");"
     }
     console.log(query);
-    return connection.promise().query(query);
+    return connection.promise().query(query)
+}
 
+exports.getGiveAways = () => {
+    let query = "SELECT * FROM giveAwaysMoreInfo;"
+    return connection.promise().query(query)
+}
+
+exports.getImagesForGiveAway = (giveAwayID) => {
+    let query = "SELECT * FROM giveAwayImages WHERE giveAwayID = " + giveAwayID + ";"
+    return connection.promise().query(query)
 }

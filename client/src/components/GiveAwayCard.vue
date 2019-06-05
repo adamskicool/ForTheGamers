@@ -1,14 +1,13 @@
 <template>
   <div class="card-grid">
     <div class="card-title">
-      <p>{{this.title}}</p>
+      <p>{{this.company}}</p>
     </div>
     <div class="card-description">
       <p>{{this.description}}</p>
     </div>
     <div class="card-images">
-      <div id="blurr-field"></div>
-      <img v-bind:src="this.images[this.currentImageIndex]">
+      <img v-bind:src="this.images[this.currentImageIndex].image">
       <div v-show="this.images.length > 1" class="controlls">
         <div class="image-button" id="image-button-previous" v-on:click="previousImage()">
           <img src="../assets/arrow.png">
@@ -17,6 +16,9 @@
           <img src="../assets/arrow.png">
         </div>
       </div>
+    </div>
+    <div class="card-share">
+      <p>Share giveaway with friends</p>
     </div>
   </div>
 </template>
@@ -27,11 +29,26 @@
 
 <script>
 export default {
-  props: ["id", "title", "description", "images"],
+  props: ["id", "title", "description", "company"],
   data() {
     return {
-      currentImageIndex: 0
+      currentImageIndex: 0,
+      images: []
     };
+  },
+  mounted() {
+    fetch("http://localhost:8989/api/giveAwayImages", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        giveawayid: this.id
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        this.images = res;
+        console.log(this.images);
+      });
   },
   methods: {
     previousImage() {
@@ -69,9 +86,18 @@ export default {
   border: rgb(221, 223, 226) solid 1px;
   border-radius: 4px;
   margin: 5px;
+  padding: 0px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
+}
+.card-grid:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.01);
 }
 .card-title {
   grid-area: a;
+  padding: 4px;
 }
 .card-description {
   grid-area: c;
@@ -86,15 +112,16 @@ export default {
 }
 
 .card-images > img {
-  height: 100%;
-  position: absolute;
+  width: 100%;
+  /* position: absolute;
   top: -9999px;
   bottom: -9999px;
   left: -9999px;
   right: -9999px;
-  margin: auto;
+  margin: auto; */
   z-index: 1;
 }
+
 .card-images > .controlls {
   position: absolute;
   display: flex;

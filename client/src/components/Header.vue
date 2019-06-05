@@ -7,7 +7,7 @@
     <!-- Main options for navigating the different part of the application -->
     <div class="main-options">
       <div class="option">
-        <button v-on:click="redirect('/giveaway')">Give Away Tävlingar</button>
+        <button v-on:click="redirect('/giveaway')">Give Aways</button>
       </div>
       <div class="option">
         <button>Profil</button>

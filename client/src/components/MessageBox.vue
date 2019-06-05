@@ -67,6 +67,7 @@ export default {
   width: 200px;
   height: auto;
   margin-right: 20px;
+  z-index: 10;
 }
 .message-notification {
   position: absolute;
