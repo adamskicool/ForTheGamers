@@ -170,6 +170,7 @@ export default {
 }
 .card-images > .controlls > .image-button:hover {
   background-color: rgba(255, 255, 255, 1);
+  cursor: pointer;
 }
 .card-images > .controlls > .image-button > img {
   height: 75%;

@@ -1,8 +1,8 @@
 <template>
-  <div class="header-grid">
-    <!-- Placeholder for the logo ForTheGamers -->
-    <div class="logo">
-      <!-- <img src="../assets/logo.svg"> -->
+  <div class="header-grid" v-show="this.$store.getters.userid != null">
+    <!-- Options to login -->
+    <div class="logout">
+      <button v-on:click="logout()">Log out</button>
     </div>
     <!-- Main options for navigating the different part of the application -->
     <div class="main-options">
@@ -23,10 +23,15 @@
 </template>
 
 <script>
+const Cookie = require("js-cookie");
 export default {
   methods: {
     redirect(path) {
       this.$router.push(path);
+    },
+    logout() {
+      Cookie.remove("JWT");
+      Cookie.remove("id");
     }
   }
 };
@@ -42,9 +47,9 @@ Setup the grid of the header.
   top: 0px;
   display: grid;
   grid-template-areas:
-    "b . . . ."
-    "b . a . .";
-  grid-template-columns: 5vw 10vw 70vw 10vw 5vw;
+    "b . c"
+    "b a c";
+  grid-template-columns: 15vw 70vw 15vw;
   grid-template-rows: 10px 50px;
   background-color: rgb(30, 144, 255);
   z-index: 2;
@@ -58,16 +63,6 @@ Style the main options of the header... the buttons in the middle of the header.
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-.logo {
-  grid-area: b;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 40px;
-}
-.logo > img {
-  height: 90%;
 }
 
 .option {
@@ -93,5 +88,26 @@ Style the main options of the header... the buttons in the middle of the header.
 .option:hover {
   background-color: rgb(233, 235, 238);
   color: black;
+}
+
+.logout {
+  grid-area: c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logout > button {
+  background: none;
+  border: none;
+  outline: none;
+  color: white;
+}
+.login-drop-down {
+  position: relative;
+  top: 60px;
+  left: 0px;
+  width: 200px;
+  height: 200px;
+  background-color: green;
 }
 </style>

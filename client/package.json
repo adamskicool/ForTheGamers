@@ -9,8 +9,10 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.19",
+    "cookie": "^0.4.0",
     "emoji-mart-vue": "^2.6.6",
     "emoji-vue": "^0.2.4",
+    "js-cookie": "^2.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",

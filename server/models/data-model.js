@@ -19,7 +19,14 @@ exports.addUser = (username, email, password) => {
     return connection.promise().query(query)
 }
 
-
+/**
+ * Function that return a user with a specific username, this can only return one user since the 
+ * username is the primary key in the MySQL database.
+ */
+exports.getUser = (username) => {
+    let query = "SELECT * FROM users WHERE username = '" + username + "'"
+    return connection.promise().query(query)
+}
 
 /**
  * Function that gets al the messages that has been sent in groups that a certain user is a part of.
@@ -65,7 +72,6 @@ exports.getComments = (postid) => {
     let query = "SELECT * FROM postComments WHERE postID = '" + postid + "' ORDER BY time ASC;";
     return connection.promise().query(query)
 }
-
 /**
  * Get all comments for a specific comment, if the commentid == -1, get the base comments.
  */
@@ -83,7 +89,9 @@ exports.getCommentsForComment = (postid, commentid) => {
 
     return connection.promise().query(query)
 }
-
+/**
+ * Add a comment to a specific comment or sub-comment.
+ */
 exports.addComment = (postid, userid, message, commentedComment) => {
     let query = "INSERT INTO postComments (userID, postID, message, commentedComment) VALUES "
     if (commentedComment == -1) {
@@ -95,11 +103,16 @@ exports.addComment = (postid, userid, message, commentedComment) => {
     return connection.promise().query(query)
 }
 
+/**
+ * Get all the available give-aways.
+ */
 exports.getGiveAways = () => {
     let query = "SELECT * FROM giveAwaysMoreInfo;"
     return connection.promise().query(query)
 }
-
+/**
+ * Get all images asociated with a certain give-away.
+ */
 exports.getImagesForGiveAway = (giveAwayID) => {
     let query = "SELECT * FROM giveAwayImages WHERE giveAwayID = " + giveAwayID + ";"
     return connection.promise().query(query)
