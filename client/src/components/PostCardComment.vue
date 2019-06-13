@@ -75,6 +75,7 @@
 
 <script>
 import PostCardComment from "./PostCardComment";
+import Cookie from "js-cookie";
 export default {
   props: [
     "postID",
@@ -110,7 +111,7 @@ export default {
       })
         .then(res => res.json())
         .then(comments => {
-          console.log(comments);
+          //console.log(comments);
           this.comments = comments;
         });
     },
@@ -121,7 +122,7 @@ export default {
       let comment = this.newComment;
       this.newComment = "";
       let socket_content = JSON.stringify({
-        userid: 3,
+        userid: Cookie.get("id"),
         postid: this.postID,
         message: comment,
         commentedComment: this.commentID

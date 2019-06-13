@@ -1,5 +1,5 @@
 <template>
-  <div class="header-grid" v-show="this.$store.getters.userid != null">
+  <div class="header-grid" v-show="this.$store.getters.loggedIn">
     <!-- Options to login -->
     <div class="logout">
       <button v-on:click="logout()">Log out</button>
@@ -32,6 +32,7 @@ export default {
     logout() {
       Cookie.remove("JWT");
       Cookie.remove("id");
+      this.$router.push("/login");
     }
   }
 };

@@ -151,6 +151,14 @@ app.get('/messages', (req, res) => {
         .catch(err => error(err, "Failed to get messages", res))
 })
 
+app.get('/clans', (req, res) => {
+    let userid = req.headers.userid;
+    console.log('GET /clans     userID: ' + userid);
+    data_model.getClans(userid)
+        .then(rows => rows[0])
+        .then(result => res.json(result))
+        .catch(err => error(err, "Failed to get clans for user", res))
+})
 
 app.get('/posts', (req, res) => {
     let userid = req.headers.userid;
@@ -159,6 +167,15 @@ app.get('/posts', (req, res) => {
         .then(rows => rows[0])
         .then(result => res.json(result))
         .catch(err => error(err, "Failed to get posts for user", res))
+})
+
+app.get('/clanPosts', (req, res) => {
+    let clanid = req.headers.clanid;
+    console.log('GET /clanPosts     clanID: ' + clanid);
+    data_model.getClanPosts(clanid)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Failed to get posts for clan", res))
 })
 
 app.post('/comment', (req, res) => {

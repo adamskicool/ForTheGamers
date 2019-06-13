@@ -1,5 +1,5 @@
 <template>
-  <div class="message-box">
+  <div class="message-box" v-show="this.$store.getters.loggedIn">
     <div class="message-notification">
       <img src="./../assets/notification-dot.png">
       <p>{{1}}</p>

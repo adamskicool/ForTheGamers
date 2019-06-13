@@ -55,12 +55,27 @@ exports.addPost = (userid, message, image) => {
     return connection.promise().query(query)
 }
 
+/**
+ * Get all clans for a specific user
+ */
+exports.getClans = (userid) => {
+    let query = "SELECT * FROM clanMembers LEFT JOIN clans ON clanMembers.clanid = clans.clanid WHERE clanMembers.userid = '" + userid + "';";
+    return connection.promise().query(query)
+}
+
 
 /**
  * Get all posts for a specific user
  */
 exports.getPosts = (userid) => {
     let query = "SELECT * FROM postWithUserDetails WHERE userID = '" + userid + "';"
+    return connection.promise().query(query)
+}
+/**
+ * Get all posts related to a certain clan
+ */
+exports.getClanPosts = (clanid) => {
+    let query = "SELECT * FROM postWithUserDetails WHERE clanID = '" + clanid + "';"
     return connection.promise().query(query)
 }
 
@@ -117,3 +132,4 @@ exports.getImagesForGiveAway = (giveAwayID) => {
     let query = "SELECT * FROM giveAwayImages WHERE giveAwayID = " + giveAwayID + ";"
     return connection.promise().query(query)
 }
+

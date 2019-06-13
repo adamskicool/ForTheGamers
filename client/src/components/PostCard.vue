@@ -74,7 +74,7 @@ export default {
     })
       .then(res => res.json())
       .then(comments => {
-        console.log(comments);
+        //console.log(comments);
         this.comments = comments;
       });
   },

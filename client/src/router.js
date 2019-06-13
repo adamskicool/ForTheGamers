@@ -37,21 +37,30 @@ let router = new Router({
     }
   ]
 })
-
-
+import store from './store'
 router.beforeEach((to, from, next) => {
+  // console.log("JWT: " + Cookie.get("JWT"))
+  // console.log("ID: " + Cookie.get("id"))
+
   //Om vi försöker accessa en view där man måste vara inloggad, kolla användaren först
-  validUserInfo().then(result => {
+  validUserInfo().then(valid => {
     if (to.name != "Login") {
-      if (result) {
-        console.log("Gå till next()")
+      if (valid) {
+        store.commit('changeLoggedIn', true)
         next()
       } else {
+        store.commit('changeLoggedIn', false)
         next('/login')
       }
     }
     else {
-      next();
+      if (!valid) {
+        store.commit('changeLoggedIn', false)
+        next();
+      } else {
+        store.commit('changeLoggedIn', true)
+        next('/home')
+      }
     }
   })
 })

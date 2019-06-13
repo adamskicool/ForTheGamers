@@ -5,17 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userid: 1,
-    logintoken: null
+    loggedIn: false
   },
   mutations: {
-    addLoginCred(state, userid, logintoken) {
-      state.userid = userid;
-      state.logintoken = logintoken
+    changeLoggedIn(state, loggedInValue) {
+      state.loggedIn = loggedInValue;
     }
   },
   getters: {
-    userid: state => state.userid
+    loggedIn: state => state.loggedIn
   },
   actions: {
 
