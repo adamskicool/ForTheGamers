@@ -10,7 +10,7 @@
         <button v-on:click="redirect('/giveaway')">Give Aways</button>
       </div>
       <div class="option">
-        <button>Profil</button>
+        <button v-on:click="redirect('/profile')">Profil</button>
       </div>
       <div class="option">
         <button v-on:click="redirect('/search')">Hitta Gamers</button>
@@ -32,6 +32,7 @@ export default {
     logout() {
       Cookie.remove("JWT");
       Cookie.remove("id");
+      this.$store.commit("changeCurrentClanID", null);
       this.$router.push("/login");
     }
   }
@@ -53,7 +54,7 @@ Setup the grid of the header.
   grid-template-columns: 15vw 70vw 15vw;
   grid-template-rows: 10px 50px;
   background-color: rgb(30, 144, 255);
-  z-index: 2;
+  z-index: 10;
 }
 /*
 Style the main options of the header... the buttons in the middle of the header.
@@ -79,7 +80,7 @@ Style the main options of the header... the buttons in the middle of the header.
   border: none;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
-  font-family: "Nunito", sans-serif;
+  /* font-family: "Nunito", sans-serif; */
   font-size: 15px;
   color: white;
 }

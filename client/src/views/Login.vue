@@ -1,14 +1,23 @@
 <template>
   <div class="login-view">
+    <div class="background">
+      <!-- <img src="https://www.natursidan.se/wp-content/uploads/2018/12/isbergerik.jpg"> -->
+    </div>
     <div class="login">
-      <h5>Log in:</h5>
+      <div class="background2">
+        <img src="https://www.bluleadz.com/hubfs/circles-257002-edited.png">
+      </div>
+      <h5 id="title">Log in:</h5>
       <input type="text" placeholder="Username" v-model="login_username">
       <input type="password" placeholder="Password" v-model="login_password">
       <input type="submit" value="Log in" v-on:click="login()">
       <p>{{this.login_message}}</p>
     </div>
     <div class="signup">
-      <h5>Sign up:</h5>
+      <div class="background2">
+        <img src="https://pegstamps.com/images/products/SCO28011_lg.jpg">
+      </div>
+      <h5 id="title">Sign up:</h5>
       <input type="text" placeholder="Username" v-model="signup_username">
       <input type="text" placeholder="Email" v-model="signup_email">
       <input type="password" placeholder="Password" v-model="signup_password">
@@ -94,6 +103,7 @@ export default {
 }
 .login,
 .signup {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -101,16 +111,46 @@ export default {
   height: 350px;
   width: 300px;
   margin: 20px;
-  background-color: rgb(255, 255, 255);
-  border: rgb(221, 223, 226) solid 1px;
-  border-radius: 4px;
+  /* background-color: rgb(255, 255, 255);
+  border: rgb(221, 223, 226) solid 1px; */
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: all 200ms ease;
+  opacity: 1;
+  z-index: 10;
 }
-.login:hover,
+/* .login:hover,
 .signup:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transform: scale(1.005);
+} */
+#title {
+  z-index: 10;
+}
+.background2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  opacity: 0.8;
+  filter: blur(20px);
+  z-index: 1;
+}
+.background2 > img {
+  height: 200%;
+}
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+  width: 170px;
+  height: auto;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  margin: 2px;
+  border-radius: 3px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
     <!-- själva kortet -->
-    <div class="card">
+    <div class="box card">
       <a href="profile" class="author-post">{{this.author}}</a>
       <p class="timestamp-post">{{this.timestamp.substring(0, 10)}}</p>
       <p class="message">{{this.message}}</p>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <!-- Kommentar fält! -->
-    <div class="comments-wrapper collapse" v-bind:id="'idis' + this.id">
+    <div class="box comments-wrapper collapse" v-bind:id="'idis' + this.id">
       <div class="comments">
         <!-- meddelande som visas om det inte finns några kommentarer -->
         <div v-if="Object.keys(this.comments).length == 0">
@@ -51,6 +51,7 @@
 
 
 <script>
+import Cookie from "js-cookie";
 import PostCardComment from "./PostCardComment";
 export default {
   props: ["id", "author", "title", "message", "image", "timestamp", "likes"],
@@ -94,7 +95,7 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          userid: 7,
+          userid: Cookie.get("id"),
           postid: this.id,
           message: comment,
           commentedComment: -1
@@ -154,13 +155,13 @@ export default {
 
 .card,
 .comments-wrapper {
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
   width: 450px;
   border: none;
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255);
   border: rgb(221, 223, 226) solid 1px;
   border-radius: 4px;
-  padding: 10px;
+  padding: 10px; */
 }
 .comments-wrapper {
   width: 440px;
@@ -181,7 +182,7 @@ export default {
 }
 .image {
   width: 100%;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .timestamp-comment {
   padding: 0px;

@@ -5,10 +5,10 @@ const mysql = require('mysql2')
 const secrets = require('../secrets/secrets.json')
 
 var connection = mysql.createConnection({
-    host: "127.0.0.1",
+    host: "35.228.83.155",
     port: "3306",
-    user: "root",
-    password: secrets.MySQL_PASSWORD,
+    user: "adamskicool",
+    password: secrets.MySQL_PASSWORD_Google_Cloud,
     database: "for_the_gamers"
 });
 

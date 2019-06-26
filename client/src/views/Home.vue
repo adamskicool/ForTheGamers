@@ -59,38 +59,35 @@ export default {
       .then(clans => {
         this.clans = clans;
       });
-
-    //fetch the posts of user with userid = 2
-    fetch("http://localhost:8989/api/clanPosts", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        clanid: 2
-      }
-    })
-      .then(res => res.json())
-      .then(posts => {
-        //console.log(posts);
-        this.posts = posts;
-      });
+    if (this.$store.getters.currentClanID != null) {
+      loadPosts(this, this.$store.getters.currentClanID);
+    }
   },
   methods: {
     handleClanClicked: function(clanid) {
+      this.$store.commit("changeCurrentClanID", clanid);
       this.posts = [];
-      fetch("http://localhost:8989/api/clanPosts", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          clanid: clanid
-        }
-      })
-        .then(res => res.json())
-        .then(posts => {
-          //console.log(posts);
-          this.posts = posts;
-        });
+      loadPosts(this, clanid);
     }
   }
+};
+
+/**
+ * Method for loading posts specifik to a certain clan.
+ */
+let loadPosts = (component, clanid) => {
+  fetch("http://localhost:8989/api/clanPosts", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      clanid: clanid
+    }
+  })
+    .then(res => res.json())
+    .then(posts => {
+      //console.log(posts);
+      component.posts = posts;
+    });
 };
 </script>
 

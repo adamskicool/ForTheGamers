@@ -22,8 +22,10 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+HK&display=swap");
 #app {
   height: 100vh;
+  font-family: "Noto Sans HK", sans-serif;
 }
 .messages {
   position: absolute;
@@ -35,9 +37,9 @@ export default {
 .box {
   background-color: white;
   border: rgb(221, 223, 226) solid 1px;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
+  margin: 2px;
+  padding: 5px;
+  border-radius: 3px;
 }
 
 /* For fading between different views */

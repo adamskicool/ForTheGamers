@@ -6,6 +6,7 @@
         v-bind:id="giveaway.giveAwayID"
         v-bind:key="giveaway.giveAwayID"
         v-bind:title="giveaway.title"
+        v-bind:logo="giveaway.companyLogoURL"
         v-bind:company="giveaway.companyName"
         v-bind:description="giveaway.smallDescription"
         v-bind:numberOfContestants="giveaway.numberOfContestants"
@@ -41,7 +42,7 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.giveaways = res;
-        console.log(res);
+        // console.log(res);
       });
   }
 };

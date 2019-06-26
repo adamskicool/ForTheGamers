@@ -29,6 +29,14 @@ exports.getUser = (username) => {
 }
 
 /**
+ * Function that returns a user with a specific id.
+ */
+exports.getUserByID = (userid) => {
+    let query = "SELECT username, email, created, profilePicture FROM users WHERE userID = '" + userid + "'"
+    return connection.promise().query(query)
+}
+
+/**
  * Function that gets al the messages that has been sent in groups that a certain user is a part of.
  */
 exports.getGroupMessages = (userid) => {
@@ -40,16 +48,18 @@ exports.getGroupMessages = (userid) => {
 /**
  * Function that adds a post to a user.
  */
-exports.addPost = (userid, message, image) => {
+exports.addPost = (userid, clanid, message, imageURL) => {
     let query = "";
-    if (image != null) {
-        query = "INSERT INTO posts (userID, message, imageURL) VALUES ('"
+    if (imageURL != null) {
+        query = "INSERT INTO posts (userID, clanID, message, imageURL) VALUES ('"
             + userid + "', '"
+            + clanid + "', '"
             + message + "', '"
-            + image + "');";
+            + imageURL + "');";
     } else {
-        query = "INSERT INTO posts (userID, message, imageURL) VALUES ('"
+        query = "INSERT INTO posts (userID, clanID, message, imageURL) VALUES ('"
             + userid + "', '"
+            + clanid + "', '"
             + message + "', '');";
     }
     return connection.promise().query(query)
@@ -68,14 +78,14 @@ exports.getClans = (userid) => {
  * Get all posts for a specific user
  */
 exports.getPosts = (userid) => {
-    let query = "SELECT * FROM postWithUserDetails WHERE userID = '" + userid + "';"
+    let query = "SELECT * FROM postwithuserdetails WHERE userID = '" + userid + "';"
     return connection.promise().query(query)
 }
 /**
  * Get all posts related to a certain clan
  */
 exports.getClanPosts = (clanid) => {
-    let query = "SELECT * FROM postWithUserDetails WHERE clanID = '" + clanid + "';"
+    let query = "SELECT * FROM postwithuserdetails WHERE clanID = '" + clanid + "' ORDER BY time DESC;"
     return connection.promise().query(query)
 }
 
@@ -94,11 +104,11 @@ exports.getCommentsForComment = (postid, commentid) => {
     let query = ""
     if (commentid == -1) {
         console.log("Base comments");
-        query = "SELECT * FROM commentsMoreInfo WHERE postID = '" + postid +
+        query = "SELECT * FROM commentsmoreinfo WHERE postID = '" + postid +
             "' AND commentedComment IS NULL ORDER BY time DESC;"
     } else {
         console.log("Commented comments");
-        query = "SELECT * FROM commentsMoreInfo WHERE postID = '" + postid +
+        query = "SELECT * FROM commentsmoreinfo WHERE postID = '" + postid +
             "' AND commentedComment = '" + commentid + "' ORDER BY time DESC;"
     }
 
@@ -122,7 +132,7 @@ exports.addComment = (postid, userid, message, commentedComment) => {
  * Get all the available give-aways.
  */
 exports.getGiveAways = () => {
-    let query = "SELECT * FROM giveAwaysMoreInfo;"
+    let query = "SELECT * FROM giveawaysmoreinfo;"
     return connection.promise().query(query)
 }
 /**
@@ -130,6 +140,14 @@ exports.getGiveAways = () => {
  */
 exports.getImagesForGiveAway = (giveAwayID) => {
     let query = "SELECT * FROM giveAwayImages WHERE giveAwayID = " + giveAwayID + ";"
+    return connection.promise().query(query)
+}
+
+/**
+ * Get all friends associated with a certain user.
+ */
+exports.getFriends = (userid) => {
+    let query = "SELECT * FROM "
     return connection.promise().query(query)
 }
 

@@ -109,7 +109,7 @@ export default {
   border-right: solid rgb(221, 223, 226) 1px;
 }
 p {
-  font-family: "Nunito", sans-serif;
+  /* font-family: "Nunito", sans-serif; */
   padding: 0px;
   margin: 0px;
 }

@@ -1,28 +1,39 @@
 <template>
-  <div class="card-grid">
-    <div class="card-title">
-      <p>{{this.company}}</p>
-    </div>
-    <div class="card-description">
-      <p>{{this.description}}</p>
-    </div>
-    <div class="card-images">
-      <img v-if="this.images[0] != null" v-bind:src="this.images[this.currentImageIndex].image">
-      <div v-show="this.images.length > 1" class="controlls">
-        <div class="image-button" id="image-button-previous" v-on:click="previousImage()">
-          <img src="../assets/arrow.png">
-        </div>
-        <div class="image-button" id="image-button-next" v-on:click="nextImage()">
-          <img src="../assets/arrow.png">
+  <div class="card-wrapper">
+    <div class="card-grid">
+      <div class="card-title">
+        <p>{{this.company}}</p>
+        <img v-bind:src="this.logo">
+      </div>
+      <div class="card-description">
+        <p>{{this.description}}</p>
+      </div>
+      <div class="card-images">
+        <img
+          v-if="this.images[0] != null"
+          v-bind:src="this.images[this.currentImageIndex].giveAwayImage"
+        >
+        <div v-show="this.images.length > 1" class="controlls">
+          <div class="image-button" id="image-button-previous" v-on:click="previousImage()">
+            <img src="../assets/arrow.png">
+          </div>
+          <div class="image-button" id="image-button-next" v-on:click="nextImage()">
+            <img src="../assets/arrow.png">
+          </div>
         </div>
       </div>
+      <div class="card-info">
+        <button>Enter giveaway</button>
+        <p v-if="this.numberOfContestants != null">{{this.numberOfContestants}}</p>
+        <p v-else>0</p>
+        <img src="../assets/contestant.png">
+        <p id="end-date">Expires: {{this.endDate.substring(0, 10)}}</p>
+      </div>
     </div>
-    <div class="card-info">
-      <button>Enter giveaway</button>
-      <p v-if="this.numberOfContestants != null">{{this.numberOfContestants}}</p>
-      <p v-else>0</p>
-      <img src="../assets/contestant.png">
-      <p id="end-date">Expires: {{this.endDate.substring(0, 10)}}</p>
+    <div class="share box">
+      <div class="share-image">
+        <img src="../assets/share.png">
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +49,7 @@ export default {
   props: [
     "id",
     "title",
+    "logo",
     "description",
     "company",
     "numberOfContestants",
@@ -61,6 +73,7 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.images = res;
+        // console.log(this.images);
       });
   },
   methods: {
@@ -90,6 +103,19 @@ export default {
 
 
 <style scoped>
+.card-wrapper {
+  position: relative;
+  margin: 10px;
+  margin-top: 20px;
+  padding: 0px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
+  z-index: 1;
+}
+.card-wrapper:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.005);
+}
 .card-grid {
   display: grid;
   grid-template-areas:
@@ -102,19 +128,19 @@ export default {
   background-color: rgb(255, 255, 255);
   border: rgb(221, 223, 226) solid 1px;
   border-radius: 4px;
-  margin: 10px;
+  margin: 0px;
   padding: 0px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 200ms ease;
-}
-.card-grid:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.005);
+  z-index: 1;
 }
 .card-title {
+  display: flex;
   grid-area: a;
   padding: 4px;
+}
+.card-title > img {
+  height: 20px;
+  margin-left: 5px;
 }
 .card-description {
   grid-area: c;
@@ -215,5 +241,37 @@ export default {
 }
 .card-info > button:hover {
   background-color: rgb(30, 90, 255);
+}
+
+/* styling for the share-section */
+.share {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+  transition: all 200ms ease-in-out;
+}
+.card-wrapper:hover > .share {
+  left: -30px;
+}
+.share-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.share-image > img {
+  height: 80%;
+  width: 80%;
+}
+.share-image > img:hover {
+  cursor: pointer;
+  height: 90%;
+  width: 90%;
 }
 </style>

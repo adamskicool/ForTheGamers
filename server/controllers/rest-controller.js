@@ -141,6 +141,15 @@ app.get('/authenticate', (req, res) => {
 
 const { processMessages } = require('../models/middleware/processing.js');
 
+app.get('/user', (req, res) => {
+    let userid = req.headers.userid;
+    console.log('GET /user      userID: ' + userid);
+    data_model.getUserByID(userid)
+        .then(rows => rows[0])
+        .then(result => res.json(result[0]))
+        .catch(err => error(err, "Failed to get user details", res))
+})
+
 app.get('/messages', (req, res) => {
     //hämta id:n som skickats med requesten.
     let userid = req.headers.userid;
@@ -176,6 +185,18 @@ app.get('/clanPosts', (req, res) => {
         .then(rows => rows[0])
         .then(results => res.json(results))
         .catch(err => error(err, "Failed to get posts for clan", res))
+})
+
+app.post('/post', (req, res) => {
+    let userid = req.body.userid
+    let clanid = req.body.clanid
+    let message = req.body.message
+    let imageURL = req.body.imageURL
+    console.log("POST /post     ", userid, clanid, message, imageURL)
+    data_model.addPost(userid, clanid, message, imageURL)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Failed to post", res))
 })
 
 app.post('/comment', (req, res) => {
@@ -239,6 +260,16 @@ app.get('/giveAwayImages', (req, res) => {
         .then(row => row[0])
         .then(results => res.json(results))
         .catch(err => console.log(err))
+})
+
+
+app.get('/friends', (req, res) => {
+    let userid = req.headers.userid;
+    data_model.getFriends(userid)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "failed to fetch friends for user with id = " + userid, res))
+
 })
 
 module.exports = app;

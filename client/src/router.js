@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Home from './views/Home.vue'
+import Profile from './views/Profile.vue'
 import GiveAway from './views/GiveAway.vue'
 import Search from './views/Search.vue'
 
@@ -24,6 +25,11 @@ let router = new Router({
       path: '/home',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/search',
