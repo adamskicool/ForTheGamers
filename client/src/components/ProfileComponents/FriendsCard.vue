@@ -1,5 +1,5 @@
 <template>
-  <div class="friends box"></div>
+  <div class="friends box box-hover"></div>
 </template>
 
 <script>

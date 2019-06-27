@@ -1,6 +1,6 @@
 <template>
   <div class="card-wrapper">
-    <div class="card-grid">
+    <div class="card-grid box box-hover">
       <div class="card-title">
         <p>{{this.company}}</p>
         <img v-bind:src="this.logo">
@@ -108,13 +108,13 @@ export default {
   margin: 10px;
   margin-top: 20px;
   padding: 0px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 200ms ease;
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease; */
   z-index: 1;
 }
 .card-wrapper:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.005);
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.005); */
 }
 .card-grid {
   display: grid;
@@ -125,9 +125,9 @@ export default {
     "d b";
   grid-template-rows: 20px 10px 160px 30px;
   grid-template-columns: 40% 60%;
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255);
   border: rgb(221, 223, 226) solid 1px;
-  border-radius: 4px;
+  border-radius: 4px; */
   margin: 0px;
   padding: 0px;
   overflow: hidden;

@@ -10,13 +10,13 @@
         <button v-on:click="redirect('/giveaway')">Give Aways</button>
       </div>
       <div class="option">
-        <button v-on:click="redirect('/profile')">Profil</button>
+        <button v-on:click="redirectProfile()">Profile</button>
       </div>
       <div class="option">
-        <button v-on:click="redirect('/search')">Hitta Gamers</button>
+        <button v-on:click="redirect('/search')">Search</button>
       </div>
       <div class="option">
-        <button v-on:click="redirect('/home')">Flöde</button>
+        <button v-on:click="redirect('/home')">Home</button>
       </div>
     </div>
   </div>
@@ -28,6 +28,9 @@ export default {
   methods: {
     redirect(path) {
       this.$router.push(path);
+    },
+    redirectProfile() {
+      this.$router.push("/profile/" + Cookie.get("id"));
     },
     logout() {
       Cookie.remove("JWT");

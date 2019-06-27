@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="clans-wrapper">
+    <div class="clans-wrapper box-hover">
       <div id="banner">
         <p>CLANS</p>
       </div>

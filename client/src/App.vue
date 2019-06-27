@@ -23,9 +23,13 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+HK&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
 #app {
   height: 100vh;
-  font-family: "Noto Sans HK", sans-serif;
+  /* font-family: "Noto Sans HK", sans-serif; */
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Source Sans Pro", sans-serif;
 }
 .messages {
   position: absolute;
@@ -40,6 +44,15 @@ export default {
   margin: 2px;
   padding: 5px;
   border-radius: 3px;
+}
+
+.box-hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
+}
+.box-hover:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.005);
 }
 
 /* For fading between different views */

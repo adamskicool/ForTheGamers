@@ -27,7 +27,7 @@ let router = new Router({
       component: Home
     },
     {
-      path: '/profile',
+      path: '/profile/:userid',
       name: 'Profile',
       component: Profile
     },

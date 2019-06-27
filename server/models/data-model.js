@@ -32,7 +32,7 @@ exports.getUser = (username) => {
  * Function that returns a user with a specific id.
  */
 exports.getUserByID = (userid) => {
-    let query = "SELECT username, email, created, profilePicture FROM users WHERE userID = '" + userid + "'"
+    let query = "SELECT username, email, created, profilePicture, backgroundPicture FROM users WHERE userID = '" + userid + "'"
     return connection.promise().query(query)
 }
 

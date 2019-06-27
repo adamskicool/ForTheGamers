@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
     <!-- själva kortet -->
-    <div class="box card">
+    <div class="card box box-hover">
       <a href="profile" class="author-post">{{this.author}}</a>
       <p class="timestamp-post">{{this.timestamp.substring(0, 10)}}</p>
       <p class="message">{{this.message}}</p>

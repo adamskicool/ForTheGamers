@@ -1,5 +1,6 @@
 <template>
-  <div class="clans box">
+  <div class="clans box box-hover">
+    <p>Clans:</p>
     <div class="clan" v-for="clan in this.clans" v-bind:key="clan.clanID">
       <img v-bind:src="clan.logo">
       <p>{{clan.name}}</p>
@@ -10,28 +11,37 @@
 <script>
 import Cookie from "js-cookie";
 export default {
+  props: ["id"],
   data() {
     return {
       clans: null
     };
   },
+  methods: {
+    update() {
+      fetch("http://localhost:8989/api/clans", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: this.id
+        }
+      })
+        .then(res => res.json())
+        .then(res => (this.clans = res));
+    }
+  },
   created() {
-    fetch("http://localhost:8989/api/clans", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        userid: Cookie.get("id")
-      }
-    })
-      .then(res => res.json())
-      .then(res => (this.clans = res));
+    this.update();
+  },
+  updated() {
+    this.update();
   }
 };
 </script>
 
 <style scoped>
 .clans {
-  height: 100px;
+  height: auto;
   width: 95%;
 }
 

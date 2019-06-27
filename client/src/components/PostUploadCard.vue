@@ -1,5 +1,5 @@
 <template>
-  <div class="box upload-post-grid" v-show="validClanID()">
+  <div class="upload-post-grid box box-hover" v-show="validClanID()">
     <p>NEW POST</p>
     <input type="textfield" placeholder="Message" v-model="message" id="message">
     <!-- <input type="file" @change="processFile($event)"> -->
