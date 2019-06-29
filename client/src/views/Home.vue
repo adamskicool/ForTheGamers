@@ -17,6 +17,7 @@
     </div>
     <div class="postcards">
       <PostUploadCard/>
+      <Loading v-bind:active_loading="this.loading_active"/>
       <PostCard
         v-for="post in this.posts"
         v-bind:key="post.postID"
@@ -38,36 +39,57 @@
 import ClanCard from "../components/ClanCard.vue";
 import PostUploadCard from "../components/PostUploadCard.vue";
 import PostCard from "../components/PostCard.vue";
+import Loading from "../components/Loading.vue";
 import Cookie from "js-cookie";
 export default {
-  components: { ClanCard, PostUploadCard, PostCard },
+  components: { ClanCard, PostUploadCard, PostCard, Loading },
   data() {
     return {
       clans: [],
-      posts: []
+      posts: [],
+      loading_active: false
     };
   },
   created() {
-    fetch("http://localhost:8989/api/clans", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        userid: Cookie.get("id")
-      }
-    })
-      .then(res => res.json())
-      .then(clans => {
-        this.clans = clans;
-      });
+    this.loadClans();
     if (this.$store.getters.currentClanID != null) {
-      loadPosts(this, this.$store.getters.currentClanID);
+      this.loadPosts(this.$store.getters.currentClanID);
     }
   },
   methods: {
     handleClanClicked: function(clanid) {
       this.$store.commit("changeCurrentClanID", clanid);
       this.posts = [];
-      loadPosts(this, clanid);
+      this.loadPosts(clanid);
+    },
+    loadClans() {
+      fetch("http://localhost:8989/api/clans", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: Cookie.get("id")
+        }
+      })
+        .then(res => res.json())
+        .then(clans => {
+          this.clans = clans;
+        });
+    },
+    loadPosts(clanid) {
+      this.loading_active = true;
+      fetch("http://localhost:8989/api/clanPosts", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          clanid: clanid
+        }
+      })
+        .then(res => res.json())
+        .then(posts => {
+          //console.log(posts);
+          this.posts = posts;
+          this.loading_active = false;
+        });
     }
   }
 };
@@ -75,20 +97,7 @@ export default {
 /**
  * Method for loading posts specifik to a certain clan.
  */
-let loadPosts = (component, clanid) => {
-  fetch("http://localhost:8989/api/clanPosts", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      clanid: clanid
-    }
-  })
-    .then(res => res.json())
-    .then(posts => {
-      //console.log(posts);
-      component.posts = posts;
-    });
-};
+let loadPosts = (component, clanid) => {};
 </script>
 
 

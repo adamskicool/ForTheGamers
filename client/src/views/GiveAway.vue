@@ -1,6 +1,7 @@
 <template>
   <div class="give-away-grid">
     <div class="give-away-cards">
+      <Loading v-bind:active_loading="this.loading_active"/>
       <GiveAwayCard
         v-for="giveaway in this.giveaways"
         v-bind:id="giveaway.giveAwayID"
@@ -25,14 +26,17 @@
 
 <script>
 import GiveAwayCard from "../components/GiveAwayCard.vue";
+import Loading from "../components/Loading.vue";
 export default {
-  components: { GiveAwayCard },
+  components: { GiveAwayCard, Loading },
   data() {
     return {
-      giveaways: []
+      giveaways: [],
+      loading_active: false
     };
   },
   created() {
+    this.loading_active = true;
     fetch("http://localhost:8989/api/giveAways", {
       method: "GET",
       headers: {
@@ -42,6 +46,7 @@ export default {
       .then(res => res.json())
       .then(res => {
         this.giveaways = res;
+        this.loading_active = false;
         // console.log(res);
       });
   }

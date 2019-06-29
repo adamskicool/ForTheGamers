@@ -18,7 +18,17 @@
       <FriendsCard/>
     </div>
     <div class="content-right">
-      <ClansCard v-bind:id="this.$route.params.userid"/>
+      <div class="clans box box-hover">
+        <p>Clans</p>
+        <ClanCardSmall
+          v-for="clan in this.clans"
+          v-bind:key="clan.clanID"
+          v-bind:id="clan.clanID"
+          v-bind:name="clan.name"
+          v-bind:logo="clan.logo"
+          v-bind:backgroundPicture="clan.backgroundPicture"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -26,13 +36,13 @@
 <script>
 import Cookie from "js-cookie";
 import FriendsCard from "../components/ProfileComponents/FriendsCard.vue";
-import ClansCard from "../components/ProfileComponents/ClansCard.vue";
+import ClanCardSmall from "../components/ProfileComponents/ClanCardSmall.vue";
 import ProfileCoverLarge from "../components/ProfileComponents/ProfileCoverLarge.vue";
 import ProfileCoverSmall from "../components/ProfileComponents/ProfileCoverSmall.vue";
 export default {
   components: {
     FriendsCard,
-    ClansCard,
+    ClanCardSmall,
     ProfileCoverLarge,
     ProfileCoverSmall
   },
@@ -42,12 +52,14 @@ export default {
       profilePicture: null,
       backgroundPicture: null,
       profileName: null,
-      joinDate: null
+      joinDate: null,
+      clans: null
     };
   },
   methods: {
     updateProfile(id) {
       this.userid = id;
+      // Fetch the users profile.
       fetch("http://localhost:8989/api/user", {
         method: "GET",
         headers: {
@@ -62,6 +74,21 @@ export default {
           this.profileName = res.username;
           this.joinDate = res.created.substring(0, 10);
         });
+    },
+    updateClans(id) {
+      // fetch the users clans.
+      fetch("http://localhost:8989/api/clans", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: id
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          this.clans = res;
+          // console.log(res);
+        });
     }
   },
   /**
@@ -69,14 +96,17 @@ export default {
    */
   created() {
     this.updateProfile(this.$route.params.userid);
+    this.updateClans(this.$route.params.userid);
   },
   /**
    * When a user updates the params in the URL - the new profile is loaded.
    */
   beforeRouteUpdate(to, from, next) {
     if (to.name == "Profile") {
+      this.updateProfile(to.params.userid);
+      this.updateClans(to.params.userid);
+      console.log(to);
       next();
-      this.updateProfile(this.$route.params.userid);
     } else {
       next();
     }
@@ -129,5 +159,16 @@ h1 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+
+.content-left,
+.content-right > div {
+  width: 100%;
+  height: auto;
+}
+
+.content-left,
+.content-right > div > p {
+  margin: 0px;
 }
 </style>
