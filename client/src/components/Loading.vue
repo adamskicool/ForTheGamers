@@ -1,6 +1,6 @@
 <template>
   <div v-show="this.active_loading" class="loading-gif">
-    <img src="../assets/loading_double_ring.gif">
+    <img src="../assets/loading_double_ring.gif" />
   </div>
 </template>
 
@@ -21,6 +21,6 @@ export default {
   padding: 20px;
 }
 .loading-gif > img {
-  width: 80px;
+  width: 10%;
 }
 </style>

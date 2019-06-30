@@ -269,7 +269,12 @@ app.get('/friends', (req, res) => {
         .then(rows => rows[0])
         .then(results => res.json(results))
         .catch(err => error(err, "failed to fetch friends for user with id = " + userid, res))
-
 })
+
+// app.post('/friendRequest', (req, res) => {
+//     let user1 = req.headers.user1;
+//     let user2 = req.headers.user2;
+
+// })
 
 module.exports = app;

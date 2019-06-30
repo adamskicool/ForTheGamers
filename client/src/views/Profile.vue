@@ -3,6 +3,7 @@
     <div class="profile-cover">
       <ProfileCoverLarge
         v-if="this.profileName != null"
+        v-bind:userid="this.userid"
         v-bind:username="this.profileName"
         v-bind:profilePicture="this.profilePicture"
         v-bind:created="this.joinDate"
@@ -15,7 +16,7 @@
       <p>Joined: {{this.joinDate}}</p>
     </div>-->
     <div class="content-left">
-      <FriendsCard/>
+      <FriendsCard />
     </div>
     <div class="content-right">
       <div class="clans box box-hover">

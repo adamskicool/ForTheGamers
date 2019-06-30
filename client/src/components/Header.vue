@@ -2,7 +2,10 @@
   <div class="header-grid" v-show="this.$store.getters.loggedIn">
     <!-- Options to login -->
     <div class="logout">
-      <button v-on:click="logout()">Log out</button>
+      <div class="button">
+        <img src="../assets/menu.png" v-on:click="logout()" />
+      </div>
+      <!-- <button v-on:click="logout()">Log out</button> -->
     </div>
     <!-- Main options for navigating the different part of the application -->
     <div class="main-options">
@@ -54,7 +57,7 @@ Setup the grid of the header.
   grid-template-areas:
     "b . c"
     "b a c";
-  grid-template-columns: 15vw 70vw 15vw;
+  grid-template-columns: 75px calc(100% - 150px) 75px;
   grid-template-rows: 10px 50px;
   background-color: rgb(30, 144, 255);
   z-index: 10;
@@ -101,12 +104,18 @@ Style the main options of the header... the buttons in the middle of the header.
   justify-content: center;
   align-items: center;
 }
-.logout > button {
-  background: none;
-  border: none;
-  outline: none;
-  color: white;
+.logout > .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
+.logout > .button > img {
+  height: 25px;
+  width: 25px;
+}
+
 .login-drop-down {
   position: relative;
   top: 60px;

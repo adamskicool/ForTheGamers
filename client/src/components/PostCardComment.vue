@@ -4,7 +4,7 @@
     <div class="comment-grid">
       <!-- Profile picture -->
       <div class="comment-profile-picture">
-        <img v-bind:src="this.profilePicture">
+        <img v-bind:src="this.profilePicture" />
       </div>
       <!-- Author and time -->
       <div class="comment-author-time">
@@ -23,19 +23,19 @@
           id="comment-comment"
           data-toggle="collapse"
           :data-target="'#commentid' + this.commentID"
-        >
+        />
         <input
           v-show="this.numberOfComments != null"
           type="button"
           value="View comments"
           id="comments-comment"
           v-on:click="loadComments()"
-        >
+        />
         <img
           v-show="this.somebody_is_commenting"
           src="../assets/kermit_typing.gif"
           id="someone-is-typing-gif"
-        >
+        />
       </div>
       <!-- Input fields for replying to a comment -->
       <div class="comment-comment-input collapse" :id="'commentid' + this.commentID">
@@ -44,10 +44,12 @@
           placeholder="Write a response"
           id="comment-comment-input"
           v-model="newComment"
-        >
-        <input type="button" value="send" v-on:click="comment()">
+        />
+        <input type="button" value="send" v-on:click="comment()" />
       </div>
     </div>
+    <!-- loading gif for when loading subcomments -->
+    <Loading v-bind:active_loading="this.loading_subcomments" />
     <!-- Section showing all the subcomments/replies to the comments, is loaded
     by other buttons above!-->
     <div class="subcomments">
@@ -75,6 +77,7 @@
 
 <script>
 import PostCardComment from "./PostCardComment";
+import Loading from "./Loading.vue";
 import Cookie from "js-cookie";
 export default {
   props: [
@@ -86,14 +89,15 @@ export default {
     "message",
     "time"
   ],
-  components: { PostCardComment },
+  components: { PostCardComment, Loading },
   name: "PostCardComment",
   data() {
     return {
       newComment: "", //text for the new comment
       somebody_is_commenting: false, //if the kermit-gif is shown or not.
       comments: [], //the comments.
-      currentTimeout: null //for typing gif.
+      currentTimeout: null, //for typing gif.
+      loading_subcomments: false
     };
   },
   methods: {
@@ -101,6 +105,8 @@ export default {
       Load all comments that belong to this comment
     */
     loadComments() {
+      this.comments = [];
+      this.loading_subcomments = true;
       fetch("http://localhost:8989/api/commentsOnComment", {
         method: "GET",
         headers: {
@@ -113,6 +119,7 @@ export default {
         .then(comments => {
           //console.log(comments);
           this.comments = comments;
+          this.loading_subcomments = false;
         });
     },
     /*
@@ -151,6 +158,7 @@ export default {
     this.sockets.subscribe("COMMENT_UPDATE", data => {
       let parsed_data = JSON.parse(data);
       if (this.commentID == parsed_data.commentedComment) {
+        this.loading_subcomments = true;
         this.somebody_is_commenting = true;
         console.log("COMMENT_UPDATE");
         fetch("http://localhost:8989/api/commentsOnComment", {
@@ -165,6 +173,7 @@ export default {
           .then(comments => {
             console.log(comments);
             this.comments = comments;
+            this.loading_subcomments = false;
           });
       }
     });

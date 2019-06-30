@@ -1,10 +1,18 @@
 <template>
   <div class="upload-post-grid box box-hover" v-show="validClanID()">
-    <p>NEW POST</p>
-    <input type="textfield" placeholder="Message" v-model="message" id="message">
-    <!-- <input type="file" @change="processFile($event)"> -->
-    <input type="text" placeholder="Image URL" v-model="imageURL" id="image">
-    <input type="button" value="Upload" v-on:click="uploadPost()" id="upload">
+    <div class="banner">
+      <p>NEW POST</p>
+    </div>
+    <div class="message">
+      <!-- <input type="textarea" placeholder="Message" wrap="true" v-model="message" /> -->
+      <textarea placeholder="Message" v-model="message"></textarea>
+    </div>
+    <div class="image">
+      <input type="text" placeholder="Image URL" v-model="imageURL" />
+    </div>
+    <div class="upload">
+      <input type="button" value="Upload" v-on:click="uploadPost()" />
+    </div>
   </div>
 </template>
 
@@ -42,6 +50,8 @@ export default {
         })
           .then(res => res.json())
           .then(res => {
+            this.message = "";
+            this.imageURL = "";
             // console.log(res);
             //emit to parent if it was succesfull.
           });
@@ -64,23 +74,52 @@ export default {
 
 <style scoped>
 .upload-post-grid {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: grid;
+  grid-template-areas:
+    "a a"
+    "b b"
+    "c d";
+  grid-template-columns: 225px 225px;
+  grid-template-rows: 30px 70px 40px;
+  padding: 0px;
+}
+
+.banner {
+  grid-area: a;
+}
+
+.message  {
+  grid-area: b;
+}
+.message > textarea {
   width: 450px;
-  height: auto;
+  height: 70px;
+  padding: 5px;
+  outline: none;
+  border: none;
+  resize: none;
+}
+
+.image {
+  grid-area: c;
+}
+
+.upload {
+  grid-area: d;
 }
 p {
   font-size: 16px;
   padding: 0px;
   margin: 3px;
 }
-#message {
+
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: auto;
-  font-size: 14px;
-}
-#image {
+  height: 30px;
+  background-color: rgb(30, 144, 255);
+  color: white;
 }
 </style>

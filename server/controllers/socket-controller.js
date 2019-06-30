@@ -39,4 +39,18 @@ module.exports = (socket, io) => {
     });
 
 
+    /**
+     * A user sends a friend request to another user.
+     * TODO: 
+     * 1. add request via data_model
+     * 2. Emit friend request to involved user.
+     */
+    socket.on("FRIEND_REQUEST_SENT", data => {
+        let parsed_data = JSON.parse(data);
+        let user1 = parsed_data.user1;
+        let user2 = parsed_data.user2;
+        console.log("User " + user1 + " adds user " + user2);
+        socket.emit("FRIEND_REQUEST_TEST", JSON.stringify({ test: "test" }));
+
+    });
 }
