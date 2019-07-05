@@ -12,6 +12,7 @@
     "cookie": "^0.4.0",
     "emoji-mart-vue": "^2.6.6",
     "emoji-vue": "^0.2.4",
+    "howler": "^2.1.2",
     "js-cookie": "^2.2.0",
     "vue": "^2.6.10",
     "vue-recaptcha": "^1.1.1",

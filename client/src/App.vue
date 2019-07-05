@@ -1,22 +1,46 @@
 <template>
   <div id="app">
-    <Header/>
-    <transition name="fade" mode="out-in">
-      <router-view/>
-    </transition>
-    <MessageBox/>
+    <div class="grid">
+      <div class="header">
+        <Header v-on:menu_clicked="handleMenuClicked" />
+      </div>
+      <div class="content">
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
+      </div>
+    </div>
+    <SideMenu ref="side-menu" />
+    <MessageBox />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
+import SideMenu from "./components/SideMenu.vue";
 import MessageBox from "./components/MessageBox.vue";
 import GroupBox from "./components/GroupBox.vue";
 export default {
   components: {
     Header,
+    SideMenu,
     MessageBox,
     GroupBox
+  },
+  data() {
+    return {
+      sidemenu: null
+    };
+  },
+  mounted() {
+    //find the side menu and store a refrence to it in this component.
+    // console.log(this.$refs["side-menu"]);
+    this.sidemenu = this.$refs["side-menu"];
+  },
+  methods: {
+    handleMenuClicked() {
+      this.sidemenu.toggleMenu();
+    }
   }
 };
 </script>
@@ -27,10 +51,27 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
 #app {
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   /* font-family: "Noto Sans HK", sans-serif; */
   /* font-family: "Roboto", sans-serif; */
   font-family: "Source Sans Pro", sans-serif;
 }
+.grid {
+  display: grid;
+  grid-template-areas:
+    "a"
+    "b";
+  grid-template-rows: 60px calc(100vh - 60px);
+  grid-template-columns: 100vw;
+}
+.header  {
+  grid-area: a;
+}
+.content {
+  grid-area: b;
+}
+
 .messages {
   position: absolute;
   bottom: 0px;
@@ -66,6 +107,10 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+.header-empty {
+  width: 100vw;
+  height: 60px;
 }
 </style>
 

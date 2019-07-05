@@ -1,7 +1,7 @@
 <template>
   <div class="give-away-grid">
     <div class="give-away-cards">
-      <Loading v-bind:active_loading="this.loading_active"/>
+      <Loading v-bind:active_loading="this.loading_active" />
       <GiveAwayCard
         v-for="giveaway in this.giveaways"
         v-bind:id="giveaway.giveAwayID"
@@ -64,7 +64,8 @@ export default {
     ". a b ."
     ". a . .";
   grid-template-columns: auto 600px 200px auto;
-  grid-template-rows: 200px auto;
+  grid-template-rows: 200px calc(100vh - 200px - 60px);
+  overflow: scroll;
 }
 div {
   padding: 4px;

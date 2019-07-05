@@ -16,8 +16,8 @@
       </div>
     </div>
     <div class="postcards">
-      <PostUploadCard/>
-      <Loading v-bind:active_loading="this.loading_active"/>
+      <PostUploadCard />
+      <Loading v-bind:active_loading="this.loading_active" />
       <PostCard
         v-for="post in this.posts"
         v-bind:key="post.postID"
@@ -110,7 +110,7 @@ let loadPosts = (component, clanid) => {};
   display: grid;
   grid-template-areas: "a b";
   grid-template-rows: calc(100vh - 60px);
-  grid-template-columns: 200px calc(100vw - 200px);
+  grid-template-columns: 200px calc(100% - 200px);
 }
 .clans-wrapper {
   grid-area: a;

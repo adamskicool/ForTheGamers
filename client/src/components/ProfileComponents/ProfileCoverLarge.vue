@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .profile-cover-large {
   padding: 0px;
-  border-radius: 10px;
+  border-radius: 4px;
   width: 100%;
   height: auto;
   position: relative;

@@ -1,14 +1,14 @@
 <template>
   <div class="message-box" v-show="this.$store.getters.loggedIn">
     <div class="message-notification">
-      <img src="./../assets/notification-dot.png">
+      <img src="./../assets/notification-dot.png" />
       <p>{{1}}</p>
     </div>
     <div class="message-top">
       <a
         data-toggle="collapse"
         href="#message-body-wrapper"
-        style="position: fixed; height: 25px; width: 100%;"
+        style="position: fixed; height: 25px; width: 200px;"
       ></a>
       <p>Meddelanden</p>
     </div>
@@ -63,11 +63,11 @@ export default {
 .message-box {
   position: fixed;
   bottom: 0px;
-  right: 50px;
+  right: 100px;
   width: 200px;
   height: auto;
   margin-right: 20px;
-  z-index: 10;
+  z-index: 13;
 }
 .message-notification {
   position: absolute;
@@ -75,6 +75,7 @@ export default {
   right: -5px;
   height: 17px;
   width: 17px;
+  z-index: 14;
 }
 .message-notification > img {
   position: absolute;
@@ -89,6 +90,7 @@ export default {
   color: whitesmoke;
 }
 .message-top {
+  position: relative;
   width: 100%;
   height: 25px;
   display: flex;

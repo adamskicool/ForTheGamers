@@ -151,3 +151,17 @@ exports.getFriends = (userid) => {
     return connection.promise().query(query)
 }
 
+/**
+ * Add a friend request from user1 to user2.
+ */
+exports.addFriendRequest = (user1, user2) => {
+
+}
+
+/**
+ * Get friend requests to a specific user.
+ */
+exports.getFriendRequestsToUser = (userid) => {
+    let query = "SELECT * FROM friendRequestsMoreInfo WHERE toUser = '" + userid + "';"
+    return connection.promise().query(query)
+}

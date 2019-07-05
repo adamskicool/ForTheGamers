@@ -50,7 +50,16 @@ module.exports = (socket, io) => {
         let user1 = parsed_data.user1;
         let user2 = parsed_data.user2;
         console.log("User " + user1 + " adds user " + user2);
-        socket.emit("FRIEND_REQUEST_TEST", JSON.stringify({ test: "test" }));
+
+        //some testing...
+        let data2 = {
+            requestID: 1,
+            fromUser: 1,
+            fromUsername: "adamskicool",
+            fromProfilePicture: "https://scontent.fbma1-1.fna.fbcdn.net/v/t31.0-8/14444872_1296040327081056_831587077098011298_o.jpg?_nc_cat=107&_nc_oc=AQkuwl0Bvy0Tx6_oRc0YdmU4hk8lJWB5k4JrNACVutR4KSSFFm4vyf_9Al1WZCCKRi0&_nc_ht=scontent.fbma1-1.fna&oh=a2f9cad5dd3b0442889733bfc7b50d06&oe=5D788D4B",
+            time: "04:54"
+        }
+        socket.emit("FRIEND_REQUEST_UPDATE", JSON.stringify(data2));
 
     });
 }
