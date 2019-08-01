@@ -5,14 +5,14 @@
       <a href="profile" class="author-post">{{this.author}}</a>
       <p class="timestamp-post">{{this.timestamp.substring(0, 10)}}</p>
       <p class="message">{{this.message}}</p>
-      <img v-if="checkImage()" class="image" v-bind:src="this.image">
+      <img v-if="checkImage()" class="image" v-bind:src="this.image" />
       <div
         class="expand-comments"
         data-toggle="collapse"
         v-bind:href="'#idis' + this.id"
         title="Press to show comments"
       >
-        <img src="../assets/expand.png">
+        <img src="../assets/expand.png" />
       </div>
     </div>
     <!-- Kommentar fält! -->
@@ -24,8 +24,8 @@
         </div>
         <!-- Skriv kommentar -->
         <div class="comment-input">
-          <input type="text" placeholder="Write a comment..." v-model="newComment">
-          <input type="button" value="Send" v-on:click="comment()">
+          <input type="text" placeholder="Write a comment..." v-model="newComment" />
+          <input type="button" value="Send" v-on:click="comment()" />
         </div>
         <!-- Visa alla kommentarer-->
         <PostCardComment
@@ -53,6 +53,7 @@
 <script>
 import Cookie from "js-cookie";
 import PostCardComment from "./PostCardComment";
+import env_variables from "../environment_variables.json";
 export default {
   props: ["id", "author", "title", "message", "image", "timestamp", "likes"],
   components: { PostCardComment },
@@ -65,7 +66,7 @@ export default {
   created() {
     //fetch the comments to this post.
     let postID = this.id;
-    fetch("http://localhost:8989/api/commentsOnComment", {
+    fetch(env_variables.BASE_URL + "commentsOnComment", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export default {
     comment() {
       let comment = this.newComment;
       this.newComment = "";
-      fetch("http://localhost:8989/api/comment", {
+      fetch(env_variables.BASE_URL + "comment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -102,7 +103,7 @@ export default {
         })
       }).then(_ => {
         let postID = this.id;
-        fetch("http://localhost:8989/api/commentsOnComment", {
+        fetch(env_variables.BASE_URL + "commentsOnComment", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

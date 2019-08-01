@@ -73,9 +73,10 @@ router.beforeEach((to, from, next) => {
 
 
 const Cookie = require('js-cookie')
+import env_variables from "./environment_variables.json";
 let validUserInfo = async () => {
   //validate the JSON Web token with the server
-  let res = await fetch("http://localhost:8989/api/authenticate", {
+  let res = await fetch(env_variables.BASE_URL + "authenticate", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -40,6 +40,7 @@ import FriendsCard from "../components/ProfileComponents/FriendsCard.vue";
 import ClanCardSmall from "../components/ProfileComponents/ClanCardSmall.vue";
 import ProfileCoverLarge from "../components/ProfileComponents/ProfileCoverLarge.vue";
 import ProfileCoverSmall from "../components/ProfileComponents/ProfileCoverSmall.vue";
+import env_variables from "../environment_variables.json";
 export default {
   components: {
     FriendsCard,
@@ -61,7 +62,7 @@ export default {
     updateProfile(id) {
       this.userid = id;
       // Fetch the users profile.
-      fetch("http://localhost:8989/api/user", {
+      fetch(env_variables.BASE_URL + "user", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +79,7 @@ export default {
     },
     updateClans(id) {
       // fetch the users clans.
-      fetch("http://localhost:8989/api/clans", {
+      fetch(env_variables.BASE_URL + "clans", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

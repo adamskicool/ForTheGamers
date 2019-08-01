@@ -1,3 +1,5 @@
 {
-    "BASE_URL": "http://localhost:8989/api"
+    "BASE_URL_FIREBASE": "https://gamersapplication-d3442.firebaseapp.com/api",
+    "BASE_URL": "http://localhost:8989/api/",
+    "BASE_URL_HEROKU": "https://forthegamers.herokuapp.com/api/"
 }

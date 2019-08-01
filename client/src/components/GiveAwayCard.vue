@@ -3,7 +3,7 @@
     <div class="card-grid box box-hover">
       <div class="card-title">
         <p>{{this.company}}</p>
-        <img v-bind:src="this.logo">
+        <img v-bind:src="this.logo" />
       </div>
       <div class="card-description">
         <p>{{this.description}}</p>
@@ -12,13 +12,13 @@
         <img
           v-if="this.images[0] != null"
           v-bind:src="this.images[this.currentImageIndex].giveAwayImage"
-        >
+        />
         <div v-show="this.images.length > 1" class="controlls">
           <div class="image-button" id="image-button-previous" v-on:click="previousImage()">
-            <img src="../assets/arrow.png">
+            <img src="../assets/arrow.png" />
           </div>
           <div class="image-button" id="image-button-next" v-on:click="nextImage()">
-            <img src="../assets/arrow.png">
+            <img src="../assets/arrow.png" />
           </div>
         </div>
       </div>
@@ -26,13 +26,13 @@
         <button>Enter giveaway</button>
         <p v-if="this.numberOfContestants != null">{{this.numberOfContestants}}</p>
         <p v-else>0</p>
-        <img src="../assets/contestant.png">
+        <img src="../assets/contestant.png" />
         <p id="end-date">Expires: {{this.endDate.substring(0, 10)}}</p>
       </div>
     </div>
     <div class="share box">
       <div class="share-image">
-        <img src="../assets/share.png">
+        <img src="../assets/share.png" />
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@
 
 
 <script>
+import variables from "../environment_variables.json";
 // import { Picker } from "emoji-mart-vue";
 export default {
   // components: { Picker },
@@ -63,7 +64,7 @@ export default {
   },
   mounted() {
     //get the images for this giveaway.
-    fetch("http://localhost:8989/api/giveAwayImages", {
+    fetch(variables.BASE_URL + "giveAwayImages", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -105,8 +106,8 @@ export default {
 <style scoped>
 .card-wrapper {
   position: relative;
-  margin: 10px;
-  margin-top: 20px;
+  
+  margin-bottom: 20px;
   padding: 0px;
   /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: all 200ms ease; */
@@ -144,7 +145,7 @@ export default {
 }
 .card-description {
   grid-area: c;
-  font-size: 12px;
+  font-size: 14px;
   padding: 5px;
   overflow: scroll;
 }

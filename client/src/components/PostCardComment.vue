@@ -79,6 +79,7 @@
 import PostCardComment from "./PostCardComment";
 import Loading from "./Loading.vue";
 import Cookie from "js-cookie";
+import env_variables from "../environment_variables.json";
 export default {
   props: [
     "postID",
@@ -107,7 +108,7 @@ export default {
     loadComments() {
       this.comments = [];
       this.loading_subcomments = true;
-      fetch("http://localhost:8989/api/commentsOnComment", {
+      fetch(env_variables.BASE_URL + "commentsOnComment", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -161,7 +162,7 @@ export default {
         this.loading_subcomments = true;
         this.somebody_is_commenting = true;
         console.log("COMMENT_UPDATE");
-        fetch("http://localhost:8989/api/commentsOnComment", {
+        fetch(env_variables.BASE_URL + "commentsOnComment", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

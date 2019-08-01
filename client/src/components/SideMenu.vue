@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-wrapper" ref="menu">
+  <div v-show="this.$store.getters.loggedIn" class="menu-wrapper" ref="menu">
     <div class="menu">
       <div class="friend-requests">
         <div class="section">
@@ -16,6 +16,18 @@
         <div class="section">
           <p>Recent Nofitication ({{this.recentNotifications.length}})</p>
         </div>
+        <FriendRequestCard
+          v-for="request in this.recentNotifications"
+          v-bind:key="request.requestID"
+          v-bind:fromUser="request.fromUser"
+          v-bind:username="request.fromUsername"
+          v-bind:profilePicture="request.fromProfilePicture"
+          v-bind:time="request.time"
+        />
+        <div class="section">
+          <p>Options</p>
+        </div>
+        <LogoutCard/>
       </div>
     </div>
   </div>
@@ -25,9 +37,12 @@
 import { Howl, Howler } from "howler";
 import Cookie from "js-cookie";
 import FriendRequestCard from "./NotificationComponents/FriendRequestCard.vue";
+import LogoutCard from "./NotificationComponents/LogoutCard.vue"
+import env_variables from "../environment_variables.json";
 export default {
   components: {
-    FriendRequestCard
+    FriendRequestCard,
+    LogoutCard
   },
   data() {
     return {
@@ -57,7 +72,7 @@ export default {
       console.log(data);
       this.playNotificationsSound();
       // console.log(this.notification_sound);
-      this.friendRequests.push(JSON.parse(data));
+      this.recentNotifications.push(JSON.parse(data));
     });
   },
   mounted() {
@@ -79,7 +94,7 @@ export default {
       this.notification_sound.play();
     },
     updateFriendRequests() {
-      fetch("http://localhost:8989/api/friendRequests", {
+      fetch(env_variables.BASE_URL + "friendRequests", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -34,6 +34,9 @@ export default {
   grid-template-columns: 50px 100px calc(100% - 150px);
   border-bottom: rgb(235, 238, 241) solid 1px;
 }
+.friend-request-grid:hover {
+  background-color: rgb(250, 250, 250);
+}
 .profile-picture {
   grid-area: a;
   display: flex;

@@ -5,6 +5,7 @@
         <p>CLANS</p>
       </div>
       <div id="clans">
+        <Loading v-bind:active_loading="this.clans_loading_active" />
         <ClanCard
           v-for="clan in this.clans"
           v-bind:key="clan.clanID"
@@ -41,13 +42,15 @@ import PostUploadCard from "../components/PostUploadCard.vue";
 import PostCard from "../components/PostCard.vue";
 import Loading from "../components/Loading.vue";
 import Cookie from "js-cookie";
+import env_variables from "../environment_variables.json";
 export default {
   components: { ClanCard, PostUploadCard, PostCard, Loading },
   data() {
     return {
       clans: [],
       posts: [],
-      loading_active: false
+      loading_active: false,
+      clans_loading_active: false
     };
   },
   created() {
@@ -63,7 +66,8 @@ export default {
       this.loadPosts(clanid);
     },
     loadClans() {
-      fetch("http://localhost:8989/api/clans", {
+      this.clans_loading_active = true;
+      fetch(env_variables.BASE_URL + "clans", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -73,11 +77,12 @@ export default {
         .then(res => res.json())
         .then(clans => {
           this.clans = clans;
+          this.clans_loading_active = false;
         });
     },
     loadPosts(clanid) {
       this.loading_active = true;
-      fetch("http://localhost:8989/api/clanPosts", {
+      fetch(env_variables.BASE_URL + "clanPosts", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

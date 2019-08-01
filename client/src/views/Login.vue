@@ -1,35 +1,33 @@
 <template>
   <div class="login-view">
-    <div class="background">
-      <!-- <img src="https://www.natursidan.se/wp-content/uploads/2018/12/isbergerik.jpg"> -->
+    <h2 class="logo bounce-top">CLANDOO</h2>
+    <div class="description">
+      <p>The premier client for meeting new gamers and handling clans!</p>
     </div>
-    <div class="login">
-      <div class="background2">
-        <img src="https://www.bluleadz.com/hubfs/circles-257002-edited.png">
+    <div class="login-options">
+      <div class="login">
+        <h5 id="title">Log in:</h5>
+        <input type="text" placeholder="Username" v-model="login_username" />
+        <input type="password" placeholder="Password" v-model="login_password" />
+        <input type="submit" value="Log in" v-on:click="login()" />
+        <p>{{this.login_message}}</p>
       </div>
-      <h5 id="title">Log in:</h5>
-      <input type="text" placeholder="Username" v-model="login_username">
-      <input type="password" placeholder="Password" v-model="login_password">
-      <input type="submit" value="Log in" v-on:click="login()">
-      <p>{{this.login_message}}</p>
-    </div>
-    <div class="signup">
-      <div class="background2">
-        <img src="https://pegstamps.com/images/products/SCO28011_lg.jpg">
+      <div class="signup">
+        <h5 id="title">Sign up:</h5>
+        <input type="text" placeholder="Username" v-model="signup_username" />
+        <input type="text" placeholder="Email" v-model="signup_email" />
+        <input type="password" placeholder="Password" v-model="signup_password" />
+        <input type="password" placeholder="Password again" v-model="signup_password_again" />
+        <input type="submit" value="Sign Up" v-on:click="signup()" />
+        <p>{{this.signup_message}}</p>
       </div>
-      <h5 id="title">Sign up:</h5>
-      <input type="text" placeholder="Username" v-model="signup_username">
-      <input type="text" placeholder="Email" v-model="signup_email">
-      <input type="password" placeholder="Password" v-model="signup_password">
-      <input type="password" placeholder="Password Again" v-model="signup_password_again">
-      <input type="submit" value="Sign Up" v-on:click="signup()">
-      <p>{{this.signup_message}}</p>
     </div>
   </div>
 </template>
 
 <script>
 const Cookie = require("js-cookie");
+import env_variables from "../environment_variables.json";
 export default {
   data() {
     return {
@@ -46,7 +44,7 @@ export default {
   methods: {
     login() {
       //skicka request till servern för att logga in användaren, få tillbaka JWT.
-      fetch("http://localhost:8989/api/login", {
+      fetch(env_variables.BASE_URL + "login", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +67,7 @@ export default {
         });
     },
     signup() {
-      fetch("http://localhost:8989/api/signup", {
+      fetch(env_variables.BASE_URL + "signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -97,9 +95,20 @@ export default {
 <style scoped>
 .login-view {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+}
+.logo {
+  font-family: "Delius swash caps", cursive;
+}
+.description {
+  width: 300px;
+  height: auto;
+}
+.login-options {
+  display: flex;
 }
 .login,
 .signup {
@@ -108,11 +117,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 350px;
-  width: 300px;
+  height: 300px;
+  width: 250px;
   margin: 20px;
-  /* background-color: rgb(255, 255, 255);
-  border: rgb(221, 223, 226) solid 1px; */
+  background-color: rgb(255, 255, 255);
+  border: rgb(221, 223, 226) solid 1px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -128,18 +137,6 @@ export default {
 #title {
   z-index: 10;
 }
-.background2 {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  opacity: 0.8;
-  filter: blur(20px);
-  z-index: 1;
-}
-.background2 > img {
-  height: 200%;
-}
 input[type="text"],
 input[type="password"],
 input[type="submit"] {
@@ -148,9 +145,69 @@ input[type="submit"] {
   border: none;
   outline: none;
   font-size: 14px;
-  margin: 2px;
+  margin: 6px;
   border-radius: 3px;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(230, 230, 230, 0.3);
+}
+
+
+
+.bounce-top {
+  -webkit-animation: bounce-top 0.9s both;
+  animation: bounce-top 0.9s both;
+}
+
+@keyframes bounce-top {
+  0% {
+    -webkit-transform: translateY(-45px);
+    transform: translateY(-45px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 1;
+  }
+  24% {
+    opacity: 1;
+  }
+  40% {
+    -webkit-transform: translateY(-24px);
+    transform: translateY(-24px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  65% {
+    -webkit-transform: translateY(-12px);
+    transform: translateY(-12px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  82% {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  93% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  25%,
+  55%,
+  75%,
+  87% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
 }
 </style>

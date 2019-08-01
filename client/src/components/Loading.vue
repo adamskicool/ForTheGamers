@@ -18,7 +18,7 @@ export default {
   align-items: center;
   width: 100%;
   height: auto;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .loading-gif > img {
   width: 10%;

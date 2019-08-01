@@ -1,23 +1,21 @@
 <template>
   <div class="upload-post-grid box box-hover" v-show="validClanID()">
-    <div class="banner">
-      <p>NEW POST</p>
-    </div>
     <div class="message">
       <!-- <input type="textarea" placeholder="Message" wrap="true" v-model="message" /> -->
-      <textarea placeholder="Message" v-model="message"></textarea>
+      <textarea placeholder="Compose new post..." v-model="message"></textarea>
     </div>
     <div class="image">
-      <input type="text" placeholder="Image URL" v-model="imageURL" />
+      <input type="text" placeholder="Add image by entering URL" v-model="imageURL" />
     </div>
     <div class="upload">
-      <input type="button" value="Upload" v-on:click="uploadPost()" />
+      <input type="button" value="Send" v-on:click="uploadPost()" />
     </div>
   </div>
 </template>
 
 <script>
 import Cookie from "js-cookie";
+import env_variables from "../environment_variables.json";
 export default {
   data() {
     return {
@@ -35,7 +33,7 @@ export default {
         } else {
           url = this.imageURL;
         }
-        fetch("http://localhost:8989/api/post", {
+        fetch(env_variables.BASE_URL + "post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -76,16 +74,12 @@ export default {
 .upload-post-grid {
   display: grid;
   grid-template-areas:
-    "a a"
-    "b b"
-    "c d";
-  grid-template-columns: 225px 225px;
-  grid-template-rows: 30px 70px 40px;
+    "b"
+    "c"
+    "d";
+  grid-template-columns: 450px;
+  grid-template-rows: 70px 30px 30px;
   padding: 0px;
-}
-
-.banner {
-  grid-area: a;
 }
 
 .message  {
@@ -102,11 +96,26 @@ export default {
 
 .image {
   grid-area: c;
+  font-size: 12px;
+}
+.image > input {
+  width: 50%;
 }
 
 .upload {
   grid-area: d;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
+.upload > input {
+  height: 70%;
+  width: 30%;
+  border-radius: 5px;
+  margin: 5px;
+}
+
 p {
   font-size: 16px;
   padding: 0px;

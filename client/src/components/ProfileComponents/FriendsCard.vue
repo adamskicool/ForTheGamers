@@ -4,12 +4,13 @@
 
 <script>
 import Cookie from "js-cookie";
+import env_variables from "../../environment_variables.json";
 export default {
   data() {
     return {};
   },
   created() {
-    // fetch("http://localhost:8989/api/friends", {
+    // fetch(env_variables.BASE_URL + "friends", {
     //   method: "GET",
     //   headers: {
     //     "Content-Type": "application/json",

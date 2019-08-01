@@ -15,7 +15,8 @@
       />
     </div>
     <div class="give-away-search-bar">
-      <p>Search bar</p>
+      <!-- TODO: Set funtions for handling search bar press. -->
+      <GiveAwaySearchBar />
     </div>
   </div>
 </template>
@@ -26,9 +27,11 @@
 
 <script>
 import GiveAwayCard from "../components/GiveAwayCard.vue";
+import GiveAwaySearchBar from "../components/GiveAwaySearchBar.vue"
 import Loading from "../components/Loading.vue";
+import env_variables from "../environment_variables.json";
 export default {
-  components: { GiveAwayCard, Loading },
+  components: { GiveAwayCard, GiveAwaySearchBar, Loading },
   data() {
     return {
       giveaways: [],
@@ -37,7 +40,7 @@ export default {
   },
   created() {
     this.loading_active = true;
-    fetch("http://localhost:8989/api/giveAways", {
+    fetch(env_variables.BASE_URL + "giveAways", {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

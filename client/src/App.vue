@@ -93,7 +93,7 @@ export default {
 }
 .box-hover:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.005);
+  transform: scale(1.002);
 }
 
 /* For fading between different views */

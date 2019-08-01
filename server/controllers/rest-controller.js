@@ -32,9 +32,6 @@ let error = (err, message, res) => {
     }
 }
 
-
-
-
 /**
  * POST request for adding a new user
  */
@@ -279,6 +276,18 @@ app.get('/friendRequests', (req, res) => {
         .then(rows => rows[0])
         .then(results => res.json(results))
         .catch(err => error(err, "Could not get friend requests", res));
+})
+
+
+/**
+    Get information on companies.
+ */
+app.get('/companies', (req, res) => {
+    console.log("GET    /companies")
+    data_model.getCompanies()
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Could not get companies", res));
 })
 
 module.exports = app;

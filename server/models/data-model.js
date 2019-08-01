@@ -165,3 +165,12 @@ exports.getFriendRequestsToUser = (userid) => {
     let query = "SELECT * FROM friendRequestsMoreInfo WHERE toUser = '" + userid + "';"
     return connection.promise().query(query)
 }
+
+
+/**
+ *  Get all company names and associated ID:s!
+ */
+exports.getCompanies = () => {
+    let query = "SELECT companyID, companyName FROM companies;"
+    return connection.promise().query(query)
+}
