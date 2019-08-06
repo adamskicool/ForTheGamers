@@ -1,14 +1,16 @@
 <template>
-  <div class="upload-post-grid box box-hover" v-show="validClanID()">
-    <div class="message">
-      <!-- <input type="textarea" placeholder="Message" wrap="true" v-model="message" /> -->
-      <textarea placeholder="Compose new post..." v-model="message"></textarea>
-    </div>
-    <div class="image">
-      <input type="text" placeholder="Add image by entering URL" v-model="imageURL" />
-    </div>
-    <div class="upload">
-      <input type="button" value="Send" v-on:click="uploadPost()" />
+  <div class="upload-post-wrapper">
+    <div class="upload-post-grid box box-hover" v-show="validClanID()">
+      <div class="message">
+        <!-- <input type="textarea" placeholder="Message" wrap="true" v-model="message" /> -->
+        <textarea placeholder="Compose new post..." v-model="message"></textarea>
+      </div>
+      <div class="image">
+        <input type="text" placeholder="Add image by entering URL" v-model="imageURL" />
+      </div>
+      <div class="upload">
+        <input type="button" value="Send" v-on:click="uploadPost()" />
+      </div>
     </div>
   </div>
 </template>
@@ -71,13 +73,23 @@ export default {
 </script>
 
 <style scoped>
+.upload-post-wrapper {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 3px; */
+  width: 90%;
+  max-width: 500px;
+}
+
 .upload-post-grid {
   display: grid;
   grid-template-areas:
     "b"
     "c"
     "d";
-  grid-template-columns: 450px;
+  grid-template-columns: 100%;
   grid-template-rows: 70px 30px 30px;
   padding: 0px;
 }
@@ -86,7 +98,7 @@ export default {
   grid-area: b;
 }
 .message > textarea {
-  width: 450px;
+  width: 100%;
   height: 70px;
   padding: 5px;
   outline: none;

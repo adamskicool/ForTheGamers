@@ -1,19 +1,21 @@
 <template>
   <div class="home">
-    <div class="clans-wrapper box-hover">
-      <div id="banner">
-        <p>CLANS</p>
-      </div>
-      <div id="clans">
-        <Loading v-bind:active_loading="this.clans_loading_active" />
-        <ClanCard
-          v-for="clan in this.clans"
-          v-bind:key="clan.clanID"
-          v-bind:id="clan.clanID"
-          v-bind:logo="clan.logo"
-          v-bind:name="clan.name"
-          v-on:clicked="handleClanClicked"
-        />
+    <div class="clans-wrapper">
+      <div class="clans box box-hover">
+        <div id="banner">
+          <p>CLANS</p>
+        </div>
+        <div id="clans">
+          <Loading v-bind:active_loading="this.clans_loading_active" />
+          <ClanCard
+            v-for="clan in this.clans"
+            v-bind:key="clan.clanID"
+            v-bind:id="clan.clanID"
+            v-bind:logo="clan.logo"
+            v-bind:name="clan.name"
+            v-on:clicked="handleClanClicked"
+          />
+        </div>
       </div>
     </div>
     <div class="postcards">
@@ -120,14 +122,15 @@ let loadPosts = (component, clanid) => {};
 .clans-wrapper {
   grid-area: a;
   width: 100%;
-  height: auto;
-  background-color: rgb(255, 255, 255);
-  border: rgb(221, 223, 226) solid 1px;
-  border-radius: 4px;
-  margin: 8px;
-  overflow: scroll;
+  height: 100%;
+  padding: 10px;
+  overflow: visible;
 }
-.clans-wrapper > #banner {
+.clans {
+  height: 100%;
+  padding: 0px;
+}
+#banner {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,11 +139,15 @@ let loadPosts = (component, clanid) => {};
   background-color: rgb(30, 144, 255);
   color: white;
 }
-.clans-wrapper > #banner > p {
+#banner > p {
   margin: 0px;
   padding: 0px;
 }
-.clans-wrapper > #clans {
+#clans {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   padding: 8px;
 }
 .postcards {
@@ -152,5 +159,34 @@ let loadPosts = (component, clanid) => {};
   overflow: scroll;
   padding-top: 5px;
   padding-bottom: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .home {
+    display: grid;
+    grid-template-areas:
+      "a"
+      "b";
+    grid-template-columns: 100%;
+    grid-template-rows: 60px calc(100vh - 120px); /* Wierd solution */
+  }
+
+  /* make the clans banner invisible */
+  #banner {
+    height: 0px;
+    overflow: hidden;
+  }
+  /* make the clans section smaller */
+  .clans-wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+  }
+  #clans {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: scroll;
+  }
 }
 </style>

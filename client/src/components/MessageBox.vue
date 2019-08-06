@@ -149,5 +149,11 @@ p {
   font-size: 8px;
   overflow: hidden;
 }
+
+@media only screen and (max-width: 600px) {
+  .message-box {
+    display: none;
+  }
+}
 </style>
 

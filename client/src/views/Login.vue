@@ -2,7 +2,7 @@
   <div class="login-view">
     <h2 class="logo bounce-top">CLANDOO</h2>
     <div class="description">
-      <p>The premier client for meeting new gamers and handling clans!</p>
+      <p>The premier client for meeting new gamers and handling gaming clans!</p>
     </div>
     <div class="login-options">
       <div class="login">
@@ -13,7 +13,7 @@
         <p>{{this.login_message}}</p>
       </div>
       <div class="signup">
-        <h5 id="title">Sign up:</h5>
+        <h5 id="title">Create account:</h5>
         <input type="text" placeholder="Username" v-model="signup_username" />
         <input type="text" placeholder="Email" v-model="signup_email" />
         <input type="password" placeholder="Password" v-model="signup_password" />
@@ -21,6 +21,9 @@
         <input type="submit" value="Sign Up" v-on:click="signup()" />
         <p>{{this.signup_message}}</p>
       </div>
+    </div>
+    <div class="maker">
+      <p>Made by Adam Torkkeli-Johansson, Bachelors degree in Computer Science from the Royal Insitute of Technology in STHLM</p>
     </div>
   </div>
 </template>
@@ -96,16 +99,28 @@ export default {
 .login-view {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100%;
+  overflow: scroll;
 }
 .logo {
   font-family: "Delius swash caps", cursive;
+  font-size: 50px;
 }
-.description {
+.description,
+.maker {
   width: 300px;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  justify: center;
+  align-items: center;
+  text-align: center;
+}
+.maker > p {
+  font-size: 12px;
+  color: grey;
 }
 .login-options {
   display: flex;
@@ -129,11 +144,11 @@ export default {
   opacity: 1;
   z-index: 10;
 }
-/* .login:hover,
+.login:hover,
 .signup:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transform: scale(1.005);
-} */
+}
 #title {
   z-index: 10;
 }
@@ -149,9 +164,12 @@ input[type="submit"] {
   border-radius: 3px;
   z-index: 10;
   background-color: rgba(230, 230, 230, 0.3);
+  transition: all ease 300ms;
 }
-
-
+input[type="submit"]:focus {
+  background-color: rgba(50, 50, 50, 0.9);
+  color: white;
+}
 
 .bounce-top {
   -webkit-animation: bounce-top 0.9s both;
@@ -208,6 +226,14 @@ input[type="submit"] {
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .login-options {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
   }
 }
 </style>

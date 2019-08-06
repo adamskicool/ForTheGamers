@@ -9,10 +9,10 @@
       <p>{{this.time.substring(11, 16)}}</p>
     </div>
     <div class="buttons">
-      <div class="button" id="confirm">
+      <div class="button" id="confirm" v-on:click="confirmRequest()">
         <img src="../../assets/plus.png" />
       </div>
-      <div class="button" id="deny">
+      <div class="button" id="deny" v-on:click="denyRequest()">
         <img src="../../assets/plus.png" />
       </div>
     </div>
@@ -21,7 +21,17 @@
 
 <script>
 export default {
-  props: ["fromUser", "username", "profilePicture", "time"]
+  props: ["fromUser", "username", "profilePicture", "time"],
+  methods: {
+    // send via sockets that you accept the friend request.
+    confirmRequest() {
+      //TODO
+    },
+    // send via sockets that you deny the friend request.
+    denyRequest() {
+      //TODO
+    }
+  }
 };
 </script>
 

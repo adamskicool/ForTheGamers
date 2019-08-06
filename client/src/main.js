@@ -10,17 +10,20 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false
 
+import env_var from "./environment_variables.json";
+import Cookie from "js-cookie";
+
 //anslut socket.io
 import VueSocketIO from 'vue-socket.io'
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: 'https://forthegamers.herokuapp.com',
+  connection: env_var.SOCKET_CONNECTION_URL_LOCAL,
   vuex: {
     store,
     actionPrefix: 'SOCKET_',
     mutationPrefix: 'SOCKET_'
   },
-  options: {} //Optional options
+  options: {}, //Optional options
 }))
 
 new Vue({

@@ -15,7 +15,9 @@
                 Cookie.remove("id");
                 Cookie.remove("JWT");
                 this.$router.push("/login");
-                // TODO: emit logged-out event to toggle menu to close.
+                this.$store.commit("removeCurrentClanID");
+                // Emit logged-out event to toggle menu to close.
+                this.$emit("logout");
             }
         },
     }
@@ -28,6 +30,7 @@
     align-items: center;
     width: 100%;
     height: 50px;
+    border-bottom: rgb(235, 238, 241) solid 1px;
 }
 .logout-card:hover {
     background-color: rgb(250, 250, 250);

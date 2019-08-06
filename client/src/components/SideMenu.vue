@@ -27,7 +27,7 @@
         <div class="section">
           <p>Options</p>
         </div>
-        <LogoutCard/>
+        <LogoutCard v-on:logout="toggleMenu()" />
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@
 import { Howl, Howler } from "howler";
 import Cookie from "js-cookie";
 import FriendRequestCard from "./NotificationComponents/FriendRequestCard.vue";
-import LogoutCard from "./NotificationComponents/LogoutCard.vue"
+import LogoutCard from "./NotificationComponents/LogoutCard.vue";
 import env_variables from "../environment_variables.json";
 export default {
   components: {
@@ -70,7 +70,7 @@ export default {
 
     this.sockets.subscribe("FRIEND_REQUEST_UPDATE", data => {
       console.log(data);
-      this.playNotificationsSound();
+      // this.playNotificationsSound();
       // console.log(this.notification_sound);
       this.recentNotifications.push(JSON.parse(data));
     });
@@ -84,6 +84,7 @@ export default {
       if (this.current_width == "250px") {
         this.current_width = "0px";
       } else {
+        this.updateFriendRequests();
         this.current_width = "250px";
       }
       this.menu_ref.style.width = this.current_width;
@@ -102,7 +103,12 @@ export default {
         }
       })
         .then(res => res.json())
-        .then(res => (this.friendRequests = res));
+        .then(res => {
+          console.log(res);
+          if (res.success != false) {
+            this.friendRequests = res;
+          }
+        });
     }
   }
 };
@@ -138,6 +144,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   background-color: rgb(240, 240, 240);
+  border-bottom: rgb(210, 210, 210) solid 1px;
 }
 .friend-requests > .section > p {
   font-size: 14px;

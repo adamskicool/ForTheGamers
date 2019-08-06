@@ -136,6 +136,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   margin: 3px;
+  width: 100%;
 }
 .comment-input {
   position: relative;
@@ -157,7 +158,8 @@ export default {
 .card,
 .comments-wrapper {
   /* font-family: "Open Sans", sans-serif; */
-  width: 450px;
+  width: 90%;
+  max-width: 500px;
   border: none;
   /* background-color: rgb(255, 255, 255);
   border: rgb(221, 223, 226) solid 1px;
@@ -165,7 +167,7 @@ export default {
   padding: 10px; */
 }
 .comments-wrapper {
-  width: 440px;
+  width: 80%;
   height: auto;
 }
 

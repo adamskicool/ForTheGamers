@@ -93,13 +93,14 @@ Style the main options of the header... the buttons in the middle of the header.
   /* font-family: "Nunito", sans-serif; */
   font-size: 15px;
   color: white;
+  transition: all ease 200ms;
 }
 .option > button:hover {
-  color: black;
+  color: rgb(220, 220, 220);
 }
 .option:hover {
-  background-color: rgb(233, 235, 238);
-  color: black;
+  /* background-color: rgb(233, 235, 238); */
+  /* color: rgb(240, 240, 240); */
 }
 
 .logout {

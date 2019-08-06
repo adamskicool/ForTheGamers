@@ -14,6 +14,9 @@ export default new Vuex.Store({
     },
     changeCurrentClanID(state, currentClanID) {
       state.currentClanID = currentClanID;
+    },
+    removeCurrentClanID(state) {
+      state.currentClanID = null;
     }
   },
   getters: {

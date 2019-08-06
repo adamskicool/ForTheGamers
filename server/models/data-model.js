@@ -4,7 +4,6 @@ const connection = require('./../database/connect.js')
 
 let query_callback = (error, results, fields) => {
     if (error) throw error
-
 }
 /**
  * Function to add a user to the database, note that this function doesn´t hash the password, it 
@@ -103,11 +102,11 @@ exports.getComments = (postid) => {
 exports.getCommentsForComment = (postid, commentid) => {
     let query = ""
     if (commentid == -1) {
-        console.log("Base comments");
+        //console.log("Base comments");
         query = "SELECT * FROM commentsmoreinfo WHERE postID = '" + postid +
             "' AND commentedComment IS NULL ORDER BY time DESC;"
     } else {
-        console.log("Commented comments");
+        //console.log("Commented comments");
         query = "SELECT * FROM commentsmoreinfo WHERE postID = '" + postid +
             "' AND commentedComment = '" + commentid + "' ORDER BY time DESC;"
     }
@@ -154,15 +153,23 @@ exports.getFriends = (userid) => {
 /**
  * Add a friend request from user1 to user2.
  */
-exports.addFriendRequest = (user1, user2) => {
+exports.addFriendRequest = (fromUser, toUser) => {
+    let query = "INSERT INTO friendRequests (fromUser, toUser) VALUES ('" + fromUser + "', '" + toUser + "');"
+    console.log(query)
+    return connection.promise().query(query)
+}
 
+exports.getFriendRequest = (fromUser, toUser) => {
+    let query = "SELECT * FROM unacceptedFriendRequests WHERE fromUser = '" + fromUser + "' AND toUser = '" + toUser + "';"
+    console.log(query)
+    return connection.promise().query(query)
 }
 
 /**
  * Get friend requests to a specific user.
  */
 exports.getFriendRequestsToUser = (userid) => {
-    let query = "SELECT * FROM friendRequestsMoreInfo WHERE toUser = '" + userid + "';"
+    let query = "SELECT * FROM unacceptedFriendRequests WHERE toUser = '" + userid + "';"
     return connection.promise().query(query)
 }
 

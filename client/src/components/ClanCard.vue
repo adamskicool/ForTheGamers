@@ -1,13 +1,17 @@
 <template>
-  <div class="clan-grid" v-bind:class="{ selected: isSelected() }" v-on:click="$emit('clicked', id)">
+  <div class="clan-grid" v-on:click="$emit('clicked', id)">
     <!-- Visa stock-clan bild om bild-URL inte finns tillgängligt! -->
-    <img v-if="imageExists(this.logo)" v-bind:src="this.logo">
-    <img v-else src="../assets/clan_default.jpg">
-    
+    <img
+      v-if="imageExists(this.logo)"
+      v-bind:class="{ selected: isSelected() }"
+      v-bind:src="this.logo"
+    />
+    <img v-else v-bind:class="{ selected: isSelected() }" src="../assets/clan_default.jpg" />
+
     <p
       v-if="this.name.length > this.nameMaxLength"
     >{{this.name.substring(0, this.nameMaxLength) + "..."}}</p>
-    <p v-else>{{this.name}}</p>
+    <p v-else class="clan-name">{{this.name}}</p>
   </div>
 </template>
 
@@ -20,20 +24,20 @@ export default {
     };
   },
   methods: {
-    imageExists(image_url){
+    imageExists(image_url) {
       var http = new XMLHttpRequest();
-      http.open('HEAD', image_url, false);
+      http.open("HEAD", image_url, false);
       http.send();
       return http.status != 404;
     },
     isSelected() {
-      if(this.$store.state.currentClanID == this.id) {
+      if (this.$store.state.currentClanID == this.id) {
         return true;
       } else {
         return false;
       }
     }
-  },
+  }
 };
 </script>
 
@@ -49,7 +53,7 @@ export default {
   border-radius: 4px;
 }
 .selected {
-  background-color: rgb(222, 222, 222);
+  transform: scale(1.1);
 }
 .clan-grid:hover {
   background-color: whitesmoke;
@@ -59,7 +63,6 @@ export default {
   background-color: rgb(238, 238, 238);
   cursor: pointer;
 }
-
 
 .clan-grid > img {
   height: 40px;
@@ -73,5 +76,15 @@ p {
   width: auto;
   margin: 4px;
   padding: 0px;
+}
+@media only screen and (max-width: 600px) {
+  .clan-grid {
+    width: auto;
+    height: auto;
+    border-radius: 80px;
+  }
+  .clan-name {
+    display: none;
+  }
 }
 </style>

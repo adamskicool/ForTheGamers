@@ -36,7 +36,7 @@ let error = (err, message, res) => {
  * POST request for adding a new user
  */
 app.post('/signup', (req, res) => {
-    console.log('POST /signup')
+    //////console.log('POST /signup')
     let response = {
         message: '',
     }
@@ -74,7 +74,7 @@ app.post('/signup', (req, res) => {
  * is logging in a JWT for further authentication when using the application.
  */
 app.get('/login', (req, res) => {
-    console.log('GET /login')
+    //console.log('GET /login')
     let response = {
         message: '',
         JWT: null,
@@ -118,12 +118,12 @@ app.get('/login', (req, res) => {
 
 app.get('/authenticate', (req, res) => {
     let JWT_token = req.headers.authentication;
-    console.log(JWT_token)
+    //console.log(JWT_token)
     let id = req.headers.id;
     jwt.verify(JWT_token, secrets.JWT_SECRET, (err, decoded) => {
-        console.log(err)
+        //console.log(err)
         if (!err) {
-            console.log(decoded);
+            //console.log(decoded);
             if (decoded.id == id) {
                 res.json({ success: true })
             } else {
@@ -140,7 +140,7 @@ const { processMessages } = require('../models/middleware/processing.js');
 
 app.get('/user', (req, res) => {
     let userid = req.headers.userid;
-    console.log('GET /user      userID: ' + userid);
+    //console.log('GET /user      userID: ' + userid);
     data_model.getUserByID(userid)
         .then(rows => rows[0])
         .then(result => res.json(result[0]))
@@ -150,7 +150,7 @@ app.get('/user', (req, res) => {
 app.get('/messages', (req, res) => {
     //hämta id:n som skickats med requesten.
     let userid = req.headers.userid;
-    console.log('GET /messages    userID: ' + userid);
+    //console.log('GET /messages    userID: ' + userid);
     data_model.getGroupMessages(userid)
         .then(rows => processMessages(rows[0]))
         .then(result => res.json(result))
@@ -159,7 +159,7 @@ app.get('/messages', (req, res) => {
 
 app.get('/clans', (req, res) => {
     let userid = req.headers.userid;
-    console.log('GET /clans     userID: ' + userid);
+    //console.log('GET /clans     userID: ' + userid);
     data_model.getClans(userid)
         .then(rows => rows[0])
         .then(result => res.json(result))
@@ -168,7 +168,7 @@ app.get('/clans', (req, res) => {
 
 app.get('/posts', (req, res) => {
     let userid = req.headers.userid;
-    console.log('GET /posts    userID: ' + userid);
+    //console.log('GET /posts    userID: ' + userid);
     data_model.getPosts(userid)
         .then(rows => rows[0])
         .then(result => res.json(result))
@@ -177,7 +177,7 @@ app.get('/posts', (req, res) => {
 
 app.get('/clanPosts', (req, res) => {
     let clanid = req.headers.clanid;
-    console.log('GET /clanPosts     clanID: ' + clanid);
+    //console.log('GET /clanPosts     clanID: ' + clanid);
     data_model.getClanPosts(clanid)
         .then(rows => rows[0])
         .then(results => res.json(results))
@@ -189,7 +189,7 @@ app.post('/post', (req, res) => {
     let clanid = req.body.clanid
     let message = req.body.message
     let imageURL = req.body.imageURL
-    console.log("POST /post     ", userid, clanid, message, imageURL)
+    //console.log("POST /post     ", userid, clanid, message, imageURL)
     data_model.addPost(userid, clanid, message, imageURL)
         .then(rows => rows[0])
         .then(results => res.json(results))
@@ -197,15 +197,15 @@ app.post('/post', (req, res) => {
 })
 
 app.post('/comment', (req, res) => {
-    console.log('POST /comment')
+    //console.log('POST /comment')
     //TODO: lägg till en ny post!
     let postid = req.body.postid
     let userid = req.body.userid
     let message = req.body.message
     let commentedComment = req.body.commentedComment
-    console.log("Post ID: " + postid);
-    console.log("message: " + message);
-    console.log("commentedComment: " + commentedComment);
+    //console.log("Post ID: " + postid);
+    //console.log("message: " + message);
+    //console.log("commentedComment: " + commentedComment);
 
     data_model.addComment(postid, userid, message, commentedComment);
     res.json({ test: "test" })
@@ -230,7 +230,7 @@ app.post('/comment', (req, res) => {
 app.get('/commentsOnComment', (req, res) => {
     let postid = req.headers.postid;
     let commentid = req.headers.commentid;
-    console.log('GET /commentsOnComment    postID: ' + postid + ", commentID: " + commentid);
+    //console.log('GET /commentsOnComment    postID: ' + postid + ", commentID: " + commentid);
     //get the comments
     data_model.getCommentsForComment(postid, commentid)
         .then(rows => rows[0])
@@ -243,7 +243,7 @@ app.get('/commentsOnComment', (req, res) => {
  * GET the currently running giveaways available.
  */
 app.get('/giveAways', (req, res) => {
-    console.log('GET /giveAways');
+    //console.log('GET /giveAways');
     data_model.getGiveAways()
         .then(rows => rows[0])
         .then(results => res.json(results))
@@ -252,7 +252,7 @@ app.get('/giveAways', (req, res) => {
 
 app.get('/giveAwayImages', (req, res) => {
     let giveAwayID = req.headers.giveawayid;
-    console.log(giveAwayID);
+    //console.log(giveAwayID);
     data_model.getImagesForGiveAway(giveAwayID)
         .then(row => row[0])
         .then(results => res.json(results))
@@ -270,7 +270,7 @@ app.get('/friends', (req, res) => {
 
 
 app.get('/friendRequests', (req, res) => {
-    console.log("GET /friendRequests")
+    //console.log("GET /friendRequests")
     let userid = req.headers.userid;
     data_model.getFriendRequestsToUser(userid)
         .then(rows => rows[0])
@@ -283,7 +283,7 @@ app.get('/friendRequests', (req, res) => {
     Get information on companies.
  */
 app.get('/companies', (req, res) => {
-    console.log("GET    /companies")
+    //console.log("GET    /companies")
     data_model.getCompanies()
         .then(rows => rows[0])
         .then(results => res.json(results))

@@ -62,7 +62,7 @@ export default {
   grid-template-areas:
     "a"
     "b";
-  grid-template-rows: 60px calc(100vh - 60px);
+  grid-template-rows: 60px calc(100% - 60px);
   grid-template-columns: 100vw;
 }
 .header  {
