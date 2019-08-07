@@ -20,7 +20,8 @@ const socket_controller = require('./controllers/socket-controller.js');
 
 
 /**
-Datastructure for handling logged in clients
+Datastructure for handling logged in clients.
+TODO: Move to separate file and export/import it for cleaner code and code management.
 */
 class logged_in_clients {
     constructor() {
@@ -35,11 +36,20 @@ class logged_in_clients {
     }
     addClient(clientID, socketID) {
         this.clients[clientID] = socketID
+        this.toString();
     }
     removeClientByID(clientID) {
         delete this.clients[clientID]
+        this.toString();
     }
-    removeClientBySocket(socketID) {}
+    removeClientBySocketID(socketID) {
+        Object.keys(this.clients).forEach((key) => {
+            if(this.clients[key] == socketID) {
+                delete this.clients[key];
+            }
+        })
+        this.toString();
+    }
     toString() {
         console.log(this.clients)
     }

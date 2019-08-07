@@ -21,15 +21,21 @@
 
 <script>
 export default {
-  props: ["fromUser", "username", "profilePicture", "time"],
+  props: ["requestID", "fromUser", "username", "profilePicture", "time"],
   methods: {
     // send via sockets that you accept the friend request.
     confirmRequest() {
-      //TODO
+      let json = {
+        "requestid": this.requestID
+      }
+      this.$socket.emit("FRIEND_REQUEST_ACCEPTED", JSON.stringify(json));
     },
     // send via sockets that you deny the friend request.
     denyRequest() {
-      //TODO
+      let json = {
+        "requestid": this.requestID
+      }
+      this.$socket.emit("FRIEND_REQUEST_DENIED", JSON.stringify(json));
     }
   }
 };

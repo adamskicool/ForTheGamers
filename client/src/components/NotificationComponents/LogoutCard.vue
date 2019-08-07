@@ -12,12 +12,16 @@
     export default {
         methods: {
             logout() {
+                // Emit logged-out event to toggle menu to close.
+                let json = {
+                    "userid": Cookie.get("id")   
+                }
+                this.$socket.emit("USER_LOGGED_OUT", JSON.stringify(json))
+                //Rmove the logged in cookies!
                 Cookie.remove("id");
                 Cookie.remove("JWT");
                 this.$router.push("/login");
                 this.$store.commit("removeCurrentClanID");
-                // Emit logged-out event to toggle menu to close.
-                this.$emit("logout");
             }
         },
     }

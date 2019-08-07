@@ -8,6 +8,7 @@
         <FriendRequestCard
           v-for="request in this.friendRequests"
           v-bind:key="request.requestID"
+          v-bind:requestID="request.requestID"
           v-bind:fromUser="request.fromUser"
           v-bind:username="request.fromUsername"
           v-bind:profilePicture="request.fromProfilePicture"
@@ -19,6 +20,7 @@
         <FriendRequestCard
           v-for="request in this.recentNotifications"
           v-bind:key="request.requestID"
+          v-bind:requestID="request.requestID"
           v-bind:fromUser="request.fromUser"
           v-bind:username="request.fromUsername"
           v-bind:profilePicture="request.fromProfilePicture"

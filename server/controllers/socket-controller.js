@@ -4,7 +4,8 @@ const data_model = require('./../models/data-model.js');
 module.exports = (socket, io, logged_in_clients) => {
 
     socket.on("disconnect", _ => {
-        console.log("Disconnected " + socket.id);
+        console.log("Disconnected " + socket.id)
+        logged_in_clients.removeClientBySocketID(socket.id)
     });
 
     /**
@@ -14,7 +15,7 @@ module.exports = (socket, io, logged_in_clients) => {
     socket.on("USER_LOGGED_IN", data => {
         let parsed_data = JSON.parse(data)
         //add the user to the logged_in_clients
-        logged_in_clients.addClient(parsed_data.userID, socket.id)
+        logged_in_clients.addClient(parsed_data.userid, socket.id)
     });
 
     /**
@@ -24,7 +25,7 @@ module.exports = (socket, io, logged_in_clients) => {
     socket.on("USER_LOGGED_OUT", data => {
         let parsed_data = JSON.parse(data)
         //remove the user from the logged_in_clients
-        logged_in_clients.removeClient(parsed_data.userID)
+        logged_in_clients.removeClientByID(parsed_data.userid)
     });
 
     /*
@@ -82,23 +83,14 @@ module.exports = (socket, io, logged_in_clients) => {
                     .then(res => {
                         //console.log(res);
                         //Send request information to clients
-                        //TODO: Send to only affected client via socket.io-rooms.
-                        io.emit('FRIEND_REQUEST_UPDATE', JSON.stringify(res[0]));
+                        let client_socket = logged_in_clients.getClient(user2)
+                        console.log(client_socket);
+                        if(client_socket != null) {
+                            io.to(client_socket).emit('FRIEND_REQUEST_UPDATE', JSON.stringify(res[0]));
+                        }
                     })
 
             }).catch(err => console.log(err))
-
-
-        //some testing...
-        // let data2 = {
-        //     requestID: 1,
-        //     fromUser: 1,
-        //     fromUsername: "adamskicool",
-        //     fromProfilePicture: "https://scontent.fbma1-1.fna.fbcdn.net/v/t31.0-8/14444872_1296040327081056_831587077098011298_o.jpg?_nc_cat=107&_nc_oc=AQkuwl0Bvy0Tx6_oRc0YdmU4hk8lJWB5k4JrNACVutR4KSSFFm4vyf_9Al1WZCCKRi0&_nc_ht=scontent.fbma1-1.fna&oh=a2f9cad5dd3b0442889733bfc7b50d06&oe=5D788D4B",
-        //     time: "04:54"
-        // }
-        // socket.emit("FRIEND_REQUEST_UPDATE", JSON.stringify(data2));
-
     });
 
     /**
@@ -115,6 +107,13 @@ module.exports = (socket, io, logged_in_clients) => {
          * OBS! In order to do 3. some rethinking needs to happen regarding how to send info
          *      to specific users. 
          */
+        let parsed_data = JSON.parse(data)
+        const requestid = parsed_data.requestid
+        data_model.acceptFriendRequest(requestid)
+            .then(_ => {
+                
+            }).catch(err => console.log(err))
+
     });
 
     socket.on("FRIEND_REQUEST_DENIED", data => {
