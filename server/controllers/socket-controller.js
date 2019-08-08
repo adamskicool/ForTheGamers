@@ -3,6 +3,15 @@ const data_model = require('./../models/data-model.js');
 
 module.exports = (socket, io, logged_in_clients) => {
 
+    /**
+     * Emitted by the client when socket gets disconnected.
+     * This can happen in two (maybe more...) cases:
+     * 1. If the client is shut down.
+     * 2. If the client is inactive for too long.
+     * Upon disconnection, remove the client from the connected clients
+     * and thereby remove the ability for that client to recieve notifications.
+     * The ability to recieve notifications are granted when the socket reconnects.
+     */
     socket.on("disconnect", _ => {
         console.log("Disconnected " + socket.id)
         logged_in_clients.removeClientBySocketID(socket.id)
@@ -66,7 +75,6 @@ module.exports = (socket, io, logged_in_clients) => {
 
     /**
      * A user sends a friend request to another user.
-     * TODO: 
      * 1. add request via data_model
      * 2. Emit friend request to involved user.
      */
@@ -85,7 +93,7 @@ module.exports = (socket, io, logged_in_clients) => {
                         //Send request information to clients
                         let client_socket = logged_in_clients.getClient(user2)
                         console.log(client_socket);
-                        if(client_socket != null) {
+                        if (client_socket != null) {
                             io.to(client_socket).emit('FRIEND_REQUEST_UPDATE', JSON.stringify(res[0]));
                         }
                     })
@@ -98,25 +106,60 @@ module.exports = (socket, io, logged_in_clients) => {
      * data contains: 
      * 1. the id of the accepted request
      */
-    socket.on("FRIEND_REQUEST_ACCEPTED", data => {
+    socket.on("ACCEPTED_FRIEND_REQUEST", data => {
         /**
          * TODO:
          * 1. Set the boolean for thefriend request status acceptance to '1'.
          * 2. Send a message to the acceptee that it worked or failed
          * 3. Send a message to the request sendee that the request has been accepted
-         * OBS! In order to do 3. some rethinking needs to happen regarding how to send info
-         *      to specific users. 
          */
         let parsed_data = JSON.parse(data)
         const requestid = parsed_data.requestid
+        let accepted_userid = parsed_data.accepted_userid
         data_model.acceptFriendRequest(requestid)
             .then(_ => {
-                
+                data_model.getFriendRequestByID(requestid)
+                    .then(rows => rows[0])
+                    .then(res => {
+                        let accepted_user_socketid = logged_in_clients.getClient(accepted_userid)
+                        console.log(res);
+                        let json = {
+                            category: "RECENT_NOTIFICATION",
+                            title: "",
+
+                        }
+                        io.to(accepted_user_socketid).emit("NOTIFICATION_UPDATE", JSON.stringify(json))
+                    })
             }).catch(err => console.log(err))
 
     });
 
-    socket.on("FRIEND_REQUEST_DENIED", data => {
-
+    /**
+     * Handle incomming friend request denied.
+     * data contains:
+     * 1. the id of the denied request
+     */
+    socket.on("DENY_FRIEND_REQUEST", data => {
+        let parsed_data = JSON.parse(data)
+        let requestid = parsed_data.requestid
+        let denied_userid = parsed_data.denied_userid
+        /**
+         * TODO:
+         * 1. Remove the associated friend request.
+         * 2. Send a message to the deniee that it worked or failed.
+         * 3. Send a message to the request sender that the request has been denied
+         */
+        data_model.removeFriendRequest(requestid)
+            .then(_ => {
+                let denied_user_socketid = logged_in_clients.getClient(denied_userid)
+                if (denied_user_socketid != null) {
+                    let json = {
+                        "test": "test",
+                        "UPDATE_OPTION": "UPDATE_FRIEND_REQUESTS"
+                    }
+                    io.to(socket.id).emit("NOTIFICATION_UPDATE", JSON.stringify(json))
+                    io.to(denied_user_socketid).emit("NOTIFICATION_UPDATE", JSON.stringify(json))
+                }
+            }).catch(err => console.log(err))
     });
 }

@@ -159,15 +159,33 @@ exports.addFriendRequest = (fromUser, toUser) => {
     return connection.promise().query(query)
 }
 
+
 /**
- * Remove a friend request with a specific id
+ * Accept a friend request with a specific id.
  */
-exports.removeFriendRequest = (requestid) => {
-    let query = "" //TODO: Add remove query!
+exports.acceptFriendRequest = (requestid) => {
+    let query = "UPDATE friendRequests SET accepted = '1' WHERE requestID = '" + requestid + "';"
     console.log(query)
     return connection.promise().query(query)
 }
 
+/**
+ * Remove a friend request with a specific id.
+ */
+exports.removeFriendRequest = (requestid) => {
+    let query = "DELETE FROM friendRequests WHERE requestID = '" + requestid + "';"
+    console.log(query)
+    return connection.promise().query(query)
+}
+
+exports.getFriendRequestByID = (requestid) => {
+    let query = "SELECT * FROM friendRequestsMoreInfo WHERE requestID = '" + requestid + "';"
+    console.log(query)
+    return connection.promise().query(query)
+}
+/**
+ * Get requet from a specific user to another.
+ */
 exports.getFriendRequest = (fromUser, toUser) => {
     let query = "SELECT * FROM unacceptedFriendRequests WHERE fromUser = '" + fromUser + "' AND toUser = '" + toUser + "';"
     console.log(query)

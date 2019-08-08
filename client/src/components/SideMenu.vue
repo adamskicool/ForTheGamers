@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { Howl, Howler } from "howler";
 import Cookie from "js-cookie";
 import FriendRequestCard from "./NotificationComponents/FriendRequestCard.vue";
 import LogoutCard from "./NotificationComponents/LogoutCard.vue";
@@ -51,13 +50,7 @@ export default {
       current_width: "0px",
       menu_ref: null,
       friendRequests: [],
-      recentNotifications: [],
-      //does not work as of yet!
-      notification_sound: new Howl({
-        src: [
-          "client/src/assets/Full Despicable Me Theme Song - Pharrell Williams.mp3"
-        ]
-      })
+      recentNotifications: []
     };
   },
   /**
@@ -72,9 +65,13 @@ export default {
 
     this.sockets.subscribe("FRIEND_REQUEST_UPDATE", data => {
       console.log(data);
-      // this.playNotificationsSound();
-      // console.log(this.notification_sound);
       this.recentNotifications.push(JSON.parse(data));
+    });
+
+    this.sockets.subscribe("NOTIFICATION_UPDATE", data => {
+      console.log(data);
+      let parsed_data = JSON.parse(data);
+      this.applyServerUpdateOptions(parsed_data.UPDATE_OPTION);
     });
   },
   mounted() {
@@ -91,10 +88,14 @@ export default {
       }
       this.menu_ref.style.width = this.current_width;
     },
-    playNotificationsSound() {
-      // alert("Playing sounds!");
-
-      this.notification_sound.play();
+    /**
+     * This method accounts for the following server update actions:
+     * 1. UPDATE_FRIEND_REQUESTS
+     */
+    applyServerUpdateOptions(action) {
+      if (action == "UPDATE_FRIEND_REQUESTS") {
+        this.updateFriendRequests();
+      }
     },
     updateFriendRequests() {
       fetch(env_variables.BASE_URL + "friendRequests", {
@@ -106,7 +107,7 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.success != false) {
             this.friendRequests = res;
           }

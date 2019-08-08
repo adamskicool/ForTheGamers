@@ -84,7 +84,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   padding: 10px;
-  z-index: 100;
+  z-index: 10;
 }
 .content > img {
   width: 120px;

@@ -44,7 +44,7 @@ class logged_in_clients {
     }
     removeClientBySocketID(socketID) {
         Object.keys(this.clients).forEach((key) => {
-            if(this.clients[key] == socketID) {
+            if (this.clients[key] == socketID) {
                 delete this.clients[key];
             }
         })
@@ -57,21 +57,25 @@ class logged_in_clients {
 
 let clients = new logged_in_clients()
 
+//For parsing cookie upon socket connection.
 var cookie = require('cookie');
 
+/**
+ * Setup what happens when a new socket connects to this server.
+ */
 io.on('connect', (socket) => {
     console.log("Connected: " + socket.id);
-    
-    if(socket.handshake.headers.cookie != undefined) {
+    //If a cookie is defined maybe a user is logged in.
+    if (socket.handshake.headers.cookie != undefined) {
         //parse the cookie
         let cookies = cookie.parse(socket.handshake.headers.cookie)
         //if there is an id present, that is there is a user logged in, add the client to the logged_in_clients datastructure.
-        if(cookies.id != undefined) {
+        //TODO: Check if this could potentially break if users sets id-cookie and thereby can get notifications that way.
+        if (cookies.id != undefined) {
             clients.addClient(cookies.id, socket.id)
         }
     }
     
-    // console.log(socket);
     socket_controller(socket, io, clients);
 })
 

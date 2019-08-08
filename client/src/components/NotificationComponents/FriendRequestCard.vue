@@ -26,16 +26,18 @@ export default {
     // send via sockets that you accept the friend request.
     confirmRequest() {
       let json = {
-        "requestid": this.requestID
-      }
-      this.$socket.emit("FRIEND_REQUEST_ACCEPTED", JSON.stringify(json));
+        requestid: this.requestID,
+        accepted_userid: this.fromUser
+      };
+      this.$socket.emit("ACCEPTED_FRIEND_REQUEST", JSON.stringify(json));
     },
     // send via sockets that you deny the friend request.
     denyRequest() {
       let json = {
-        "requestid": this.requestID
-      }
-      this.$socket.emit("FRIEND_REQUEST_DENIED", JSON.stringify(json));
+        requestid: this.requestID,
+        denied_userid: this.fromUser
+      };
+      this.$socket.emit("DENY_FRIEND_REQUEST", JSON.stringify(json));
     }
   }
 };

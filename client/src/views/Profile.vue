@@ -125,6 +125,7 @@ export default {
     ". . b b d d . .";
   grid-template-rows: auto auto auto;
   grid-template-columns: auto 2% 15% 75px 75px 15% 2% auto;
+  z-index: 13;
 }
 
 .profile-cover {
