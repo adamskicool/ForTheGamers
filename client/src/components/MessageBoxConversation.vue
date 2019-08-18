@@ -1,5 +1,5 @@
 <template>
-  <div class="message-box">
+  <div class="message-box slide-top">
     <div class="message-top">
       <a
         data-toggle="collapse"
@@ -24,7 +24,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 .message-box {
   right: 20px;
-  width: 200px;
+  width: 180px;
   height: auto;
   z-index: 13;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -55,6 +55,32 @@ p {
   /* font-family: "Nunito", sans-serif; */
   padding: 0px;
   margin: 0px;
+}
+
+.slide-top {
+  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+}
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
 }
 
 @media only screen and (max-width: 600px) {

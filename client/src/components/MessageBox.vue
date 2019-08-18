@@ -22,6 +22,7 @@
           v-bind:fromProfilePicture="message.fromProfilePicture"
           v-bind:numberOfMessages="message.numberOfMessages"
           v-bind:latestTimestamp="message.latestTimestamp"
+          v-on:openConversation="openConversation"
         />
       </div>
     </div>
@@ -58,6 +59,9 @@ export default {
   methods: {
     toggleShowMessages() {
       this.show_messages = !this.show_messages;
+    },
+    openConversation(userID, username) {
+      this.$emit("openConversation", userID, username);
     }
   }
 };

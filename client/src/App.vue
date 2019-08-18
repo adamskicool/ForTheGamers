@@ -12,9 +12,15 @@
     </div>
     <SideMenu ref="side-menu" />
     <div class="messaging" v-show="this.$store.getters.loggedIn">
-      <MessageBoxConversation v-bind:conversationID="1" v-bind:username="'Sara'" />
-      <MessageBoxConversation v-bind:conversationID="2" v-bind:username="'Johan Carlsson'" />
-      <MessageBox />
+      <!-- <MessageBoxConversation v-bind:conversationID="1" v-bind:username="'Sara'" />
+      <MessageBoxConversation v-bind:conversationID="2" v-bind:username="'Johan Carlsson'" />-->
+      <MessageBoxConversation
+        v-for="conversation in this.conversations"
+        v-bind:key="conversation.userID"
+        v-bind:conversationID="conversation.userID"
+        v-bind:username="conversation.username"
+      />
+      <MessageBox v-on:openConversation="openConversation" />
     </div>
   </div>
 </template>
@@ -35,7 +41,8 @@ export default {
   },
   data() {
     return {
-      sidemenu: null
+      sidemenu: null,
+      conversations: []
     };
   },
   mounted() {
@@ -46,6 +53,12 @@ export default {
   methods: {
     handleMenuClicked() {
       this.sidemenu.toggleMenu();
+    },
+    openConversation(userID, username) {
+      this.conversations.unshift({
+        userID: userID,
+        username: username
+      });
     }
   }
 };

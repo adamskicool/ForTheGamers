@@ -1,5 +1,5 @@
 <template>
-  <div class="message-grid">
+  <div class="message-grid" v-on:click="$emit('openConversation', fromUserID, fromUserName)">
     <p class="from">{{this.fromUserName}}</p>
     <p class="message">{{this.numberOfMessages}}</p>
     <div class="timestamp">
