@@ -128,7 +128,7 @@ export default {
   border-left: rgb(221, 223, 226) solid 1px;
   transition: all 300ms ease-in-out;
   overflow: scroll;
-  z-index: 12;
+  z-index: 14;
 }
 .menu {
   height: 100%;

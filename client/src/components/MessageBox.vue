@@ -1,54 +1,58 @@
 <template>
-  <div class="message-box" v-show="this.$store.getters.loggedIn">
-    <div class="message-notification">
+  <div class="message-box">
+    <!-- <div class="message-notification">
       <img src="./../assets/notification-dot.png" />
-      <p>{{1}}</p>
-    </div>
+      <p>{{this.unreadMessages}}</p>
+    </div>-->
     <div class="message-top">
       <a
         data-toggle="collapse"
         href="#message-body-wrapper"
         style="position: fixed; height: 25px; width: 200px;"
       ></a>
-      <p>Meddelanden</p>
+      <p>Messages</p>
     </div>
     <div class="collapse" id="message-body-wrapper">
       <div class="message-body">
-        <div v-for="group in this.groups" class="message-grid">
-          <p class="from">{{group.groupID}}</p>
-          <p class="message">{{group.messages[0].message}}</p>
-          <div class="timestamp">
-            <p>{{group.messages[0].timestamp.substring(0, 10)}}</p>
-            <p>{{group.messages[0].timestamp.substring(11, 16)}}</p>
-          </div>
-        </div>
+        <MessageCardSmall
+          v-for="message in this.conversations"
+          v-bind:key="message.fromUserID"
+          v-bind:fromUserID="message.fromUserID"
+          v-bind:fromUserName="message.fromUserName"
+          v-bind:fromProfilePicture="message.fromProfilePicture"
+          v-bind:numberOfMessages="message.numberOfMessages"
+          v-bind:latestTimestamp="message.latestTimestamp"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
 const env_var = require("./../environment_variables.json");
+import MessageCardSmall from "./MessageComponents/MessageCardSmall.vue";
+import Cookie from "js-cookie";
 export default {
+  components: { MessageCardSmall },
   data() {
     return {
       show_messages: false,
-      unreadMessages: 9,
-      groups: []
+      unreadMessages: 0,
+      conversations: []
     };
   },
   created() {
     //get the messages related to the user that is logged in.
-    let userid = 2;
-    fetch(env_var.BASE_URL + "/messages", {
+    fetch(env_var.BASE_URL + "userConversations", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        userid: userid
+        userid: Cookie.get("id")
       }
     })
       .then(res => res.json())
       .then(res => {
-        this.groups = res;
+        console.log(res);
+        this.conversations = res;
       });
   },
   methods: {
@@ -61,13 +65,12 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 .message-box {
-  position: fixed;
-  bottom: 0px;
-  right: 100px;
+  right: 20px;
   width: 200px;
   height: auto;
-  margin-right: 20px;
   z-index: 13;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-right: 10px;
 }
 .message-notification {
   position: absolute;
@@ -114,40 +117,6 @@ p {
   /* font-family: "Nunito", sans-serif; */
   padding: 0px;
   margin: 0px;
-}
-.message-grid {
-  width: 100%;
-  padding: 2px 5px 2px 5px;
-  display: grid;
-  grid-template-areas:
-    "a c"
-    "b c";
-  grid-template-columns: 70% 30%;
-  grid-template-rows: 20px 30px;
-  border-bottom: solid rgb(221, 223, 226) 1px;
-}
-.message-grid:hover {
-  background-color: whitesmoke;
-  cursor: pointer;
-}
-.message-grid > .from {
-  grid-area: a;
-  font-size: 12px;
-  overflow: hidden;
-}
-.message-grid > .message {
-  grid-area: b;
-  font-size: 10px;
-  overflow: hidden;
-}
-.message-grid > .timestamp {
-  grid-area: c;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 8px;
-  overflow: hidden;
 }
 
 @media only screen and (max-width: 600px) {

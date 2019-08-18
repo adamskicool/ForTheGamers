@@ -11,7 +11,11 @@
       </div>
     </div>
     <SideMenu ref="side-menu" />
-    <MessageBox />
+    <div class="messaging" v-show="this.$store.getters.loggedIn">
+      <MessageBoxConversation v-bind:conversationID="1" v-bind:username="'Sara'" />
+      <MessageBoxConversation v-bind:conversationID="2" v-bind:username="'Johan Carlsson'" />
+      <MessageBox />
+    </div>
   </div>
 </template>
 
@@ -19,12 +23,14 @@
 import Header from "./components/Header.vue";
 import SideMenu from "./components/SideMenu.vue";
 import MessageBox from "./components/MessageBox.vue";
+import MessageBoxConversation from "./components/MessageBoxConversation.vue";
 import GroupBox from "./components/GroupBox.vue";
 export default {
   components: {
     Header,
     SideMenu,
     MessageBox,
+    MessageBoxConversation,
     GroupBox
   },
   data() {
@@ -111,6 +117,18 @@ export default {
 .header-empty {
   width: 100vw;
   height: 60px;
+}
+
+.messaging {
+  position: fixed;
+  bottom: 0px;
+  height: auto;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 </style>
 

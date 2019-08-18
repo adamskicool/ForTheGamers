@@ -290,4 +290,26 @@ app.get('/companies', (req, res) => {
         .catch(err => error(err, "Could not get companies", res));
 })
 
+/**
+    Get the open user-conversations for a user.
+ */
+app.get('/userConversations', (req, res) => {
+    let userid = req.headers.userid
+    data_model.getUserConversations(userid)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Could not get user conversations", res));
+})
+
+/**
+    Get the open group-conversations for a user.
+ */
+app.get('/groupConversations', (req, res) => {
+    let userid = req.headers.userid
+    data_model.getGroupConversations(userid)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Could not get user conversations", res));
+})
+
 module.exports = app;

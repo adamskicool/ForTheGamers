@@ -208,3 +208,12 @@ exports.getCompanies = () => {
     let query = "SELECT companyID, companyName FROM companies;"
     return connection.promise().query(query)
 }
+
+
+/**
+ * Get the open user-conversations for a user.
+ */
+exports.getUserConversations = (userid) => {
+    let query = "SELECT * FROM userConversations WHERE toUserID = '" + userid + "';"
+    return connection.promise().query(query)
+}
