@@ -9,7 +9,13 @@
       <p>{{this.username}}</p>
     </div>
     <div class="collapse" v-bind:id="'message-body-wrapper' + this.conversationID">
-      <div class="message-body"></div>
+      <div class="message-body ">
+        <div class="message-view">
+        </div>
+        <div class="message-input">
+          <input type="text" placeholder="Type message here"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,10 +50,13 @@ export default {
   color: white;
 }
 .message-body {
-  width: 100%;
-  height: 300px;
+  display: grid;
+  grid-template-areas: 
+    'a'
+    'b';
+  grid-template-rows: 260px 40px;
+  grid-template-columns: 100%;
   background-color: white;
-  overflow-y: scroll;
   border-left: solid rgb(221, 223, 226) 1px;
   border-right: solid rgb(221, 223, 226) 1px;
 }
@@ -56,6 +65,22 @@ p {
   padding: 0px;
   margin: 0px;
 }
+
+.message-view {
+  grid-area: a;
+}
+.message-input {
+  grid-area: b;
+}
+
+
+
+
+
+
+
+
+
 
 .slide-top {
   -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

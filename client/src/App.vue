@@ -15,12 +15,13 @@
       <!-- <MessageBoxConversation v-bind:conversationID="1" v-bind:username="'Sara'" />
       <MessageBoxConversation v-bind:conversationID="2" v-bind:username="'Johan Carlsson'" />-->
       <MessageBoxConversation
-        v-for="conversation in this.conversations"
+        v-for="conversation in this.$store.state.userConversations"
         v-bind:key="conversation.userID"
         v-bind:conversationID="conversation.userID"
         v-bind:username="conversation.username"
       />
-      <MessageBox v-on:openConversation="openConversation" />
+      <!-- <MessageBox v-on:openConversation="openConversation" /> -->
+      <MessageBox />
     </div>
   </div>
 </template>
@@ -54,12 +55,12 @@ export default {
     handleMenuClicked() {
       this.sidemenu.toggleMenu();
     },
-    openConversation(userID, username) {
-      this.conversations.unshift({
-        userID: userID,
-        username: username
-      });
-    }
+    // openConversation(userID, username) {
+    //   this.conversations.unshift({
+    //     userID: userID,
+    //     username: username
+    //   });
+    // }
   }
 };
 </script>
@@ -135,13 +136,14 @@ export default {
 .messaging {
   position: fixed;
   bottom: 0px;
-  height: auto;
+  height: 40px;
   width: 100vw;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   padding-right: 20px;
   padding-left: 20px;
+  overflow: visible;
 }
 </style>
 

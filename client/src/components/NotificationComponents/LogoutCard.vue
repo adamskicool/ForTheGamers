@@ -21,7 +21,7 @@
                 Cookie.remove("id");
                 Cookie.remove("JWT");
                 this.$router.push("/login");
-                this.$store.commit("removeCurrentClanID");
+                this.$store.commit("logout");
             }
         },
     }

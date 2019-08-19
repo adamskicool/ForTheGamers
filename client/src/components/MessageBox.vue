@@ -14,6 +14,9 @@
     </div>
     <div class="collapse" id="message-body-wrapper">
       <div class="message-body">
+        <div class="switch">
+          Här ska vara en toggle
+        </div>
         <MessageCardSmall
           v-for="message in this.conversations"
           v-bind:key="message.fromUserID"
@@ -61,7 +64,10 @@ export default {
       this.show_messages = !this.show_messages;
     },
     openConversation(userID, username) {
-      this.$emit("openConversation", userID, username);
+      // this.$emit("openConversation", userID, username);
+      //add the conversation to the existing converstaions in the store.
+      this.$store.commit("openUserConversation", {userID, username})
+      console.log(this.$store.state.userConversations)
     }
   }
 };
@@ -121,6 +127,11 @@ p {
   /* font-family: "Nunito", sans-serif; */
   padding: 0px;
   margin: 0px;
+}
+
+.switch {
+  width: 100%;
+  height: 30px;
 }
 
 @media only screen and (max-width: 600px) {
