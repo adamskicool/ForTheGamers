@@ -104,7 +104,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   overflow: scroll;
 }
 .logo {
@@ -117,7 +117,7 @@ export default {
   height: auto;
   display: flex;
   flex-direction: column;
-  justify: center;
+  justify-content: center;
   align-items: center;
   text-align: center;
 }
