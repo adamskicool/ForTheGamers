@@ -36,11 +36,11 @@ class logged_in_clients {
     }
     addClient(clientID, socketID) {
         this.clients[clientID] = socketID
-        this.toString();
+        // this.toString();
     }
     removeClientByID(clientID) {
         delete this.clients[clientID]
-        this.toString();
+        // this.toString();
     }
     removeClientBySocketID(socketID) {
         Object.keys(this.clients).forEach((key) => {
@@ -48,7 +48,7 @@ class logged_in_clients {
                 delete this.clients[key];
             }
         })
-        this.toString();
+        // this.toString();
     }
     toString() {
         console.log(this.clients)
@@ -64,7 +64,7 @@ var cookie = require('cookie');
  * Setup what happens when a new socket connects to this server.
  */
 io.on('connect', (socket) => {
-    console.log("Connected: " + socket.id);
+    // console.log("Connected: " + socket.id);
     //If a cookie is defined maybe a user is logged in.
     if (socket.handshake.headers.cookie != undefined) {
         //parse the cookie
@@ -75,7 +75,7 @@ io.on('connect', (socket) => {
             clients.addClient(cookies.id, socket.id)
         }
     }
-    
+
     socket_controller(socket, io, clients);
 })
 

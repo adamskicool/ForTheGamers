@@ -13,7 +13,7 @@ module.exports = (socket, io, logged_in_clients) => {
      * The ability to recieve notifications are granted when the socket reconnects.
      */
     socket.on("disconnect", _ => {
-        console.log("Disconnected " + socket.id)
+        // console.log("Disconnected " + socket.id)
         logged_in_clients.removeClientBySocketID(socket.id)
     });
 
@@ -162,4 +162,26 @@ module.exports = (socket, io, logged_in_clients) => {
                 }
             }).catch(err => console.log(err))
     });
+
+    /**
+     * Socket event that fires when a user sends a message to another user.
+     */
+    socket.on("MESSAGE_SENT", data => {
+        let parsed_data = JSON.parse(data)
+        let fromUser = parsed_data.fromUser
+        let toUser = parsed_data.toUser
+        let message = parsed_data.message
+        console.log("From user: " + fromUser + ". To user: " + toUser + ". Message: " + message)
+        data_model.addUserMessage(fromUser, toUser, message)
+            .then(_ => {
+                let socketid = logged_in_clients.getClient(toUser);
+                logged_in_clients.toString();
+                console.log(socketid)
+                let json = {
+                    fromUser: fromUser,
+                    message: message
+                }
+                io.to(socketid).emit("MESSAGE_RECIEVED", JSON.stringify(json));
+            }).catch(err => console.log(err))
+    })
 }

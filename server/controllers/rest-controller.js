@@ -312,4 +312,17 @@ app.get('/groupConversations', (req, res) => {
         .catch(err => error(err, "Could not get user conversations", res));
 })
 
+/**
+ * Get the messages between two users.
+ */
+app.get('/conversationMessages', (req, res) => {
+    let user1 = req.headers.user1
+    let user2 = req.headers.user2
+    data_model.getConversationMessages(user1, user2)
+        .then(rows => rows[0])
+        .then(results => res.json(results))
+        .catch(err => error(err, "Could not get conversation messages", res));
+})
+
+
 module.exports = app;

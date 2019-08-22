@@ -19,6 +19,8 @@
         v-bind:key="conversation.userID"
         v-bind:conversationID="conversation.userID"
         v-bind:username="conversation.username"
+        v-bind:userProfilePicture="conversation.userProfilePicture"
+        v-bind:messages="conversation.messages"
       />
       <!-- <MessageBox v-on:openConversation="openConversation" /> -->
       <MessageBox />
@@ -51,10 +53,16 @@ export default {
     // console.log(this.$refs["side-menu"]);
     this.sidemenu = this.$refs["side-menu"];
   },
+  created() {
+    this.sockets.subscribe("MESSAGE_RECIEVED", data => {
+      let parsed_data = JSON.parse(data);
+      console.log(parsed_data);
+    });
+  },
   methods: {
     handleMenuClicked() {
       this.sidemenu.toggleMenu();
-    },
+    }
     // openConversation(userID, username) {
     //   this.conversations.unshift({
     //     userID: userID,

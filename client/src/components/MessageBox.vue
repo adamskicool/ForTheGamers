@@ -14,10 +14,8 @@
     </div>
     <div class="collapse" id="message-body-wrapper">
       <div class="message-body">
-        <div class="switch">
-          Här ska vara en toggle
-        </div>
-        <MessageCardSmall
+        <div class="switch">Här ska vara en toggle</div>
+        <ConversationCardSmall
           v-for="message in this.conversations"
           v-bind:key="message.fromUserID"
           v-bind:fromUserID="message.fromUserID"
@@ -33,10 +31,10 @@
 </template>
 <script>
 const env_var = require("./../environment_variables.json");
-import MessageCardSmall from "./MessageComponents/MessageCardSmall.vue";
+import ConversationCardSmall from "./MessageComponents/ConversationCardSmall.vue";
 import Cookie from "js-cookie";
 export default {
-  components: { MessageCardSmall },
+  components: { ConversationCardSmall },
   data() {
     return {
       show_messages: false,
@@ -63,11 +61,14 @@ export default {
     toggleShowMessages() {
       this.show_messages = !this.show_messages;
     },
-    openConversation(userID, username) {
+    openConversation(userID, username, userProfilePicture) {
       // this.$emit("openConversation", userID, username);
       //add the conversation to the existing converstaions in the store.
-      this.$store.commit("openUserConversation", {userID, username})
-      console.log(this.$store.state.userConversations)
+      this.$store.commit("openUserConversation", {
+        userID,
+        username,
+        userProfilePicture
+      });
     }
   }
 };

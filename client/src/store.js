@@ -24,17 +24,18 @@ export default new Vuex.Store({
     removeCurrentClanID(state) {
       state.currentClanID = null;
     },
-    openUserConversation(state, {userID, username}) {
+    openUserConversation(state, { userID, username, userProfilePicture }) {
       let foundDouble = false;
-      for(var i = 0; i < state.userConversations.length; i++) {
-        if(state.userConversations[i].userID == userID) {
+      for (var i = 0; i < state.userConversations.length; i++) {
+        if (state.userConversations[i].userID == userID) {
           foundDouble = true;
         }
       }
-      if(!foundDouble) {
+      if (!foundDouble) {
         state.userConversations.unshift({
           userID: userID,
-          username: username
+          username: username,
+          userProfilePicture: userProfilePicture
         });
       }
     }

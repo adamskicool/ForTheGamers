@@ -217,3 +217,24 @@ exports.getUserConversations = (userid) => {
     let query = "SELECT * FROM userConversations WHERE toUserID = '" + userid + "';"
     return connection.promise().query(query)
 }
+
+exports.getConversationMessages = (user1, user2) => {
+    let query = `SELECT * FROM userMessages WHERE  
+    (toUserID = '` + user1 + `' AND fromUserID = '` + user2 + `') OR
+    (toUserID = '` + user2 + `' AND fromUserID = '` + user1 + `') 
+    ORDER BY timestamp DESC;
+    `
+    return connection.promise().query(query)
+}
+
+exports.addUserMessage = (fromUser, toUser, message) => {
+    let query =
+        `
+    INSERT INTO messages (fromUserID, toUserID, message) VALUES (
+        '` + fromUser + `',
+        '` + toUser + `',
+        '` + message + `'
+    );
+    `
+    return connection.promise().query(query)
+}
