@@ -210,6 +210,11 @@ exports.getCompanies = () => {
 }
 
 
+exports.getMessageByID = (messageid) => {
+    let query = "SELECT * FROM userMessages WHERE messageID = '" + messageid + "';"
+    return connection.promise().query(query)
+}
+
 /**
  * Get the open user-conversations for a user.
  */

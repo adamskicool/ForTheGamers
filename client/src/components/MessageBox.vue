@@ -112,6 +112,7 @@ export default {
   align-items: center;
   background-color: rgb(30, 144, 255);
   border-radius: 5px 5px 0px 0px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.14);
 }
 .message-top > p {
   color: white;

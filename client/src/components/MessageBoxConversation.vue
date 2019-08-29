@@ -15,11 +15,26 @@
             v-for="message in this.messages"
             v-bind:key="message.messageID"
             v-bind:message="message.message"
+            v-bind:timestamp="message.timestamp"
+            v-bind:userProfilePicture="message.profilePicture"
             v-bind:alignment="checkAlignment(message)"
           />
         </div>
         <div class="message-input">
           <input type="text" placeholder="Type message .." v-model="inputMessage" />
+        </div>
+        <div class="emoji-picker">
+          <picker
+            class="picker"
+            v-show="this.showEmojiPicker"
+            title="Pick your emoji..."
+            v-bind:emojiSize="20"
+            v-bind:sheetSize="64"
+            v-bind:showPreview="false"
+            v-bind:infiniteScroll="false"
+            @select="addEmoji"
+          />
+          <button @mousedown.prevent="toggleEmojiPicker()"></button>
         </div>
         <div class="message-button" v-on:click="sendMessage()">
           <img src="../assets/send.png" />
@@ -33,31 +48,37 @@
 const env_var = require("./../environment_variables.json");
 import Cookie from "js-cookie";
 import MessageBubbleSmall from "./MessageComponents/MessageBubbleSmall.vue";
+import { Picker } from "emoji-mart-vue";
 export default {
-  props: ["conversationID", "username", "userProfilePicture"],
+  props: ["conversationID", "username", "userProfilePicture", "messages"],
   components: {
-    MessageBubbleSmall
+    MessageBubbleSmall,
+    Picker
+  },
+  created() {
+    alert(this.userProfilePicture);
   },
   data() {
     return {
-      messages: [],
-      inputMessage: null
+      inputMessage: "",
+      showEmojiPicker: false
     };
   },
   created() {
-    fetch(env_var.BASE_URL + "conversationMessages", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        user1: Cookie.get("id"),
-        user2: this.conversationID
-      }
-    })
-      .then(res => res.json())
-      .then(res => (this.messages = res));
+    // fetch(env_var.BASE_URL + "conversationMessages", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     user1: Cookie.get("id"),
+    //     user2: this.conversationID
+    //   }
+    // })
+    //   .then(res => res.json())
+    //   .then(res => (this.messages = res));
   },
   methods: {
     checkAlignment(message) {
+      // console.log(message.fromUserID);
       if (message.fromUserID != Cookie.get("id")) {
         return "left";
       } else {
@@ -66,14 +87,21 @@ export default {
     },
     sendMessage() {
       let message = this.inputMessage;
-      if (message != null) {
+      if (message != null && message != "") {
         let data = {
           fromUser: Cookie.get("id"),
           toUser: this.conversationID,
           message: message
         };
         this.$socket.emit("MESSAGE_SENT", JSON.stringify(data));
+        this.inputMessage = null;
       }
+    },
+    toggleEmojiPicker() {
+      this.showEmojiPicker = !this.showEmojiPicker;
+    },
+    addEmoji(emoji) {
+      this.inputMessage += emoji.native;
     }
   }
 };
@@ -97,6 +125,7 @@ export default {
   align-items: center;
   background-color: rgb(24, 202, 63);
   border-radius: 5px 5px 0px 0px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.14);
 }
 .message-top > p {
   color: white;
@@ -105,10 +134,10 @@ export default {
 .message-body {
   display: grid;
   grid-template-areas:
-    "a a"
-    "b c";
+    "a a a"
+    "b d c";
   grid-template-rows: 265px 35px;
-  grid-template-columns: calc(100% - 35px) 35px;
+  grid-template-columns: calc(100% - 35px - 35px) 35px 35px;
   background-color: white;
   border-left: solid rgb(221, 223, 226) 1px;
   border-right: solid rgb(221, 223, 226) 1px;
@@ -163,30 +192,22 @@ p {
   border-top: 1px solid whitesmoke;
 }
 
-.slide-top {
-  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+.emoji-picker {
+  position: relative;
+  grid-area: d;
+  z-index: 100;
+  /* overflow: hidden; */
+  /* display: none; */
 }
-
-@-webkit-keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(20px);
-    transform: translateY(20px);
-  }
-  100% {
-    -webkit-transform: translateY(0px);
-    transform: translateY(0px);
-  }
+.emoji-picker > .picker {
+  position: absolute;
+  bottom: 150px;
+  left: -200px;
 }
-@keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(20px);
-    transform: translateY(20px);
-  }
-  100% {
-    -webkit-transform: translateY(0px);
-    transform: translateY(0px);
-  }
+.emoji-picker > button {
+  /* position: fixed;
+  bottom: 0px;
+  left: 0px; */
 }
 
 @media only screen and (max-width: 600px) {

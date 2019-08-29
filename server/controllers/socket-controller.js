@@ -122,7 +122,7 @@ module.exports = (socket, io, logged_in_clients) => {
                     .then(rows => rows[0])
                     .then(res => {
                         let accepted_user_socketid = logged_in_clients.getClient(accepted_userid)
-                        console.log(res);
+                        // console.log(res);
                         let json = {
                             category: "RECENT_NOTIFICATION",
                             title: "",
@@ -171,17 +171,36 @@ module.exports = (socket, io, logged_in_clients) => {
         let fromUser = parsed_data.fromUser
         let toUser = parsed_data.toUser
         let message = parsed_data.message
-        console.log("From user: " + fromUser + ". To user: " + toUser + ". Message: " + message)
+        // console.log("Message from user: " + fromUser + ". To user: " + toUser + ". Message: " + message)
         data_model.addUserMessage(fromUser, toUser, message)
-            .then(_ => {
+            .then(res => {
                 let socketid = logged_in_clients.getClient(toUser);
+                let socketid2 = logged_in_clients.getClient(fromUser);
                 logged_in_clients.toString();
-                console.log(socketid)
-                let json = {
-                    fromUser: fromUser,
-                    message: message
-                }
-                io.to(socketid).emit("MESSAGE_RECIEVED", JSON.stringify(json));
+
+                data_model.getMessageByID(res[0].insertId)
+                    .then(rows => rows[0][0]) //TODO: Is this right? Dont know...
+                    .then(res => {
+                        // console.log(res);
+                        let json = {
+                            conversationID: res.fromUserID,
+                            fromUser: res.fromUserID,
+                            profilePicture: res.profilePicture,
+                            timestamp: res.timestamp,
+                            message: res.message
+                        }
+                        let json2 = {
+                            conversationID: res.toUserID,
+                            fromUser: res.fromUserID,
+                            profilePicture: res.profilePicture,
+                            timestamp: res.timestamp,
+                            message: res.message
+                        }
+                        // console.log(json);
+                        io.to(socketid2).emit("MESSAGE_RECIEVED", JSON.stringify(json2));
+                        io.to(socketid).emit("MESSAGE_RECIEVED", JSON.stringify(json));
+
+                    })
             }).catch(err => console.log(err))
     })
 }
