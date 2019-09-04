@@ -7,6 +7,9 @@
         style="position: fixed; height: 25px; width: 200px;"
       ></a>
       <p>{{this.username}}</p>
+      <div class="exit-button" v-on:click="closeConversation">
+        <img src="../assets/exit.png" />
+      </div>
     </div>
     <div class="collapse" v-bind:id="'message-body-wrapper' + this.conversationID">
       <div class="message-body">
@@ -24,7 +27,7 @@
           <input type="text" placeholder="Type message .." v-model="inputMessage" />
         </div>
         <div class="emoji-picker">
-          <picker
+          <!-- <picker
             class="picker"
             v-show="this.showEmojiPicker"
             title="Pick your emoji..."
@@ -33,7 +36,7 @@
             v-bind:showPreview="false"
             v-bind:infiniteScroll="false"
             @select="addEmoji"
-          />
+          />-->
           <button @mousedown.prevent="toggleEmojiPicker()"></button>
         </div>
         <div class="message-button" v-on:click="sendMessage()">
@@ -56,25 +59,13 @@ export default {
     Picker
   },
   created() {
-    alert(this.userProfilePicture);
+    // alert(this.userProfilePicture);
   },
   data() {
     return {
       inputMessage: "",
       showEmojiPicker: false
     };
-  },
-  created() {
-    // fetch(env_var.BASE_URL + "conversationMessages", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     user1: Cookie.get("id"),
-    //     user2: this.conversationID
-    //   }
-    // })
-    //   .then(res => res.json())
-    //   .then(res => (this.messages = res));
   },
   methods: {
     checkAlignment(message) {
@@ -84,6 +75,9 @@ export default {
       } else {
         return "right";
       }
+    },
+    closeConversation() {
+      this.$store.commit("closeConversation", this.conversationID);
     },
     sendMessage() {
       let message = this.inputMessage;
@@ -131,6 +125,21 @@ export default {
   color: white;
   font-size: 14px;
 }
+.exit-button {
+  position: absolute;
+  right: -7px;
+  top: -12px;
+  height: 20px;
+  width: 20px;
+}
+.exit-button:hover {
+  cursor: pointer;
+}
+.exit-button > img {
+  height: 100%;
+  width: 100%;
+}
+
 .message-body {
   display: grid;
   grid-template-areas:

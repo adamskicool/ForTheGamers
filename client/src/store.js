@@ -40,7 +40,7 @@ export default new Vuex.Store({
     },
     changeLoggedIn(state, loggedInValue) {
       state.loggedIn = loggedInValue;
-      if(state.loggedIn) {
+      if (state.loggedIn) {
         this.commit("updateConversationList");
       }
     },
@@ -127,6 +127,16 @@ export default new Vuex.Store({
       }
 
 
+    },
+    closeConversation(state, conversationID) {
+      let conversations = state.userConversations;
+      for (var i = 0; i < conversations.length; i++) {
+        let conversation = conversations[i];
+        if (conversation.userID == conversationID) {
+          conversations.splice(i, 1);
+          break;
+        }
+      }
     }
   },
   getters: {
