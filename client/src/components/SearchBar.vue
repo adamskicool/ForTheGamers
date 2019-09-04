@@ -1,18 +1,18 @@
 <template>
-  <div class="search-bar box">
+  <div class="search-bar box box-hover">
     <p>Search for gamers</p>
     <div class="search-name">
-      <input type="text" placeholder="Name">
-      <input type="button" value="Search">
+      <input type="text" placeholder="Name" />
+      <input type="button" value="Search" />
     </div>
     <div class="search-games">
-      <input type="text" placeholder="Add games" id="add-game">
-      <input type="button" value="Add" v-on:click="addGameToSearch">
+      <input type="text" placeholder="Add games" id="add-game" />
+      <input type="button" value="Add" v-on:click="addGameToSearch" />
     </div>
     <div class="selected-games">
       <div class="selected-game" v-for="game in this.selectedGames" v-bind:key="game">
         <p>{{game}}</p>
-        <img src="../assets/remove.svg" v-on:click="removeSelectedGame(game)">
+        <img src="../assets/remove.svg" v-on:click="removeSelectedGame(game)" />
       </div>
     </div>
   </div>

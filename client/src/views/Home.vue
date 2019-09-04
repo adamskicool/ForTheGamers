@@ -25,6 +25,7 @@
         v-for="post in this.posts"
         v-bind:key="post.postID"
         v-bind:id="post.postID"
+        v-bind:authorID="post.userID"
         v-bind:author="post.username"
         v-bind:image="post.imageURL"
         v-bind:message="post.message"

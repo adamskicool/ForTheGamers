@@ -14,9 +14,9 @@
     </div>
     <div class="collapse" id="message-body-wrapper">
       <div class="message-body">
-        <div class="switch">Här ska vara en toggle</div>
+        <!-- <div class="switch">Här ska vara en toggle</div> -->
         <ConversationCardSmall
-          v-for="message in this.conversations"
+          v-for="message in this.$store.state.conversationList"
           v-bind:key="message.fromUserID"
           v-bind:fromUserID="message.fromUserID"
           v-bind:fromUserName="message.fromUserName"
@@ -39,23 +39,23 @@ export default {
     return {
       show_messages: false,
       unreadMessages: 0,
-      conversations: []
+      // conversations: []
     };
   },
   created() {
-    //get the messages related to the user that is logged in.
-    fetch(env_var.BASE_URL + "userConversations", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        userid: Cookie.get("id")
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        this.conversations = res;
-      });
+    // //get the messages related to the user that is logged in.
+    // fetch(env_var.BASE_URL + "userConversations", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     userid: Cookie.get("id")
+    //   }
+    // })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     console.log(res);
+    //     this.conversations = res;
+    //   });
   },
   methods: {
     toggleShowMessages() {

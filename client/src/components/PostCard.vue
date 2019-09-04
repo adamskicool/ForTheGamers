@@ -2,7 +2,7 @@
   <div class="card-wrapper">
     <!-- själva kortet -->
     <div class="card box box-hover">
-      <a href="profile" class="author-post">{{this.author}}</a>
+      <a v-on:click="$router.push('profile/' + authorID)" class="author-post">{{this.author}}</a>
       <p class="timestamp-post">{{this.timestamp.substring(0, 10)}}</p>
       <p class="message">{{this.message}}</p>
       <img v-if="checkImage()" class="image" v-bind:src="this.image" />
@@ -55,7 +55,16 @@ import Cookie from "js-cookie";
 import PostCardComment from "./PostCardComment";
 import env_variables from "../environment_variables.json";
 export default {
-  props: ["id", "author", "title", "message", "image", "timestamp", "likes"],
+  props: [
+    "id",
+    "authorID",
+    "author",
+    "title",
+    "message",
+    "image",
+    "timestamp",
+    "likes"
+  ],
   components: { PostCardComment },
   data() {
     return {
@@ -177,6 +186,10 @@ export default {
   color: rgb(57, 90, 150);
   margin: 2px;
 }
+.author-post:hover {
+  cursor: pointer;
+}
+
 .timestamp-post {
   font-size: 10px;
 }

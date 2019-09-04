@@ -28,22 +28,45 @@ export default new Vuex.Store({
      *  ]
      * }
      */
-    userConversations: []
+    userConversations: [],
+    conversationList: []
   },
   mutations: {
     logout(state) {
       state.loggedIn = false;
       state.currentClanID = null;
       state.userConversations = [];
+      state.conversationList = [];
     },
     changeLoggedIn(state, loggedInValue) {
       state.loggedIn = loggedInValue;
+      if(state.loggedIn) {
+        this.commit("updateConversationList");
+      }
     },
     changeCurrentClanID(state, currentClanID) {
       state.currentClanID = currentClanID;
     },
     removeCurrentClanID(state) {
       state.currentClanID = null;
+    },
+    /**
+     * Update the converstaions.
+     */
+    updateConversationList(state) {
+      //get the messages related to the user that is logged in.
+      fetch(env_var.BASE_URL + "userConversations", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: Cookie.get("id")
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          // console.log(res);
+          state.conversationList = res;
+        });
     },
     /**
      * Open a new conversation box, preloaded with the messages of the conversation

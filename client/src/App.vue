@@ -114,8 +114,15 @@ export default {
   transition: all 200ms ease;
 }
 .box-hover:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.002);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transform: scale(1.001);
+}
+
+.rounded-image {
+  height: 90%;
+  width: 90%;
+  border-radius: 100%;
+  border: 1px solid rgb(220, 220, 220);
 }
 
 /* For fading between different views */
