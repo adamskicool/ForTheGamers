@@ -147,6 +147,20 @@ app.get('/user', (req, res) => {
         .catch(err => error(err, "Failed to get user details", res))
 })
 
+/**
+ * Get a subset of users dependent on the following query parameters:
+ * 1. username
+ * 2. Liked games.
+ * 3. Mutual friends... maybe... well see.
+ */
+app.get('/filteredUsers', (req, res) => {
+    let searched_username = req.headers.username;
+    data_model.getFilteredUsers(searched_username)
+        .then(rows => rows[0])
+        .then(result => res.json(result))
+        .catch(err => error(err, "Failed to get users", res))
+})
+
 app.get('/messages', (req, res) => {
     //hämta id:n som skickats med requesten.
     let userid = req.headers.userid;

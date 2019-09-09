@@ -2,8 +2,8 @@
   <div class="search-bar box box-hover">
     <p>Search for gamers</p>
     <div class="search-name">
-      <input type="text" placeholder="Name" />
-      <input type="button" value="Search" />
+      <input type="text" placeholder="Name" v-model="username" />
+      <input type="button" value="Search" v-on:click="$emit('searched', username)" />
     </div>
     <div class="search-games">
       <input type="text" placeholder="Add games" id="add-game" />
@@ -21,6 +21,7 @@
 export default {
   data() {
     return {
+      username: null,
       selectedGames: []
     };
   },
@@ -48,7 +49,7 @@ export default {
 </script>
 <style>
 .search-bar {
-  width: 550px;
+  width: 100%;
 }
 .search-bar > p {
   font-size: 16px;

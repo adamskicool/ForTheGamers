@@ -36,6 +36,14 @@ exports.getUserByID = (userid) => {
 }
 
 /**
+ * Function that return a subset of users based on search filters of username.
+ */
+exports.getFilteredUsers = (username) => {
+    let query = "SELECT userID, username, profilePicture FROM users WHERE SOUNDEX(username) = SOUNDEX('" + username + "')"
+    return connection.promise().query(query)
+}
+
+/**
  * Function that gets al the messages that has been sent in groups that a certain user is a part of.
  */
 exports.getGroupMessages = (userid) => {

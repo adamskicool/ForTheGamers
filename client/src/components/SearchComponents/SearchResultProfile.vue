@@ -24,7 +24,8 @@ export default {
 <style scoped>
 .search-result-profile {
   width: 100%;
-  max-width: 600px;
+  margin: 5px;
+  max-width: 800px;
   display: grid;
   grid-template-areas:
     "a b"
