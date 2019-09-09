@@ -1,7 +1,7 @@
 {
     "BASE_URL_FIREBASE": "https://gamersapplication-d3442.firebaseapp.com/api",
-    "BASE_URL": "http://localhost:8989/api/",
-    "BASE_URL_HEROKU": "https://clandoo.herokuapp.com/api/",
+    "BASE_URL_LOCAL": "http://localhost:8989/api/",
+    "BASE_URL": "https://clandoo.herokuapp.com/api/",
     "SOCKET_CONNECTION_URL": "https://clandoo.herokuapp.com",
     "SOCKET_CONNECTION_URL_LOCAL": "http://localhost:8989"
 }

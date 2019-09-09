@@ -4,7 +4,25 @@ const http = require('http')
 const app = express()
 const server = http.Server(app)
 const io = require('socket.io')(server);
-app.use(cors());
+
+
+// const path = require('path');
+// const history = require('connect-history-api-fallback');
+// const staticFileMiddleware = express.static(path.join(__dirname + '/dist'));
+
+// app.use(staticFileMiddleware);
+// app.use(history({
+//     disableDotRule: true,
+//     verbose: true
+// }));
+// app.use(staticFileMiddleware);
+
+// app.get('/', function (req, res) {
+//     res.render(path.join(__dirname + '/dist/index.html'));
+// });
+
+
+
 
 // //Serve the static files from the dist-folder, a.k.a. our vue-projects client files.
 app.use(cors());
@@ -16,8 +34,6 @@ app.use('/api', rest);
 
 //setup use of the socket.io controller
 const socket_controller = require('./controllers/socket-controller.js');
-
-
 
 /**
 Datastructure for handling logged in clients.

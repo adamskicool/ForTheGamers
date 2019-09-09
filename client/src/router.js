@@ -9,8 +9,8 @@ import Search from './views/Search.vue'
 Vue.use(Router)
 
 let router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  // mode: 'history',
+  // base: process.env.BASE_URL,
   routes: [
     {
       path: '/login',

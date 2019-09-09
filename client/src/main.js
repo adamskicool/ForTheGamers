@@ -17,7 +17,7 @@ import Cookie from "js-cookie";
 import VueSocketIO from 'vue-socket.io'
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: env_var.SOCKET_CONNECTION_URL_LOCAL,
+  connection: env_var.SOCKET_CONNECTION_URL,
   vuex: {
     store,
     actionPrefix: 'SOCKET_',

@@ -34,6 +34,7 @@
           v-bind:postID="id"
           v-bind:commentID="comment.postCommentID"
           v-bind:numberOfComments="comment.numberOfComments"
+          v-bind:authorID="comment.userID"
           v-bind:author="comment.username"
           v-bind:profilePicture="comment.profilePicture"
           v-bind:message="comment.message"

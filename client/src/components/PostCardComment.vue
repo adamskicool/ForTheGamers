@@ -8,7 +8,7 @@
       </div>
       <!-- Author and time -->
       <div class="comment-author-time">
-        <a href="profile" id="author">{{this.author}}</a>
+        <a v-on:click="routeToProfile()" id="author">{{this.author}}</a>
         <p id="timestamp">{{this.time}}</p>
       </div>
       <!-- Actuals comment message -->
@@ -85,6 +85,7 @@ export default {
     "postID",
     "commentID",
     "numberOfComments",
+    "authorID",
     "author",
     "profilePicture",
     "message",
@@ -146,6 +147,9 @@ export default {
         commentedComment: this.commentID
       });
       this.$socket.emit("COMMENT_FOCUS_REQUEST", socket_content);
+    },
+    routeToProfile() {
+      this.$router.push("/profile/" + this.authorID);
     }
   },
 
@@ -273,6 +277,9 @@ export default {
   font-weight: bolder;
   color: rgb(57, 90, 150);
   margin: 2px;
+}
+#author:hover {
+  cursor: pointer;
 }
 #timestamp {
   padding: 0px;
