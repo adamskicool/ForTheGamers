@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result-profile box box-hover">
+  <div class="search-result-profile box box-hover" v-on:click="redirectToProfile()">
     <div class="picture">
       <img class="rounded-image" v-bind:src="profilePicture" alt />
     </div>
@@ -17,7 +17,12 @@
 
 <script>
 export default {
-  props: ["userID", "username", "profilePicture", "gamesInCommon"]
+  props: ["userID", "username", "profilePicture", "gamesInCommon"],
+  methods: {
+    redirectToProfile() {
+      this.$router.push("profile/" + this.userID);
+    }
+  }
 };
 </script>
 
@@ -32,6 +37,10 @@ export default {
     "a c";
   grid-template-columns: 50px calc(100% - 50px);
   grid-template-rows: 20px 30px;
+}
+.search-result-profile:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
 }
 
 .picture {

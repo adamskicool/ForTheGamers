@@ -154,7 +154,7 @@ exports.getImagesForGiveAway = (giveAwayID) => {
  * Get all friends associated with a certain user.
  */
 exports.getFriends = (userid) => {
-    let query = "SELECT * FROM "
+    let query = "SELECT * FROM acceptedFriendRequests WHERE toUser = '" + userid + "' OR fromUser = '" + userid + "';"
     return connection.promise().query(query)
 }
 

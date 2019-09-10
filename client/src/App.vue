@@ -128,7 +128,7 @@ export default {
 /* For fading between different views */
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.15s;
+  transition-duration: 0.1s;
   transition-property: opacity;
   transition-timing-function: ease-in-out;
 }

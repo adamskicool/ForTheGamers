@@ -5,20 +5,26 @@
 <script>
 import Cookie from "js-cookie";
 import env_variables from "../../environment_variables.json";
+import SearchResultProfile from "../SearchComponents/SearchResultProfile.vue";
 export default {
+  components: {
+    SearchResultProfile
+  },
   data() {
-    return {};
+    return {
+      friends: []
+    };
   },
   created() {
-    // fetch(env_variables.BASE_URL + "friends", {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     userid: Cookie.get("id")
-    //   }
-    // })
-    //   .then(res => res.json())
-    //   .then(res => console.log(res));
+    fetch(env_variables.BASE_URL + "friends", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        userid: Cookie.get("id")
+      }
+    })
+      .then(res => res.json())
+      .then(res => console.log(res));
   }
 };
 </script>

@@ -57,15 +57,15 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.success) {
             //sätt kaka med JWT.
             Cookie.set("JWT", res.JWT);
             Cookie.set("id", res.userID);
             let json = {
-              "userid": Cookie.get("id")
-            }
-            this.$socket.emit("USER_LOGGED_IN", JSON.stringify(json))
+              userid: Cookie.get("id")
+            };
+            this.$socket.emit("USER_LOGGED_IN", JSON.stringify(json));
             this.$router.push("/home");
           } else {
             this.login_message = res.message;
