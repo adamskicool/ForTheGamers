@@ -125,6 +125,24 @@ export default {
   border: 1px solid rgb(220, 220, 220);
 }
 
+/**
+  General styling for buttons.
+ */
+.input-field {
+  outline: none;
+  border: none;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  color: black;
+}
+.blue-button {
+  outline: none;
+  border: none;
+  background-color: rgb(30, 144, 255);
+  border-radius: 10px;
+  color: white;
+}
+
 /* For fading between different views */
 .fade-enter-active,
 .fade-leave-active {

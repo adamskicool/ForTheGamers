@@ -20,7 +20,11 @@ export default {
   props: ["userID", "username", "profilePicture", "gamesInCommon"],
   methods: {
     redirectToProfile() {
-      this.$router.push("profile/" + this.userID);
+      // this.$router.push("profile/" + this.userID);
+      this.$router.push({
+        name: "Profile",
+        params: { userid: this.userID }
+      });
     }
   }
 };

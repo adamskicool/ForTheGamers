@@ -4,7 +4,12 @@
     v-on:click="$emit('openConversation', fromUserID, fromUserName, fromProfilePicture)"
   >
     <p class="from">{{this.fromUserName}}</p>
-    <p class="message">{{this.numberOfMessages}}</p>
+    <p
+      class="message"
+      v-if="this.latestMessage.length > 25"
+    >{{this.latestMessage.substring(0, 25) + ' ..'}}</p>
+    <p class="message" v-else>{{this.latestMessage}}</p>
+
     <div class="timestamp">
       <p>{{this.latestTimestamp.substring(11, 16)}}</p>
     </div>
@@ -20,7 +25,7 @@ export default {
     "fromUserID",
     "fromUserName",
     "fromProfilePicture",
-    "numberOfMessages",
+    "latestMessage",
     "latestTimestamp"
   ]
 };

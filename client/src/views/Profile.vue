@@ -9,14 +9,17 @@
         v-bind:created="this.joinDate"
         v-bind:backgroundPicture="this.backgroundPicture"
       />
-      <!-- <img v-if="this.profilePicture != null" v-bind:src="this.profilePicture"> -->
     </div>
-    <!-- <div class="profile-description">
-      <h6>{{this.profileName}}</h6>
-      <p>Joined: {{this.joinDate}}</p>
-    </div>-->
     <div class="content-left">
-      <FriendsCard />
+      <div class="friends box box-hover">
+        <p>Friends</p>
+        <FriendCardSmall
+          v-for="friend in this.friends"
+          v-bind:userID="friend.friendUser"
+          v-bind:username="friend.friendUsername"
+          v-bind:profilePicture="friend.friendProfilePicture"
+        />
+      </div>
     </div>
     <div class="content-right">
       <div class="clans box box-hover">
@@ -36,14 +39,14 @@
 
 <script>
 import Cookie from "js-cookie";
-import FriendsCard from "../components/ProfileComponents/FriendsCard.vue";
+import FriendCardSmall from "../components/ProfileComponents/FriendCardSmall.vue";
 import ClanCardSmall from "../components/ProfileComponents/ClanCardSmall.vue";
 import ProfileCoverLarge from "../components/ProfileComponents/ProfileCoverLarge.vue";
 import ProfileCoverSmall from "../components/ProfileComponents/ProfileCoverSmall.vue";
 import env_variables from "../environment_variables.json";
 export default {
   components: {
-    FriendsCard,
+    FriendCardSmall,
     ClanCardSmall,
     ProfileCoverLarge,
     ProfileCoverSmall
@@ -55,7 +58,8 @@ export default {
       backgroundPicture: null,
       profileName: null,
       joinDate: null,
-      clans: null
+      clans: null,
+      friends: null
     };
   },
   methods: {
@@ -91,6 +95,19 @@ export default {
           this.clans = res;
           // console.log(res);
         });
+    },
+    updateFriends(id) {
+      fetch(env_variables.BASE_URL + "friends", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          userid: id
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          this.friends = res;
+        });
     }
   },
   /**
@@ -99,6 +116,7 @@ export default {
   created() {
     this.updateProfile(this.$route.params.userid);
     this.updateClans(this.$route.params.userid);
+    this.updateFriends(this.$route.params.userid);
   },
   /**
    * When a user updates the params in the URL - the new profile is loaded.
@@ -107,7 +125,7 @@ export default {
     if (to.name == "Profile") {
       this.updateProfile(to.params.userid);
       this.updateClans(to.params.userid);
-      console.log(to);
+      this.updateFriends(to.params.userid);
       next();
     } else {
       next();
@@ -151,6 +169,9 @@ h1 {
 
 .content-left {
   grid-area: b;
+}
+.friends {
+  width: 100%;
 }
 
 .content-right {

@@ -24,8 +24,13 @@
         </div>
         <!-- Skriv kommentar -->
         <div class="comment-input">
-          <input type="text" placeholder="Write a comment..." v-model="newComment" />
-          <input type="button" value="Send" v-on:click="comment()" />
+          <input
+            class="input-field"
+            type="text"
+            placeholder="Write a comment..."
+            v-model="newComment"
+          />
+          <input class="blue-button" type="button" value="Send" v-on:click="comment()" />
         </div>
         <!-- Visa alla kommentarer-->
         <PostCardComment
@@ -160,7 +165,6 @@ export default {
 .comment-input > input {
   width: 100%;
   border-radius: 10px;
-  border: solid grey 1px;
   padding-left: 10px;
   font-size: 14px;
 }

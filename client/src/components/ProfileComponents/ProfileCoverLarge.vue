@@ -24,12 +24,9 @@ export default {
   ],
   methods: {
     me() {
-      console.log(this.userid + " = " + Cookie.get("id"));
       if (this.userid == Cookie.get("id")) {
-        console.log("true");
         return true;
       } else {
-        console.log("false");
         return false;
       }
     },

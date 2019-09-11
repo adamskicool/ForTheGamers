@@ -6,10 +6,15 @@
         <textarea placeholder="Compose new post..." v-model="message"></textarea>
       </div>
       <div class="image">
-        <input type="text" placeholder="Add image by entering URL" v-model="imageURL" />
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Add image by entering URL"
+          v-model="imageURL"
+        />
       </div>
       <div class="upload">
-        <input type="button" value="Send" v-on:click="uploadPost()" />
+        <input class="blue-button" type="button" value="Send" v-on:click="uploadPost()" />
       </div>
     </div>
   </div>

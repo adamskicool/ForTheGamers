@@ -51,7 +51,7 @@ export default {
   }
 };
 </script>
-<style >
+<style scoped>
 .search-bar {
   width: 100%;
   margin-top: 10px;
@@ -86,13 +86,6 @@ export default {
   margin: 6px;
   padding: 2px;
   outline: none;
-}
-input[type="button"] {
-  outline: none;
-  border: none;
-  background-color: rgb(30, 144, 255);
-  border-radius: 10px;
-  color: white;
 }
 
 .more-options-wrapper {

@@ -18,6 +18,7 @@
       <!-- Buttons for viewing replies, add a new reply -->
       <div class="comment-buttons">
         <input
+          class="blue-button"
           type="button"
           value="Reply"
           id="comment-comment"
@@ -25,6 +26,7 @@
           :data-target="'#commentid' + this.commentID"
         />
         <input
+          class="blue-button"
           v-show="this.numberOfComments != null"
           type="button"
           value="View comments"
@@ -40,12 +42,13 @@
       <!-- Input fields for replying to a comment -->
       <div class="comment-comment-input collapse" :id="'commentid' + this.commentID">
         <input
+          class="input-field"
           type="text"
           placeholder="Write a response"
           id="comment-comment-input"
           v-model="newComment"
         />
-        <input type="button" value="send" v-on:click="comment()" />
+        <input class="blue-button" type="button" value="send" v-on:click="comment()" />
       </div>
     </div>
     <!-- loading gif for when loading subcomments -->

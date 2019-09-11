@@ -19,9 +19,9 @@
           v-for="message in this.$store.state.conversationList"
           v-bind:key="message.fromUserID"
           v-bind:fromUserID="message.fromUserID"
-          v-bind:fromUserName="message.fromUserName"
+          v-bind:fromUserName="message.fromUsername"
           v-bind:fromProfilePicture="message.fromProfilePicture"
-          v-bind:numberOfMessages="message.numberOfMessages"
+          v-bind:latestMessage="message.message"
           v-bind:latestTimestamp="message.latestTimestamp"
           v-on:openConversation="openConversation"
         />
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       show_messages: false,
-      unreadMessages: 0,
+      unreadMessages: 0
       // conversations: []
     };
   },
