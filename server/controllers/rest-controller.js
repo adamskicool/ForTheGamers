@@ -22,6 +22,9 @@ const data_model = require('./../models/data-model.js');
 //secrets
 const secrets = require('../secrets/secrets.json');
 
+//OAuth2 client veryfier.
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(secrets.GOOGLE_CLIENT_ID);
 
 /**
  * Function for handling possible errors that might occur. 
@@ -31,6 +34,133 @@ let error = (err, message, res) => {
         res.json({ success: false, message: message })
     }
 }
+
+/**
+ * POST request that is to be sent after successfully signing in with a google account.
+ * This request will add a new user to the DB if it isn't allready there.
+ */
+app.post('/googleSignIn', (req, res) => {
+    let id_token = req.body.id_token;
+    client.verifyIdToken({
+        idToken: id_token,
+        audience: secrets.GOOGLE_CLIENT_ID
+    }).then(ticket => ticket.getPayload())
+        .then(payload => {
+            let googleid = payload['sub'];
+            let username = payload['name'];
+            let email = payload['email'];
+            let profilePicture = payload['picture'];
+            console.log(googleid, username, email, profilePicture);
+
+            let response = {
+                message: '',
+                JWT: null,
+                userID: null,
+                success: false
+            }
+            //use the found userid to check the database for existing user, if that user does not exists, add it as a new google user.
+            data_model.getUserByGoogleID(googleid)
+                .then(rows => rows[0])
+                .then(resp => {
+                    // console.log(resp);
+                    //if no user is found, lets add that user!
+                    if (resp.length == 0) {
+                        data_model.addGoogleUser(username, email, profilePicture, googleid)
+                            .then(_ => {
+                                data_model.getUser(username)
+                                    .then(rows => rows[0])
+                                    .then(resp2 => {
+                                        response.success = true
+                                        //skapa en JWT med användarnamn och lösenord.
+                                        const token = jwt.sign({
+                                            id: resp2[0].userID
+                                        },
+                                            secrets.JWT_SECRET,
+                                            {
+                                                expiresIn: "4h"
+                                            });
+                                        // console.log(resp2[0])
+                                        response.message = "user found!"
+                                        response.JWT = token
+                                        response.userID = resp2[0].userID
+
+                                        res.json(response)
+                                    })
+                            })
+                            .catch(err => console.log(err))
+                    } else {
+                        data_model.getUser(username)
+                            .then(rows => rows[0])
+                            .then(resp2 => {
+                                response.success = true
+                                //skapa en JWT med användarnamn och lösenord.
+                                const token = jwt.sign({
+                                    id: resp2[0].userID
+                                },
+                                    secrets.JWT_SECRET,
+                                    {
+                                        expiresIn: "4h"
+                                    });
+                                // console.log(resp2[0])
+                                response.message = "user found!"
+                                response.JWT = token
+                                response.userID = resp2[0].userID
+
+                                res.json(response)
+                            })
+                    }
+                })
+                .catch(err => console.log(err));
+
+        })
+        .catch(err => console.log(err));
+})
+
+/**
+ * GET request to verify login details for a user. This method also gives the user who
+ * is logging in a JWT for further authentication when using the application.
+ */
+app.get('/login', (req, res) => {
+    //console.log('GET /login')
+    let response = {
+        message: '',
+        JWT: null,
+        userID: null,
+        success: false
+    }
+    //kolla ifall användaren med detta lösenord finns i databasen.
+    data_model.getUser(req.headers.username)
+        .then(rows => rows[0])
+        .then(resp => {
+            if (resp[0] != undefined) {
+                //om vi hittade en användare, kolla att lösenorden matchar.
+                bcrypt.compare(req.headers.password, resp[0].password, (err, result) => {
+                    if (result) {
+                        response.success = true
+                        //skapa en JWT med användarnamn och lösenord.
+                        const token = jwt.sign({
+                            id: resp[0].userID
+                        },
+                            secrets.JWT_SECRET,
+                            {
+                                expiresIn: "4h"
+                            });
+                        response.message = "User found!"
+                        response.JWT = token
+                        response.userID = resp[0].userID
+                        res.json(response)
+                    }
+                    else {
+                        response.message = "Invalid user"
+                        res.json(response)
+                    }
+                })
+            } else {
+                response.message = "Invalid user"
+                res.json(response)
+            }
+        })
+})
 
 /**
  * POST request for adding a new user
@@ -69,52 +199,7 @@ app.post('/signup', (req, res) => {
     }
 })
 
-/**
- * GET request to verify login details for a user. This method also gives the user who
- * is logging in a JWT for further authentication when using the application.
- */
-app.get('/login', (req, res) => {
-    //console.log('GET /login')
-    let response = {
-        message: '',
-        JWT: null,
-        userID: null,
-        success: false
-    }
-    //kolla ifall användaren med detta lösenord finns i databasen.
-    data_model.getUser(req.headers.username)
-        .then(rows => rows[0])
-        .then(resp => {
-            if (resp[0] != undefined) {
-                //om vi hittade en användare, kolla att lösenorden matchar.
-                bcrypt.compare(req.headers.password, resp[0].password, (err, result) => {
-                    if (result) {
-                        response.success = true
-                        //skapa en JWT med användarnamn och lösenord.
-                        const token = jwt.sign({
-                            id: resp[0].userID
-                        },
-                            secrets.JWT_SECRET, //this should not be here but in another file.
-                            {
-                                expiresIn: "4h"
-                            });
-                        response.message = "User found!"
-                        response.JWT = token
-                        response.userID = resp[0].userID
-                        res.json(response)
-                    }
-                    else {
-                        response.message = "Invalid user"
-                        res.json(response)
-                    }
-                })
-            } else {
-                response.message = "Invalid user"
-                res.json(response)
-            }
-        })
 
-})
 
 app.get('/authenticate', (req, res) => {
     let JWT_token = req.headers.authentication;

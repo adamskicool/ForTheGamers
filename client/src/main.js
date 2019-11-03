@@ -13,6 +13,10 @@ Vue.config.productionTip = false
 import env_var from "./environment_variables.json";
 import Cookie from "js-cookie";
 
+// import google-signin template button.
+import GSignInButton from "vue-google-signin-button";
+Vue.use(GSignInButton);
+
 //anslut socket.io
 import VueSocketIO from 'vue-socket.io'
 Vue.use(new VueSocketIO({

@@ -18,6 +18,16 @@ exports.addUser = (username, email, password) => {
     return connection.promise().query(query)
 }
 
+exports.addGoogleUser = (username, email, profilePicture, googleid) => {
+    let query = "INSERT INTO users (username, email, profilePicture, googleID) VALUES ('"
+        + username + "', '"
+        + email + "', '"
+        + profilePicture + "', '"
+        + googleid + "');"
+    //console.log("Query = " + query)
+    return connection.promise().query(query)
+}
+
 /**
  * Function that return a user with a specific username, this can only return one user since the 
  * username is the primary key in the MySQL database.
@@ -32,6 +42,12 @@ exports.getUser = (username) => {
  */
 exports.getUserByID = (userid) => {
     let query = "SELECT username, email, created, profilePicture, backgroundPicture FROM users WHERE userID = '" + userid + "'"
+    return connection.promise().query(query)
+}
+
+
+exports.getUserByGoogleID = (googleid) => {
+    let query = "SELECT username, email, created, profilePicture, backgroundPicture FROM users WHERE googleID = '" + googleid + "'"
     return connection.promise().query(query)
 }
 

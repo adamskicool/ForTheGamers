@@ -10,6 +10,13 @@
         <input type="text" placeholder="Username" v-model="login_username" />
         <input type="password" placeholder="Password" v-model="login_password" />
         <input type="submit" value="Log in" v-on:click="login()" />
+        <!-- <div class="g-signin2"></div> -->
+        <p>or</p>
+        <g-signin-button
+          :params="googleSignInParams"
+          @success="onSignInSuccess"
+          @error="onSignInError"
+        >Sign in with Google</g-signin-button>
         <p>{{this.login_message}}</p>
       </div>
       <div class="signup">
@@ -41,10 +48,62 @@ export default {
       signup_email: "",
       signup_password: "",
       signup_password_again: "",
-      signup_message: ""
+      signup_message: "",
+      /**
+       * The Auth2 parameters, as seen on
+       * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
+       * As the very least, a valid client_id must present.
+       * @type {Object}
+       */
+      googleSignInParams: {
+        client_id:
+          "79062734287-32i8arjsfst75ska23bsq7kr9mps2mgf.apps.googleusercontent.com"
+      }
     };
   },
+  // mounted() {
+  //   console.log("Mounting google button");
+  //   gapi.signin2.render("google-signin-button", {
+  //     onsuccess: this.onSignIn
+  //   });
+  // },
   methods: {
+    onSignInSuccess(googleUser) {
+      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
+      // See https://developers.google.com/identity/sign-in/web/reference#users
+      // const profile = googleUser.getBasicProfile(); // etc etc
+      // console.log(profile.getImageUrl());
+      // this.$router.push("/home");
+
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log(id_token);
+      fetch(env_variables.BASE_URL + "googleSignIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id_token: id_token })
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            //sätt kaka med JWT.
+            Cookie.set("JWT", res.JWT);
+            Cookie.set("id", res.userID);
+            let json = {
+              userid: Cookie.get("id")
+            };
+            this.$socket.emit("USER_LOGGED_IN", JSON.stringify(json));
+            this.$router.push("/home");
+          } else {
+            this.login_message = res.message;
+          }
+        });
+    },
+    onSignInError(error) {
+      // `error` contains any error occurred.
+      console.log("OH NOES", error);
+    },
     login() {
       //skicka request till servern för att logga in användaren, få tillbaka JWT.
       fetch(env_variables.BASE_URL + "login", {
@@ -99,6 +158,22 @@ export default {
 </script>
 
 <style scoped>
+.g-signin-button {
+  /* This is where you control how the button looks. Be creative! */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background-color: #3c82f7;
+  color: #fff;
+  box-shadow: 0 3px 0 #0f69ff;
+  height: 25px;
+  width: 70%;
+}
+.g-signin-button:hover {
+  cursor: pointer;
+}
 .login-view {
   display: flex;
   flex-direction: column;
@@ -158,7 +233,7 @@ export default {
 input[type="text"],
 input[type="password"],
 input[type="submit"] {
-  width: 170px;
+  width: 70%;
   height: auto;
   border: none;
   outline: none;
